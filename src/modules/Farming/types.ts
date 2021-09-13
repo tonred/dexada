@@ -104,13 +104,13 @@ export type FarmingPoolInfo = {
     apr: string;
     farm_end_time: number;
     farm_start_time: number;
-    left_address: string;
-    left_currency: string;
+    left_address?: string;
+    left_currency?: string;
     pool_address: string;
     pool_owner_address: string;
     reward_token_root_info: RewardTokenRootInfo[];
-    right_address: string;
-    right_currency: string;
+    right_address?: string;
+    right_currency?: string;
     share: string;
     token_root_address: string;
     token_root_currency: string;
