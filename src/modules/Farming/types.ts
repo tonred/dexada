@@ -117,6 +117,7 @@ export type FarmingPoolInfo = {
     token_root_scale: number;
     tvl: string;
     tvl_change: string;
+    user_token_balance: string;
 }
 
 export type FarmingPoolResponse = {

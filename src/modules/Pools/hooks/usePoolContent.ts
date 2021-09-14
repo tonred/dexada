@@ -27,8 +27,6 @@ type RewardInfo = {
 }
 
 type FarmingBalanceInfo = {
-    userBalance: string
-    tokenBalance: string
     reward: RewardInfo[],
 }
 
@@ -107,7 +105,9 @@ export function usePoolContent(): UsePoolContent {
     const lockedLp = React.useMemo(() => (
         pool && farm
             .reduce((acc, item) => (
-                acc.plus(item.balance.userBalance)
+                acc
+                    .plus(item.info.user_token_balance)
+                    .shiftedBy(item.info.token_root_scale)
             ), new BigNumber(0))
             .toFixed()
     ), [pool, farm])
@@ -171,18 +171,11 @@ export function usePoolContent(): UsePoolContent {
     ), [pool])
 
     const farmItems = React.useMemo(() => (
-        farm.map(({ info, balance: { reward, userBalance, tokenBalance }}) => ({
+        farm.map(({ info, balance: { reward }}) => ({
             tvl: info.tvl,
             tvlChange: info.tvl_change,
             apr: `${info.apr}%`,
-            share: `${amountOrZero(tokenBalance !== '0'
-                ? new BigNumber(userBalance)
-                    .div(tokenBalance)
-                    .multipliedBy('100')
-                    .shiftedBy(4)
-                    .decimalPlaces(0, BigNumber.ROUND_DOWN)
-                    .toFixed()
-                : '0', 4)}%`,
+            share: `${info.share}%`,
             leftTokenAddress: info.left_address as string,
             rightTokenAddress: info.right_address as string,
             leftTokenUri: tokensList.getUri(info.left_address as string),
@@ -293,14 +286,6 @@ export function usePoolContent(): UsePoolContent {
         farmEndTime?: number,
     ): Promise<FarmingBalanceInfo> => {
         const userDataAddress = await Farm.userDataAddress(poolAddress, walletAddress)
-        const { tokenBalance } = await Farm.poolGetDetails(poolAddress)
-        let userBalance
-        try {
-            userBalance = await Farm.userDataAmountAndRewardDebt(userDataAddress)
-        }
-        catch (e) {
-            error(e)
-        }
         const reward = await getFarmReward(
             poolAddress,
             userDataAddress,
@@ -309,8 +294,6 @@ export function usePoolContent(): UsePoolContent {
         )
         return {
             reward,
-            tokenBalance,
-            userBalance: userBalance ? userBalance.amount : '0',
         }
     }
 
