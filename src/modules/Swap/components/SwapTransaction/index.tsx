@@ -3,12 +3,12 @@ import * as ReactDOM from 'react-dom'
 import { observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
 
-import { AccountExplorerLink } from '@/components/common/AccountExplorerLink'
 import { Icon } from '@/components/common/Icon'
 import { TransactionExplorerLink } from '@/components/common/TransactionExplorerLink'
 import { UserAvatar } from '@/components/common/UserAvatar'
 import { useSwapStore } from '@/modules/Swap/stores/SwapStore'
 import { amount } from '@/utils'
+import { AddTokenAsset } from '@/components/common/AddTokenAsset'
 
 
 function Transaction(): JSX.Element | null {
@@ -22,27 +22,17 @@ function Transaction(): JSX.Element | null {
     const actions = (
         <div key="actions" className="popup-actions">
             {(swap.transaction.isCrossExchangeCanceled && swap.transaction.spentRoot !== undefined) && (
-                <AccountExplorerLink
+                <AddTokenAsset
                     key="crossPair"
-                    address={swap.transaction.spentRoot}
-                    className="btn btn-secondary"
-                >
-                    {intl.formatMessage({
-                        id: 'SWAP_TRANSACTION_RECEIPT_LINK_TXT_TOKEN_ROOT_CONTRACT',
-                    })}
-                </AccountExplorerLink>
+                    rootTokenContract={swap.transaction.spentRoot}
+                />
             )}
 
             {(!swap.transaction.isCrossExchangeCanceled && swap.transaction.receivedRoot !== undefined) && (
-                <AccountExplorerLink
+                <AddTokenAsset
                     key="directPair"
-                    address={swap.transaction.receivedRoot}
-                    className="btn btn-secondary"
-                >
-                    {intl.formatMessage({
-                        id: 'SWAP_TRANSACTION_RECEIPT_LINK_TXT_TOKEN_ROOT_CONTRACT',
-                    })}
-                </AccountExplorerLink>
+                    rootTokenContract={swap.transaction.receivedRoot}
+                />
             )}
             {swap.transaction.hash !== undefined && (
                 <TransactionExplorerLink

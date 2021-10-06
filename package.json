@@ -34,7 +34,7 @@
         "react-intl": "^5.20.9",
         "react-router-dom": "^5.2.0",
         "react-waypoint": "^10.1.0",
-        "ton-inpage-provider": "^0.1.18"
+        "ton-inpage-provider": "^0.1.28"
     },
     "devDependencies": {
         "@babel/core": "^7.15.0",
