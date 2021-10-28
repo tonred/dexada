@@ -168,7 +168,7 @@ function ConfirmationPopup(): JSX.Element {
                         <div>
                             <button
                                 type="button"
-                                className="btn btn-xs btn--empty"
+                                className="btn"
                                 onClick={onUpdate}
                             >
                                 Update a rate

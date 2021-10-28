@@ -79,7 +79,7 @@ export function FarmingFilters({
 
             <button
                 type="button"
-                className={classNames('btn btn-tertiary btn-xs btn-with-icon', {
+                className={classNames('btn btn-tertiary btn-with-icon', {
                     active: dropdown.visible,
                 })}
                 onClick={dropdown.open}

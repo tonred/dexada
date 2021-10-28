@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
-import { Link, NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { Icon } from '@/components/common/Icon'
 import { Logo } from '@/components/layout/Logo'
@@ -66,46 +66,46 @@ export function Footer(): JSX.Element {
                             </div>
                             <ul className="footer-nav__list">
                                 <li>
-                                    <NavLink to="/swap">
+                                    <Link to="/swap">
                                         {intl.formatMessage({
                                             id: 'NAV_LINK_TEXT_SWAP',
                                         })}
-                                    </NavLink>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <NavLink to="/pools">
+                                    <Link to="/pools">
                                         {intl.formatMessage({
                                             id: 'NAV_LINK_TEXT_POOLS',
                                         })}
-                                    </NavLink>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <NavLink to="/tokens">
+                                    <Link to="/tokens">
                                         {intl.formatMessage({
                                             id: 'NAV_LINK_TEXT_TOKENS',
                                         })}
-                                    </NavLink>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <NavLink to="/pairs">
+                                    <Link to="/pairs">
                                         {intl.formatMessage({
                                             id: 'NAV_LINK_TEXT_PAIRS',
                                         })}
-                                    </NavLink>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <NavLink to="/farming">
+                                    <Link to="/farming">
                                         {intl.formatMessage({
                                             id: 'NAV_LINK_TEXT_FARMING',
                                         })}
-                                    </NavLink>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <NavLink to="/builder">
+                                    <Link to="/builder">
                                         {intl.formatMessage({
                                             id: 'NAV_LINK_TEXT_BUILDER',
                                         })}
-                                    </NavLink>
+                                    </Link>
                                 </li>
                             </ul>
                         </div>

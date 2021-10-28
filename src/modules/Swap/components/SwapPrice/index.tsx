@@ -30,7 +30,7 @@ function Price(): JSX.Element | null {
                         case swap.isCrossExchangeOnly && swap.isCrossExchangeMode:
                             return (
                                 <div
-                                    className="btn btn-xs btn-secondary swap-price__exchange-mode-btn"
+                                    className="btn btn-secondary swap-price__exchange-mode-btn"
                                 >
                                     {intl.formatMessage({
                                         id: 'SWAP_PRICE_CROSS_EXCHANGE_MODE_ONLY_LABEL',
@@ -42,7 +42,7 @@ function Price(): JSX.Element | null {
                             return (
                                 <button
                                     type="button"
-                                    className="btn btn-xs btn-secondary swap-price__exchange-mode-btn"
+                                    className="btn btn-secondary swap-price__exchange-mode-btn"
                                     disabled={swap.isSwapping}
                                     onClick={swap.toggleSwapExchangeMode}
                                 >
@@ -60,7 +60,7 @@ function Price(): JSX.Element | null {
                             return (
                                 <button
                                     type="button"
-                                    className="btn btn-xs btn-secondary swap-price__exchange-mode-btn"
+                                    className="btn btn-secondary swap-price__exchange-mode-btn"
                                     disabled={swap.isSwapping}
                                     onClick={swap.toggleSwapExchangeMode}
                                 >
@@ -76,7 +76,7 @@ function Price(): JSX.Element | null {
                         default:
                             return (
                                 <div
-                                    className="btn btn-xs btn-secondary swap-price__exchange-mode-btn"
+                                    className="btn btn-secondary swap-price__exchange-mode-btn"
                                 >
                                     {intl.formatMessage({
                                         id: 'SWAP_PRICE_LABEL',

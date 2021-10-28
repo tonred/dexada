@@ -4,62 +4,48 @@
 .btn {
     background-color: transparent;
     border: 1px solid transparent;
-    border-radius: 0.25rem;
+    border-radius: 0;
     box-sizing: border-box;
-    color: #212529;
     cursor: pointer;
     display: inline-block;
     font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
+    font-weight: 700;
     outline: 0 none !important;
     padding: 0.375rem 0.75rem;
     text-align: center;
     text-decoration: none;
-    transition: color 0.15s ease-in-out,
-        background-color 0.15s ease-in-out,
-        border-color 0.15s ease-in-out,
-        box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
     vertical-align: middle;
 
-    &:hover {
+    &:hover,
+    &:focus {
         color: initial;
         text-decoration: none;
     }
 
+    &[disabled],
     &:disabled {
-        background-color: rgba(197, 228, 243, 0.16) !important;
-        color: #c5e4f3 !important;
-        cursor: not-allowed !important;
-        opacity: 0.5 !important;
+        cursor: not-allowed;
         transition: none;
-    }
-
-    &.btn-xs {
-        font-size: 14px;
-        letter-spacing: 0.75px;
-        line-height: 32px;
-        min-height: 32px;
-        padding: 0 12px;
     }
 
     &.btn-s {
         font-size: 14px;
-        letter-spacing: 0.75px;
-        line-height: 36px;
-        min-height: 32px;
-        padding: 0 16px;
+        letter-spacing: 0.6px;
+        line-height: 28px;
+        min-height: 28px;
+        padding: 0 12px;
     }
 
     &.btn-md {
-        font-size: 20px;
-        letter-spacing: 0.15px;
-        line-height: 48px;
-        min-height: 48px;
-        padding: 0 24px;
+        font-size: 16px;
+        letter-spacing: 0.25px;
+        line-height: 44px;
+        min-height: 44px;
+        padding: 0 20px;
     }
 
     &.btn-lg {
@@ -67,7 +53,7 @@
         letter-spacing: 0.15px;
         line-height: 56px;
         min-height: 56px;
-        padding: 0 20px;
+        padding: 0 24px;
     }
 
     &.btn-block {
@@ -80,73 +66,73 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .btn {
-        transition: none;
-    }
+    .btn { transition: none; }
 }
 
 .btn-primary {
-    @include btn-reset;
-
     background-color: #c5e4f3;
-    color: #293166;
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 44px;
-    min-height: 44px;
-    padding: 0 16px;
+    color: #050a2e;
 
-    &:hover {
-        background-color: darken(#c5e4f3, 10%);
+    &:hover,
+    &:focus {
+        background-color: #b2cedf;
+        color: #050a2e;
     }
 
-    &.btn-dark {
-        background-color: #050a2e;
-        color: #c5e4f3;
+    &:active {
+        background-color: #9fb9cc;
+        color: #050a2e;
+    }
 
-        &:hover {
-            background-color: rgba(5, 10, 46, 0.88);
-        }
+    &[disabled],
+    &:disabled {
+        background-color: rgba(197, 228, 243, 0.32);
+        color: #050a2e;
     }
 }
 
 .btn-secondary {
-    @include btn-reset;
-
     background-color: rgba(197, 228, 243, 0.16);
     color: #c5e4f3;
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 44px;
-    min-height: 44px;
-    padding: 0 16px;
 
     &:hover,
-    &.active {
-        background: #c5e4f3;
-        color: #293166;
+    &:focus {
+        background-color: rgba(197, 228, 243, 0.32);
+        color: #c5e4f3;
+    }
+
+    &:active {
+        background-color: rgba(197, 228, 243, 0.08);
+        color: #c5e4f3;
+    }
+
+    &[disabled],
+    &:disabled {
+        background-color: rgba(197, 228, 243, 0.12);
+        color: rgba(197, 228, 243, 0.56);
     }
 }
 
 .btn-tertiary {
-    @include btn-reset;
-
-    background-color: rgba(197, 228, 243, 0.16);
+    background-color: transparent;
+    border: 1px solid rgba(197, 228, 243, 0.32);
     color: #c5e4f3;
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 44px;
-    min-height: 44px;
-    padding: 0 16px;
 
-    &:hover {
-        background-color: rgba(197, 228, 243, 0.24);
+    &:hover,
+    &:focus {
+        border-color: rgba(197, 228, 243, 0.56);
         color: #c5e4f3;
     }
 
-    .btn__counter {
-        background: #c5e4f3;
-        color: #050b2e;
+    &:active {
+        border-color: rgba(197, 228, 243, 0.16);
+        color: #c5e4f3;
+    }
+
+    &[disabled],
+    &:disabled {
+        border-color: rgba(197, 228, 243, 0.24);
+        color: rgba(197, 228, 243, 0.56);
     }
 }
 

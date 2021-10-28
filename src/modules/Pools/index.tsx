@@ -20,7 +20,7 @@ export function Pools(): JSX.Element {
                         {intl.formatMessage({ id: 'POOLS_LIST_TITLE' })}
                     </SectionTitle>
 
-                    <Link to="/pool" className="btn btn-primary">
+                    <Link to="/pool" className="btn btn-primary btn-md">
                         {intl.formatMessage({ id: 'POOLS_LIST_HEADER_BUTTON' })}
                     </Link>
                 </div>
