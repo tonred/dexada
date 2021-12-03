@@ -55,13 +55,13 @@ export const areaOptions: DeepPartial<ChartOptions> = {
 }
 
 export const areaStyles: AreaSeriesPartialOptions = {
-    bottomColor: 'rgba(197, 228, 243, 0)',
-    lineColor: '#c5e4f3',
+    bottomColor: 'rgba(47, 102, 242, 0)',
+    lineColor: '#2f66f2',
     lineWidth: 1,
     priceFormat: {
         type: 'volume',
     },
-    topColor: 'rgba(197, 228, 243, 0.16)',
+    topColor: 'rgba(47, 102, 242, 0.16)',
 }
 
 export const candlesticksStyles: CandlestickSeriesPartialOptions = {
@@ -86,7 +86,7 @@ export const histogramOptions: DeepPartial<ChartOptions> = {
 }
 
 export const histogramStyles: HistogramSeriesPartialOptions = {
-    color: '#c5e4f3',
+    color: '#2f66f2',
     priceFormat: {
         type: 'volume',
     },

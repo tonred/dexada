@@ -9,6 +9,7 @@ import { TransactionExplorerLink } from '@/components/common/TransactionExplorer
 import { UserAvatar } from '@/components/common/UserAvatar'
 import { useSwapStore } from '@/modules/Swap/stores/SwapStore'
 import { formattedAmount } from '@/utils'
+import { Button } from '@/components/common/Button'
 
 
 function Transaction(): JSX.Element | null {
@@ -25,7 +26,7 @@ function Transaction(): JSX.Element | null {
                 <AccountExplorerLink
                     key="crossPair"
                     address={swap.transaction.spentRoot}
-                    className="btn btn-secondary"
+                    className="btn btn--secondary"
                 >
                     {intl.formatMessage({
                         id: 'SWAP_TRANSACTION_RECEIPT_LINK_TXT_TOKEN_ROOT_CONTRACT',
@@ -37,7 +38,7 @@ function Transaction(): JSX.Element | null {
                 <AccountExplorerLink
                     key="directPair"
                     address={swap.transaction.receivedRoot}
-                    className="btn btn-secondary"
+                    className="btn btn--secondary"
                 >
                     {intl.formatMessage({
                         id: 'SWAP_TRANSACTION_RECEIPT_LINK_TXT_TOKEN_ROOT_CONTRACT',
@@ -47,7 +48,7 @@ function Transaction(): JSX.Element | null {
             {swap.transaction.hash !== undefined && (
                 <TransactionExplorerLink
                     id={swap.transaction.hash}
-                    className="btn btn-secondary"
+                    className="btn btn--secondary"
                 >
                     {intl.formatMessage({
                         id: 'SWAP_TRANSACTION_RECEIPT_LINK_TXT_TRANSACTION',
@@ -118,13 +119,13 @@ function Transaction(): JSX.Element | null {
         <div className="popup">
             <div className="popup-overlay" />
             <div className="popup__wrap">
-                <button
-                    type="button"
-                    className="btn btn-icon popup-close"
+                <Button
+                    className="popup-close"
+                    type="icon"
                     onClick={swap.cleanTransactionResult}
                 >
                     <Icon icon="close" />
-                </button>
+                </Button>
                 <h2 className="popup-title">
                     {intl.formatMessage({
                         id: swap.transaction.success

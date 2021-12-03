@@ -20,12 +20,14 @@
     }
 
     &__sidebar-item {
-        background: rgba(255, 255, 255, 0.08);
-        padding: 16px;
+        background: rgb(240 197 211 / 8%);
+        border-radius: 32px;
+        padding: 16px 24px;
     }
 
     &__chart {
-        background: rgba(255, 255, 255, 0.08);
+        background: rgb(240 197 211 / 8%);
+        border-radius: 32px;
         flex-grow: 1;
         overflow: hidden;
         padding: 32px;

@@ -16,7 +16,7 @@ export function ConnectInstall(): JSX.Element {
                     }}
                 />
                 <a
-                    className="btn btn-secondary"
+                    className="btn btn--secondary"
                     href="https://chrome.google.com/webstore/detail/ton-crystal-wallet/cgeeodpfagjceefieflmdfphplkenlfk"
                     target="_blank"
                     rel="nofollow noopener noreferrer"

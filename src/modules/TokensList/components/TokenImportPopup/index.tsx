@@ -30,7 +30,7 @@ export function TokenImportPopup({ token, onDismiss, onImport }: Props): JSX.Ele
                 <button
                     type="button"
                     onClick={onDismiss}
-                    className="btn btn-icon popup-close"
+                    className="btn btn--icon popup-close"
                 >
                     <Icon icon="close" />
                 </button>
@@ -60,7 +60,7 @@ export function TokenImportPopup({ token, onDismiss, onImport }: Props): JSX.Ele
 
                 <button
                     type="button"
-                    className="btn btn-md btn-primary btn-block"
+                    className="btn btn-md btn--primary btn-block"
                     onClick={onSubmit}
                 >
                     {intl.formatMessage({

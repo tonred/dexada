@@ -13,6 +13,7 @@ import { useTokensCache } from '@/stores/TokensCacheService'
 import { formattedAmount } from '@/utils'
 
 import './index.scss'
+import { Button } from '@/components/common/Button'
 
 type Props = {
     receiveLeft?: string;
@@ -65,7 +66,7 @@ function RemoveLiquidityFormInner({
     onChangeLeftToken,
     onChangeRightToken,
     onChangeAmount,
-    onSubmit,
+    onSubmit: onSubmitCallback,
 }: Props): JSX.Element {
     const intl = useIntl()
     const tokensCache = useTokensCache()
@@ -99,9 +100,9 @@ function RemoveLiquidityFormInner({
             value: totalAmountFormatted,
         })
 
-    const submit = (e: React.FormEvent) => {
-        e.preventDefault()
-        onSubmit()
+    const onSubmit = (event?: React.FormEvent) => {
+        event?.preventDefault()
+        onSubmitCallback()
     }
 
     const setMax = () => {
@@ -127,7 +128,7 @@ function RemoveLiquidityFormInner({
     return (
         <form
             className="remove-liquidity-form"
-            onSubmit={submit}
+            onSubmit={onSubmit}
         >
             <h1 className="remove-liquidity-form__title">
                 {intl.formatMessage({
@@ -351,10 +352,11 @@ function RemoveLiquidityFormInner({
             }
 
             {walletConnected ? (
-                <button
-                    type="submit"
-                    className="btn btn-primary btn-lg"
+                <Button
+                    size="lg"
+                    type="primary"
                     disabled={!amountIsValid || loading}
+                    onClick={onSubmit}
                 >
                     {loading ? (
                         <ContentLoader slim />
@@ -363,17 +365,17 @@ function RemoveLiquidityFormInner({
                             id: 'REMOVE_LIQUIDITY_FORM_CONFIRM',
                         })
                     )}
-                </button>
+                </Button>
             ) : (
-                <button
-                    type="button"
-                    className="btn btn-primary btn-lg"
+                <Button
+                    size="lg"
+                    type="primary"
                     onClick={onClickConnect}
                 >
                     {intl.formatMessage({
                         id: 'REMOVE_LIQUIDITY_FORM_CONNECT',
                     })}
-                </button>
+                </Button>
             )}
         </form>
     )

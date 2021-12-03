@@ -1,6 +1,6 @@
 .card {
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 6px;
+    background: rgb(240 197 211 / 8%);
+    border-radius: 32px;
     margin: 0 auto;
     padding: 32px 40px;
     width: 100%;
@@ -10,7 +10,7 @@
     }
 
     &--flat {
-        border-radius: 0;
+        //border-radius: 0;
     }
 
     &__header {

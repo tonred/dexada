@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { Link } from 'react-router-dom'
 import { useIntl } from 'react-intl'
 import { observer } from 'mobx-react-lite'
 
+import { Button } from '@/components/common/Button'
 import { SectionTitle } from '@/components/common/SectionTitle'
 import { ContentLoader } from '@/components/common/ContentLoader'
 import { FarmingList } from '@/modules/Farming/components/FarmingList'
@@ -42,14 +42,15 @@ function FarmingsInner(): JSX.Element {
                             id: 'FARMING_LIST_TITLE',
                         })}
                     </SectionTitle>
-                    <Link
-                        className="btn btn-primary"
-                        to={appRoutes.farmingCreate.path}
+                    <Button
+                        link={appRoutes.farmingCreate.path}
+                        size="md"
+                        type="primary"
                     >
                         {intl.formatMessage({
                             id: 'FARMING_LIST_CREATE_BTN',
                         })}
-                    </Link>
+                    </Button>
                 </div>
 
                 {favoriteFarmings.addresses.length > 0 && (

@@ -19,7 +19,7 @@ export function ConnectWallet({
                     <p>{message}</p>
                 )}
                 <button
-                    className="btn btn-secondary"
+                    className="btn btn--secondary"
                     onClick={onClickConnect}
                     type="button"
                 >

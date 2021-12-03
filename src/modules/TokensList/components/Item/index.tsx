@@ -73,7 +73,7 @@ export const Item = observer(({ disabled, token, onSelect }: Props) => {
                     <div className="popup-item__right">
                         <button
                             type="button"
-                            className="btn btn-s btn-primary"
+                            className="btn btn-s btn--primary"
                             onClick={onImporting}
                         >
                             {intl.formatMessage({

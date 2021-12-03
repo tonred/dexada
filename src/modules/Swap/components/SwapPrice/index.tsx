@@ -2,6 +2,7 @@ import * as React from 'react'
 import { observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
 
+import { Button } from '@/components/common/Button'
 import { Icon } from '@/components/common/Icon'
 import { useSwapStore } from '@/modules/Swap/stores/SwapStore'
 import { SwapDirection } from '@/modules/Swap/types'
@@ -30,7 +31,7 @@ function Price(): JSX.Element | null {
                         case swap.isCrossExchangeOnly && swap.isCrossExchangeMode:
                             return (
                                 <div
-                                    className="btn btn-xs btn-secondary swap-price__exchange-mode-btn"
+                                    className="btn btn--sm btn--ghost swap-price__exchange-mode-btn"
                                 >
                                     {intl.formatMessage({
                                         id: 'SWAP_PRICE_CROSS_EXCHANGE_MODE_ONLY_LABEL',
@@ -40,16 +41,17 @@ function Price(): JSX.Element | null {
 
                         case swap.pair !== undefined && swap.isCrossExchangeMode:
                             return (
-                                <button
-                                    type="button"
-                                    className="btn btn-xs btn-secondary swap-price__exchange-mode-btn"
+                                <Button
+                                    className="swap-price__exchange-mode-btn"
                                     disabled={swap.isSwapping}
+                                    size="sm"
+                                    type="ghost"
                                     onClick={swap.toggleSwapExchangeMode}
                                 >
                                     {intl.formatMessage({
                                         id: 'SWAP_PRICE_DIRECT_EXCHANGE_MODE_LABEL',
                                     })}
-                                </button>
+                                </Button>
                             )
 
                         case (
@@ -58,10 +60,11 @@ function Price(): JSX.Element | null {
                             && swap.bestCrossExchangeRoute !== undefined
                         ):
                             return (
-                                <button
-                                    type="button"
-                                    className="btn btn-xs btn-secondary swap-price__exchange-mode-btn"
+                                <Button
+                                    className="swap-price__exchange-mode-btn"
                                     disabled={swap.isSwapping}
+                                    size="sm"
+                                    type="ghost"
                                     onClick={swap.toggleSwapExchangeMode}
                                 >
                                     {intl.formatMessage({
@@ -70,13 +73,13 @@ function Price(): JSX.Element | null {
                                             ? 'SWAP_PRICE_CROSS_EXCHANGE_AVAILABLE_LABEL'
                                             : 'SWAP_PRICE_CROSS_EXCHANGE_MODE_LABEL',
                                     })}
-                                </button>
+                                </Button>
                             )
 
                         default:
                             return (
                                 <div
-                                    className="btn btn-xs btn-secondary swap-price__exchange-mode-btn"
+                                    className="btn btn--sm btn--ghost swap-price__exchange-mode-btn"
                                 >
                                     {intl.formatMessage({
                                         id: 'SWAP_PRICE_LABEL',
@@ -128,13 +131,13 @@ function Price(): JSX.Element | null {
                         }}
                     />
                 )}
-                <button
-                    type="button"
-                    className="btn form-row__btn swap-price__reverse-btn"
+                <Button
+                    className="form-row__btn swap-price__reverse-btn"
+                    type="icon"
                     onClick={onClickReverse}
                 >
                     <Icon icon="reverseHorizontal" />
-                </button>
+                </Button>
             </div>
         </div>
     )

@@ -33,7 +33,7 @@
         "target": "esnext"
     },
     "exclude": [
-        "./webpack.config.ts",
+        "webpack.config.ts",
         "node_modules"
     ],
     "include": [

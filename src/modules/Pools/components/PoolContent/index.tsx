@@ -136,7 +136,7 @@ export const PoolContent = observer((): JSX.Element | null => {
                                     />
                                     <AccountExplorerLink
                                         address={pool.address}
-                                        className="btn btn-md btn-square btn-icon"
+                                        className="btn btn--md btn--icon"
                                     >
                                         <Icon icon="externalLink" />
                                     </AccountExplorerLink>
@@ -145,7 +145,9 @@ export const PoolContent = observer((): JSX.Element | null => {
 
                             <div className="pools-sub-header">
                                 <SectionTitle size="small">
-                                    Your balance
+                                    {intl.formatMessage({
+                                        id: 'POOLS_LIST_USER_BALANCE',
+                                    })}
                                 </SectionTitle>
                             </div>
 
@@ -204,7 +206,9 @@ export const PoolContent = observer((): JSX.Element | null => {
                                 />
 
                                 <BalancePanel
-                                    title="Locked in farming pools"
+                                    title={intl.formatMessage({
+                                        id: 'POOLS_LIST_LOCKED_FARM',
+                                    })}
                                     symbol={pool.lp.symbol}
                                     balance={formattedAmount(lockedLp, pool.lp.decimals)}
                                     tokens={[{

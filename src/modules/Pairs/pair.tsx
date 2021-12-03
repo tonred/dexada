@@ -2,7 +2,6 @@ import * as React from 'react'
 import BigNumber from 'bignumber.js'
 import { observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
-import { Link } from 'react-router-dom'
 
 import { AccountExplorerLink } from '@/components/common/AccountExplorerLink'
 import { Icon } from '@/components/common/Icon'
@@ -18,6 +17,7 @@ import { getDefaultPerPrice } from '@/modules/Swap/utils'
 import { concatSymbols, formattedAmount, isGoodBignumber } from '@/utils'
 
 import './pair.scss'
+import { Button } from '@/components/common/Button'
 
 
 function PairInner(): JSX.Element {
@@ -133,28 +133,30 @@ function PairInner(): JSX.Element {
 
                                 <AccountExplorerLink
                                     address={store.pair?.meta.poolAddress}
-                                    className="btn btn-md btn-square btn-icon"
+                                    className="btn btn--md btn--icon"
                                 >
                                     <Icon icon="externalLink" />
                                 </AccountExplorerLink>
                             </div>
                         )}
-                        <Link
-                            className="btn btn-md btn-secondary"
-                            to={`/pool/${baseToken?.root || store.pair?.meta.baseAddress}/${counterToken?.root || store.pair?.meta.counterAddress}`}
+                        <Button
+                            link={`/pool/${baseToken?.root || store.pair?.meta.baseAddress}/${counterToken?.root || store.pair?.meta.counterAddress}`}
+                            size="md"
+                            type="secondary"
                         >
                             {intl.formatMessage({
                                 id: 'PAIR_ADD_LIQUIDITY_BTN_TEXT',
                             })}
-                        </Link>
-                        <Link
-                            className="btn btn-md btn-primary"
-                            to={`/swap/${baseToken?.root || store.pair?.meta.baseAddress}/${counterToken?.root || store.pair?.meta.counterAddress}`}
+                        </Button>
+                        <Button
+                            link={`/swap/${baseToken?.root || store.pair?.meta.baseAddress}/${counterToken?.root || store.pair?.meta.counterAddress}`}
+                            size="md"
+                            type="primary"
                         >
                             {intl.formatMessage({
                                 id: 'PAIR_TRADE_BTN_TEXT',
                             })}
-                        </Link>
+                        </Button>
                     </div>
                 </header>
 
