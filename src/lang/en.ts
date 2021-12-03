@@ -32,7 +32,7 @@ export default {
     FOOTER_TERMS_OF_USE_LINK_TEXT: 'Terms of use',
     FOOTER_PRIVACY_POLICY_LINK_TEXT: 'Privacy policy',
     FOOTER_COOKIES_TERMS_LINK_TEXT: 'Cookies',
-    FOOTER_COPYRIGHTS: '&copy; <a href="https://cardano.org/" target="_blank" rel="noopener noreferrer">Cardano</a>, {year}',
+    FOOTER_COPYRIGHTS: '&copy; <a href="https://broxus.com" target="_blank" rel="noopener noreferrer">Broxus</a>, {year}',
 
     PAGINATION_BEFORE_TEXT: 'Page',
     PAGINATION_PAGE_OF: 'of {totalPages}',
