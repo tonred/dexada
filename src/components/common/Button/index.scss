@@ -236,8 +236,10 @@
     &:hover,
     &:focus,
     &.active {
-        color: #ffffff;
-        opacity: 1;
+        &:not(:disabled) {
+            color: #ffffff;
+            opacity: 1;
+        }
     }
 
     &.btn--sm {

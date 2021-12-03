@@ -15,7 +15,8 @@
     &__input {
         @include input-reset;
 
-        border: 1px solid rgba(255, 255, 255, 0.16);
+        border: 1px solid rgb(255 255 255 / 16%);
+        border-radius: 4px;
         color: #ffffff;
         font-size: 14px;
         height: 40px;
@@ -29,9 +30,9 @@
     }
 
     &__btn.btn {
-        background: rgba(197, 228, 243, 0.16);
+        background: rgb(197 228 243 / 16%);
         border: none;
-        border-radius: 0;
+        border-radius: 40px;
         height: 40px;
         margin-left: 10px;
         outline: none;
@@ -39,8 +40,8 @@
         width: 40px;
 
         &:hover:not(:disabled) {
-            background-color: #c5e4f3;
-            svg { fill: #293166; }
+            background-color: #2f66f2;
+            svg { fill: #ffffff; }
         }
 
         svg { fill: #c5e4f3; }
