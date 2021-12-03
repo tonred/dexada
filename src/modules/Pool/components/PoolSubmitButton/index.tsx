@@ -6,6 +6,7 @@ import { useBalanceValidation } from '@/hooks/useBalanceValidation'
 import { usePool } from '@/modules/Pool/stores/PoolStore'
 import { AddLiquidityStep } from '@/modules/Pool/types'
 import { useWallet } from '@/stores/WalletService'
+import { Button } from '@/components/common/Button'
 
 
 function SubmitButton(): JSX.Element {
@@ -13,7 +14,7 @@ function SubmitButton(): JSX.Element {
     const wallet = useWallet()
     const pool = usePool()
 
-    const buttonProps: React.ButtonHTMLAttributes<HTMLButtonElement> = {
+    const buttonProps: Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> = {
         disabled: false,
     }
     let buttonText = intl.formatMessage({ id: 'POOL_BTN_TEXT_SUBMIT' })
@@ -175,14 +176,16 @@ function SubmitButton(): JSX.Element {
     }
 
     return (
-        <button
-            type="button"
-            className="btn btn-primary btn-lg form-submit btn-block"
+        <Button
             aria-disabled={buttonProps.disabled}
+            className="form-submit"
+            block
+            size="lg"
+            type="primary"
             {...buttonProps}
         >
             {buttonText}
-        </button>
+        </Button>
     )
 }
 

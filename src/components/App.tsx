@@ -13,9 +13,6 @@ import { WalletUpdateModal } from '@/components/common/WalletUpdateModal'
 import { Header } from '@/components/layout/Header'
 import messages from '@/lang/en'
 import { Account } from '@/modules/Account'
-import Builder from '@/pages/builder'
-import CreateToken from '@/pages/builder/create'
-import CustomToken from '@/pages/builder/token'
 import Farming from '@/pages/farming'
 import FarmingItem from '@/pages/farming/item'
 import CreateFarmPool from '@/pages/farming/create'
@@ -91,16 +88,6 @@ export function App(): JSX.Element {
                             </Route>
                             <Route exact path={appRoutes.farmingItem.path}>
                                 <FarmingItem />
-                            </Route>
-
-                            <Route exact path={appRoutes.builder.path}>
-                                <Builder />
-                            </Route>
-                            <Route path={appRoutes.builderCreate.path}>
-                                <CreateToken />
-                            </Route>
-                            <Route exact path={appRoutes.builderItem.path}>
-                                <CustomToken />
                             </Route>
                         </Switch>
                     </main>

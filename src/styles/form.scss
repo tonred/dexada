@@ -52,7 +52,8 @@
 .form-label { display: block; }
 
 .form-fieldset {
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 8px;
     display: block;
     height: 78px;
     margin-bottom: 5px;
@@ -118,6 +119,7 @@
 .form-input {
     @include input-reset;
 
+    border-radius: 4px;
     color: #ffffff;
     cursor: text;
     font-size: 24px;
@@ -162,8 +164,9 @@
         @include btn-reset;
 
         align-items: center;
-        background-color: rgba(197, 228, 243, 0.08);
-        color: #c5e4f3;
+        background-color: transparent;
+        border-radius: 40px;
+        color: #6490ff;
         display: flex;
         justify-content: center;
         margin-right: -10px;
@@ -171,11 +174,11 @@
     }
 
     &:hover {
-        background-color: rgba(197, 228, 243, 1);
-        color: #000000;
+        background-color: rgb(47 102 242 / 40%);
+        color: #6490ff;
 
         .form-select__arrow {
-            svg { fill: #000000; }
+            svg { fill: #6490ff; }
         }
     }
 
@@ -209,7 +212,7 @@
         width: 24px;
 
         svg {
-            fill: #c5e4f3;
+            fill: #6490ff;
             transition: fill 0.15s ease-in-out;
         }
     }
@@ -292,6 +295,7 @@ button.form-submit {
         text-align: left;
         text-overflow: ellipsis;
         white-space: nowrap;
+        width: fit-content;
     }
 
     &__arrow {

@@ -19,10 +19,7 @@ export function Nav(): JSX.Element {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink
-                        to="/pools"
-                        isActive={(_, location) => location.pathname.indexOf('/pool') === 0}
-                    >
+                    <NavLink to="/pools">
                         {intl.formatMessage({
                             id: 'NAV_LINK_TEXT_POOLS',
                         })}
@@ -46,13 +43,6 @@ export function Nav(): JSX.Element {
                     <NavLink to="/farming">
                         {intl.formatMessage({
                             id: 'NAV_LINK_TEXT_FARMING',
-                        })}
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink to="/builder">
-                        {intl.formatMessage({
-                            id: 'NAV_LINK_TEXT_BUILDER',
                         })}
                     </NavLink>
                 </li>

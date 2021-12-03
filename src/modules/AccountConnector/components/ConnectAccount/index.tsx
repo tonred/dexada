@@ -2,6 +2,7 @@ import * as React from 'react'
 import { useIntl } from 'react-intl'
 import { observer } from 'mobx-react-lite'
 
+import { Button } from '@/components/common/Button'
 import { ContentLoader } from '@/components/common/ContentLoader'
 import { useDexAccount } from '@/stores/DexAccountService'
 import { error } from '@/utils'
@@ -31,17 +32,17 @@ export const ConnectAccount = observer((): JSX.Element => {
                     {intl.formatMessage({ id: 'ACCOUNT_CONNECTOR_NOTE' })}
                 </p>
 
-                <button
-                    className="btn btn-secondary btn-with-icon"
-                    onClick={connect}
+                <Button
+                    className="btn-with-icon"
                     disabled={loading}
-                    type="button"
+                    type="secondary"
+                    onClick={connect}
                 >
                     {intl.formatMessage({ id: 'ACCOUNT_CONNECTOR_BUTTON' })}
                     {loading && (
                         <ContentLoader slim size="s" />
                     )}
-                </button>
+                </Button>
             </div>
         </div>
     )

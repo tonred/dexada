@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
 
+import { Button } from '@/components/common/Button'
 import { Icon } from '@/components/common/Icon'
 import { UserAvatar } from '@/components/common/UserAvatar'
 import { useWallet } from '@/stores/WalletService'
@@ -19,18 +20,18 @@ export function Account(): JSX.Element | null {
             {() => (wallet.isInitialized ? (
                 <div key="ton-wallet" className="wallet">
                     {!wallet.isConnected ? (
-                        <button
+                        <Button
                             key="guest"
-                            type="button"
-                            className="btn btn-secondary"
-                            disabled={wallet.isConnecting}
                             aria-disabled={wallet.isConnecting}
+                            disabled={wallet.isConnecting}
+                            size="md"
+                            type="primary"
                             onClick={wallet.connect}
                         >
                             {intl.formatMessage({
                                 id: 'WALLET_BTN_TEXT_CONNECT',
                             })}
-                        </button>
+                        </Button>
                     ) : (
                         <div key="wrapper" className="wallet__wrapper">
                             <div className="wallet__user-avatar">
@@ -58,14 +59,14 @@ export function Account(): JSX.Element | null {
                                 )}
                             </div>
 
-                            <button
+                            <Button
                                 key="logout"
-                                type="button"
-                                className="btn btn-logout"
+                                className="btn-logout"
+                                type="secondary"
                                 onClick={wallet.disconnect}
                             >
                                 <Icon icon="logout" />
-                            </button>
+                            </Button>
                         </div>
                     )}
                 </div>

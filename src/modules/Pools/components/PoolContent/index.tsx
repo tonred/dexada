@@ -136,7 +136,7 @@ export const PoolContent = observer((): JSX.Element | null => {
                                     />
                                     <AccountExplorerLink
                                         address={pool.address}
-                                        className="btn btn-md btn-square btn-icon"
+                                        className="btn btn--md btn--icon"
                                     >
                                         <Icon icon="externalLink" />
                                     </AccountExplorerLink>

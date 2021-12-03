@@ -124,7 +124,7 @@ export function FarmingHeadInner({
                     />
                     <AccountExplorerLink
                         address={poolAddress}
-                        className="btn btn-md btn-square btn-icon"
+                        className="btn btn--md btn--icon"
                     >
                         <Icon icon="externalLink" />
                     </AccountExplorerLink>

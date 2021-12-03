@@ -33,13 +33,15 @@
     &-asc {
         &::before {
             border-bottom-color: #ffffff;
-            top: 2px;
+            margin-top: -7.5px;
+            top: 50%;
         }
     }
     &-desc {
         &::before {
             border-top-color: #ffffff;
-            top: 7.5px;
+            margin-top: -2px;
+            top: 50%;
         }
     }
 }

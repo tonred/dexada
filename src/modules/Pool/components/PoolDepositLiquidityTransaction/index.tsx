@@ -7,6 +7,7 @@ import { usePool } from '@/modules/Pool/stores/PoolStore'
 import { Icon } from '@/components/common/Icon'
 import { UserAvatar } from '@/components/common/UserAvatar'
 import { formattedAmount } from '@/utils'
+import { Button } from '@/components/common/Button'
 
 
 type Props = {
@@ -22,13 +23,13 @@ function DepositLiquidityTransaction({ onDismiss }: Props): JSX.Element | null {
         <div className="popup">
             <div className="popup-overlay" />
             <div className="popup__wrap">
-                <button
-                    type="button"
-                    className="btn btn-icon popup-close"
+                <Button
+                    className="popup-close"
+                    type="icon"
                     onClick={onDismiss}
                 >
                     <Icon icon="close" />
-                </button>
+                </Button>
                 <h2 className="popup-title">
                     {intl.formatMessage({
                         id: 'POOL_SUPPLY_RECEIPT_POPUP_TITLE',
@@ -181,15 +182,15 @@ function DepositLiquidityTransaction({ onDismiss }: Props): JSX.Element | null {
                         />
                     </>
                 )}
-                <button
-                    type="button"
-                    className="btn btn-primary btn-block"
+                <Button
+                    block
+                    type="primary"
                     onClick={onDismiss}
                 >
                     {intl.formatMessage({
                         id: 'POOL_SUPPLY_RECEIPT_POPUP_BTN_TEXT_CLOSE',
                     })}
-                </button>
+                </Button>
             </div>
         </div>,
         document.body,

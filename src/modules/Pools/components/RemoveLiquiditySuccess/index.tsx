@@ -8,6 +8,8 @@ import { useTokensCache } from '@/stores/TokensCacheService'
 import { formattedAmount } from '@/utils'
 
 import './index.scss'
+import { Button } from '@/components/common/Button'
+import { TransactionExplorerLink } from '@/components/common/TransactionExplorerLink'
 
 type Props = {
     lpAmount?: string;
@@ -39,13 +41,13 @@ function RemoveLiquiditySuccessInner({
         <div className="popup">
             <div className="popup-overlay" onClick={onClose} />
             <div className="popup__wrap remove-liquidity-success">
-                <button
-                    type="button"
+                <Button
+                    className="popup-close"
+                    type="icon"
                     onClick={onClose}
-                    className="btn btn-icon popup-close"
                 >
                     <Icon icon="close" />
-                </button>
+                </Button>
 
                 <div className="remove-liquidity-success__head">
                     <Icon icon="success" />
@@ -116,16 +118,11 @@ function RemoveLiquiditySuccessInner({
 
                 {transactionHash && (
                     <div className="remove-liquidity-success__action">
-                        <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href={`https://tonscan.io/transactions/${transactionHash}`}
-                            className="btn btn--empty"
-                        >
+                        <TransactionExplorerLink id={transactionHash}>
                             {intl.formatMessage({
                                 id: 'REMOVE_LIQUIDITY_SUCCESS_SUBMIT',
                             })}
-                        </a>
+                        </TransactionExplorerLink>
                     </div>
                 )}
             </div>

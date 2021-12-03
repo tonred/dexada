@@ -199,16 +199,8 @@ export default (_: any, options: any): WebpackConfig => {
         config.devServer = {
             host: HOST,
             port: PORT,
-            contentBase: [
-                path.join(__dirname + '/dist'),
-            ],
-            inline: hmrDisabled ? false : true,
-            hot: hmrDisabled ? false : true,
-            quiet: false,
+            hot: !hmrDisabled,
             historyApiFallback: true,
-            stats: {
-                colors: true,
-            },
         }
     }
 

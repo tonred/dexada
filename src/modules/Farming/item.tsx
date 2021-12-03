@@ -4,10 +4,11 @@ import { observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
 
-import { SectionTitle } from '@/components/common/SectionTitle'
+import { Button } from '@/components/common/Button'
 import { Icon } from '@/components/common/Icon'
 import { ContentLoader } from '@/components/common/ContentLoader'
 import { Breadcrumb } from '@/components/common/Breadcrumb'
+import { SectionTitle } from '@/components/common/SectionTitle'
 import { FarmingHead } from '@/modules/Farming/components/FarmingHead'
 import {
     FarmingMessageAdminLowBalance,
@@ -58,7 +59,9 @@ export function FarmingInner(): JSX.Element {
 
     React.useEffect(() => {
         if (!wallet.isConnecting && !wallet.isInitializing) {
-            farmingData.getData(params.address)
+            (async () => {
+                await farmingData.getData(params.address)
+            })()
         }
 
         return () => {
@@ -157,32 +160,28 @@ export function FarmingInner(): JSX.Element {
                                 }
 
                                 {
-                                    farmingData.isAdmin === false
-                                    && farmingData.isActive === false
+                                    !farmingData.isAdmin && !farmingData.isActive
                                     && (
                                         <FarmingMessageFarmEnded />
                                     )
                                 }
 
                                 {
-                                    farmingData.isAdmin === false
-                                    && farmingData.rewardBalanceIsLow === true
+                                    !farmingData.isAdmin && farmingData.rewardBalanceIsLow === true
                                     && (
                                         <FarmingMessageLowBalance />
                                     )
                                 }
 
                                 {
-                                    farmingData.isAdmin === true
-                                    && farmingData.rewardBalanceIsLow === true
+                                    farmingData.isAdmin && farmingData.rewardBalanceIsLow === true
                                     && (
                                         <FarmingMessageAdminLowBalance />
                                     )
                                 }
 
                                 {
-                                    farmingData.isAdmin === true
-                                    && farmingData.rewardBalanceIsZero === true
+                                    farmingData.isAdmin && farmingData.rewardBalanceIsZero === true
                                     && (
                                         <FarmingMessageAdminZeroBalance />
                                     )
@@ -223,7 +222,7 @@ export function FarmingInner(): JSX.Element {
                                     </>
                                 )}
 
-                                {farmingData.isAdmin === true && (
+                                {farmingData.isAdmin && (
                                     <>
                                         <div className="farming-title" id="pool-management">
                                             <SectionTitle size="small">
@@ -232,13 +231,13 @@ export function FarmingInner(): JSX.Element {
                                                 })}
                                             </SectionTitle>
 
-                                            <button
-                                                type="button"
-                                                className="btn btn-md btn-square btn-icon"
+                                            <Button
+                                                size="md"
+                                                type="icon"
                                                 onClick={showConfig}
                                             >
                                                 <Icon icon="config" />
-                                            </button>
+                                            </Button>
 
                                             {configVisible && farmingData.rewardTokensAddress && (
                                                 <FarmingConfig
@@ -350,14 +349,14 @@ export function FarmingInner(): JSX.Element {
                                                     })}
                                                 </SectionTitle>
 
-                                                {farmingData.isAdmin === true && (
-                                                    <button
-                                                        type="button"
-                                                        className="btn btn-md btn-square btn-icon"
+                                                {farmingData.isAdmin && (
+                                                    <Button
+                                                        size="md"
+                                                        type="icon"
                                                         onClick={showConfig}
                                                     >
                                                         <Icon icon="config" />
-                                                    </button>
+                                                    </Button>
                                                 )}
                                             </div>
 
@@ -394,7 +393,6 @@ export function FarmingInner(): JSX.Element {
                                         rewardTokensRoots={farmingData.rewardTokensAddress}
                                     />
                                 </div>
-
 
                                 {
                                     farmingData.poolAddress

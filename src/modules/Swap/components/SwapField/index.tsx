@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
 
+import { Button } from '@/components/common/Button'
 import { Icon } from '@/components/common/Icon'
 import { TokenIcon } from '@/components/common/TokenIcon'
 import { useField } from '@/hooks/useField'
@@ -72,9 +73,8 @@ function Field({
                         onChange={field.onChange}
                     />
                     {!token ? (
-                        <button
-                            type="button"
-                            className={classNames('btn form-select', {
+                        <Button
+                            className={classNames('form-select', {
                                 disabled: props.disabled,
                             })}
                             disabled={props.disabled}
@@ -85,14 +85,15 @@ function Field({
                                     id: 'SWAP_FIELD_BTN_TEXT_SELECT_TOKEN',
                                 })}
                             </span>
-                            <span className="form-select__arrow">
-                                <Icon icon="arrowDown" ratio={1.2} />
-                            </span>
-                        </button>
+                            <Icon
+                                className="form-select__arrow"
+                                icon="arrowDown"
+                                ratio={1.2}
+                            />
+                        </Button>
                     ) : (
-                        <button
-                            type="button"
-                            className={classNames('btn form-drop', {
+                        <Button
+                            className={classNames('form-drop', {
                                 disabled: props.disabled,
                             })}
                             disabled={props.disabled}
@@ -109,10 +110,12 @@ function Field({
                             <span className="form-drop__name">
                                 {token.symbol}
                             </span>
-                            <span className="form-drop__arrow">
-                                <Icon icon="arrowDown" ratio={1.2} />
-                            </span>
-                        </button>
+                            <Icon
+                                className="form-drop__arrow"
+                                icon="arrowDown"
+                                ratio={1.2}
+                            />
+                        </Button>
                     )}
                 </div>
             </fieldset>

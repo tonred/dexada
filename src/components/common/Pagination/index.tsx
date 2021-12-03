@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { useIntl } from 'react-intl'
 
+import { Button } from '@/components/common/Button'
+
 import './index.scss'
 
 export type PaginationProps = {
@@ -70,10 +72,10 @@ export const Pagination = React.memo(({
                     totalPages,
                 })}
             </div>
-            <button
-                type="button"
-                className="btn pagination__btn"
+            <Button
+                className="pagination__btn"
                 disabled={disabled || currentPage === 1}
+                type="icon"
                 onClick={onPrev}
             >
                 <svg
@@ -82,11 +84,11 @@ export const Pagination = React.memo(({
                 >
                     <path d="M-2.62268e-07 6L6 0L6 12L-2.62268e-07 6Z" />
                 </svg>
-            </button>
-            <button
-                type="button"
-                className="btn pagination__btn"
+            </Button>
+            <Button
+                className="pagination__btn"
                 disabled={disabled || currentPage === totalPages}
+                type="icon"
                 onClick={onNext}
             >
                 <svg
@@ -95,7 +97,7 @@ export const Pagination = React.memo(({
                 >
                     <path d="M6 6L0 12L-5.24537e-07 0L6 6Z" />
                 </svg>
-            </button>
+            </Button>
         </div>
     )
 })
