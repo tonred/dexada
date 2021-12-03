@@ -22,7 +22,7 @@ export function Footer(): JSX.Element {
                         {(!wallet.isInitialized && !wallet.isInitializing) && (
                             <a
                                 href="https://chrome.google.com/webstore/detail/ton-crystal-wallet/cgeeodpfagjceefieflmdfphplkenlfk"
-                                className="btn btn--xl btn-tertiary footer-tool"
+                                className="btn btn--xl btn--tertiary footer-tool"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
@@ -36,7 +36,7 @@ export function Footer(): JSX.Element {
             </Observer>
             <a
                 href="https://github.com/broxus/ton-dex"
-                className="btn btn--xl btn--empty footer-tool"
+                className="btn btn--tertiary footer-tool"
                 target="_blank"
                 rel="noopener noreferrer"
             >
@@ -97,13 +97,6 @@ export function Footer(): JSX.Element {
                                     <NavLink to="/farming">
                                         {intl.formatMessage({
                                             id: 'NAV_LINK_TEXT_FARMING',
-                                        })}
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink to="/builder">
-                                        {intl.formatMessage({
-                                            id: 'NAV_LINK_TEXT_BUILDER',
                                         })}
                                     </NavLink>
                                 </li>

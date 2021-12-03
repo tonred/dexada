@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
-import { Link } from 'react-router-dom'
 
 import { AccountExplorerLink } from '@/components/common/AccountExplorerLink'
+import { Button } from '@/components/common/Button'
 import { Icon } from '@/components/common/Icon'
 import { TokenIcon } from '@/components/common/TokenIcon'
 import { Breadcrumb } from '@/components/common/Breadcrumb'
@@ -77,26 +77,28 @@ function CurrencyInner(): JSX.Element {
                         <div className="currency-page__header-actions">
                             <AccountExplorerLink
                                 address={store.currency?.address}
-                                className="btn btn-md btn-icon"
+                                className="btn btn--md btn--icon"
                             >
                                 <Icon icon="externalLink" />
                             </AccountExplorerLink>
-                            <Link
-                                className="btn btn-md btn-secondary"
-                                to={`/pool/${store.currency?.address}`}
+                            <Button
+                                link={`/pool/${store.currency?.address}`}
+                                size="md"
+                                type="secondary"
                             >
                                 {intl.formatMessage({
                                     id: 'CURRENCY_ADD_LIQUIDITY_BTN_TEXT',
                                 })}
-                            </Link>
-                            <Link
-                                className="btn btn-md btn-primary"
-                                to={`/swap/${store.currency?.address}`}
+                            </Button>
+                            <Button
+                                link={`/swap/${store.currency?.address}`}
+                                size="md"
+                                type="primary"
                             >
                                 {intl.formatMessage({
                                     id: 'CURRENCY_TRADE_BTN_TEXT',
                                 })}
-                            </Link>
+                            </Button>
                         </div>
                     )}
                 </header>

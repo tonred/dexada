@@ -22,7 +22,7 @@ export function PairRates({
     return (
         <Link
             to={link}
-            className={classNames('btn btn-s btn-secondary pair-rates', className)}
+            className={classNames('btn btn-s btn--secondary pair-rates', className)}
         >
             <TokenIcon size="small" {...tokenIcon} />
             {label}

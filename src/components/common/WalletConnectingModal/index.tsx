@@ -5,6 +5,7 @@ import { reaction } from 'mobx'
 import { observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
 
+import { Button } from '@/components/common/Button'
 import { Icon } from '@/components/common/Icon'
 import { useWallet } from '@/stores/WalletService'
 import { debounce } from '@/utils'
@@ -35,13 +36,13 @@ function ConnectingModal(): JSX.Element | null {
         <div className="popup">
             <div className="popup-overlay" />
             <div className="popup__wrap">
-                <button
-                    type="button"
-                    className="btn btn-icon popup-close"
+                <Button
+                    className="popup-close"
+                    type="icon"
                     onClick={onClose}
                 >
                     <Icon icon="close" />
-                </button>
+                </Button>
                 <h2 className="popup-title">
                     {intl.formatMessage({
                         id: 'WALLET_CONNECTING_POPUP_TITLE',
@@ -76,7 +77,7 @@ function ConnectingModal(): JSX.Element | null {
                 />
                 {!wallet.hasProvider && (
                     <a
-                        className="btn btn-tertiary btn-block popup-btn"
+                        className="btn btn--tertiary btn-block popup-btn"
                         href="https://chrome.google.com/webstore/detail/ton-crystal-wallet/cgeeodpfagjceefieflmdfphplkenlfk"
                         target="_blank"
                         rel="nofollow noopener noreferrer"

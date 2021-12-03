@@ -7,6 +7,7 @@ import { TokenSelector } from '@/modules/TokensList/components/TokenSelector'
 import { FarmingPoolFilter } from '@/modules/Farming/types'
 
 import './index.scss'
+import { Button } from '@/components/common/Button'
 
 type Props = {
     filter?: FarmingPoolFilter
@@ -93,7 +94,7 @@ export function FarmingFiltersPopup({
     }
 
     const onChangeWithoutMyFarming = (value: boolean) => {
-        changeOwnerInclude(value === true ? false : undefined)
+        changeOwnerInclude(value ? false : undefined)
     }
 
     const onChangeLowBalance = (value: boolean) => {
@@ -252,25 +253,26 @@ export function FarmingFiltersPopup({
                 />
             </div>
             <div className="farming-filters-popup__footer">
-                <button
-                    type="button"
-                    className="btn btn-tertiary btn-s"
-                    onClick={reset}
+                <Button
                     disabled={!resetEnabled}
+                    size="sm"
+                    type="tertiary"
+                    onClick={reset}
                 >
                     {intl.formatMessage({
                         id: 'FARMING_FILTER_CLEAR',
                     })}
-                </button>
-                <button
-                    type="submit"
-                    className="btn btn-primary btn-s"
+                </Button>
+                <Button
                     disabled={!applyEnabled}
+                    size="sm"
+                    type="primary"
+                    onClick={submit}
                 >
                     {intl.formatMessage({
                         id: 'FARMING_FILTER_APPLY',
                     })}
-                </button>
+                </Button>
             </div>
         </form>
     )

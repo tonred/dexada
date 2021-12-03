@@ -18,7 +18,7 @@
     }
 
     &__balance {
-        color: rgba(255, 255, 255, 0.56);
+        color: rgb(255 255 255 / 56%);
         font-size: 12px;
         letter-spacing: 0.6px;
         line-height: 16px;
@@ -26,8 +26,11 @@
 }
 
 .btn.btn-logout {
+    height: 44px;
     padding: 0;
+    width: 44px;
+
     svg {
-        fill: #c5e4f3;
+        fill: #6490ff;
     }
 }

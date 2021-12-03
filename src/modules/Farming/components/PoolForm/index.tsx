@@ -13,6 +13,7 @@ import {
 } from '@/modules/Farming/utils'
 
 import './index.scss'
+import { Button } from '@/components/common/Button'
 
 type Props = {
     pool: FarmPool;
@@ -78,20 +79,19 @@ export function PoolForm({ pool }: Props): JSX.Element {
                                     disabled={farmingPool.isUserDepositing}
                                     onChange={onChange('userDeposit')}
                                 />
-                                <button
-                                    type="button"
-                                    className="btn farming-pool-form__swap-amount-btn"
+                                <Button
+                                    className="farming-pool-form__swap-amount-btn"
                                     disabled={farmingPool.isUserDepositing}
                                     onClick={farmingPool.maxDeposit}
                                 >
                                     {intl.formatMessage({
                                         id: 'FARMING_POOL_FORM_MAX_AMOUNT_DEPOSIT_BTN_TEXT',
                                     })}
-                                </button>
+                                </Button>
                             </div>
-                            <button
-                                type="button"
-                                className="btn btn-s btn-primary"
+                            <Button
+                                size="sm"
+                                type="primary"
                                 disabled={!isDepositValid(
                                     farmingPool.userDeposit,
                                     farmingPool.userWalletBalance,
@@ -104,10 +104,10 @@ export function PoolForm({ pool }: Props): JSX.Element {
                                         ? 'FARMING_POOL_FORM_DEPOSITING_BTN_TEXT'
                                         : 'FARMING_POOL_FORM_DEPOSIT_BTN_TEXT',
                                 })}
-                            </button>
-                            <button
-                                type="button"
-                                className="btn btn-s btn-primary"
+                            </Button>
+                            <Button
+                                size="sm"
+                                type="primary"
                                 disabled={!isClaimValid(
                                     pool.userReward,
                                 ) || farmingPool.isUserDepositing}
@@ -116,10 +116,10 @@ export function PoolForm({ pool }: Props): JSX.Element {
                                 {intl.formatMessage({
                                     id: 'FARMING_POOL_FORM_CLAIM_BTN_TEXT',
                                 })}
-                            </button>
-                            <button
-                                type="button"
-                                className="btn btn-s btn-primary"
+                            </Button>
+                            <Button
+                                size="sm"
+                                type="primary"
                                 disabled={!isWithdrawAllValid(
                                     pool.userBalance,
                                 ) || farmingPool.isUserDepositing}
@@ -128,7 +128,7 @@ export function PoolForm({ pool }: Props): JSX.Element {
                                 {intl.formatMessage({
                                     id: 'FARMING_POOL_FORM_WITHDRAW_BTN_TEXT',
                                 })}
-                            </button>
+                            </Button>
                         </div>
                     </div>
 
@@ -162,14 +162,14 @@ export function PoolForm({ pool }: Props): JSX.Element {
                                                         onChange={onChangeAdminDeposit(idx)}
                                                     />
                                                 </div>
-                                                <button
-                                                    type="button"
-                                                    className="btn btn-s btn-primary"
+                                                <Button
                                                     disabled={!isDepositValid(
                                                         adminDeposit,
                                                         adminWalletBalance,
                                                         pool.rewardTokenDecimals[idx],
                                                     ) || farmingPool.isAdminDepositing}
+                                                    size="sm"
+                                                    type="primary"
                                                     onClick={onAdminDepositToken(idx)}
                                                 >
                                                     {intl.formatMessage({
@@ -179,7 +179,7 @@ export function PoolForm({ pool }: Props): JSX.Element {
                                                     }, {
                                                         symbol,
                                                     })}
-                                                </button>
+                                                </Button>
                                             </div>
                                             <p className="farming-pool-form__hint">
                                                 {intl.formatMessage({
@@ -226,20 +226,19 @@ export function PoolForm({ pool }: Props): JSX.Element {
                                             </div>
                                         </React.Fragment>
                                     ))}
-                                    <button
-                                        type="button"
-                                        className="btn btn-s btn-primary"
-                                        disabled={farmingPool.isAdminDepositing
-                                        || !isCreatePeriodValid(
+                                    <Button
+                                        disabled={farmingPool.isAdminDepositing || !isCreatePeriodValid(
                                             farmingPool.adminCreatePeriodStartTime,
                                             farmingPool.adminCreatePeriodRPS,
                                         )}
+                                        size="sm"
+                                        type="primary"
                                         onClick={farmingPool.onAdminCreatePeriod}
                                     >
                                         {intl.formatMessage({
                                             id: 'FARMING_POOL_FORM_CREATE_PERIOD',
                                         })}
-                                    </button>
+                                    </Button>
                                 </div>
                                 <div className="farming-pool-form__field-wrapper">
                                     <div className="farming-pool-form__swap-amount">
@@ -254,9 +253,9 @@ export function PoolForm({ pool }: Props): JSX.Element {
                                             onChange={onChange('adminSetEndTime')}
                                         />
                                     </div>
-                                    <button
-                                        type="button"
-                                        className="btn btn-s btn-primary"
+                                    <Button
+                                        size="sm"
+                                        type="primary"
                                         disabled={farmingPool.isAdminDepositing
                                         || !isClosePoolValid(
                                             farmingPool.adminSetEndTime,
@@ -266,20 +265,21 @@ export function PoolForm({ pool }: Props): JSX.Element {
                                         {intl.formatMessage({
                                             id: 'FARMING_POOL_FORM_CLOSE_POOL',
                                         })}
-                                    </button>
+                                    </Button>
                                 </div>
                             </div>
                             <div className="farming-pool-form__actions">
-                                <button
-                                    type="button"
-                                    className="btn btn-primary btn-s swap-acc-table-frame__submit"
+                                <Button
+                                    className="swap-acc-table-frame__submit"
                                     disabled={farmingPool.isAdminWithdrawUnclaiming}
+                                    size="sm"
+                                    type="primary"
                                     onClick={farmingPool.adminWithdrawUnclaimedAll}
                                 >
                                     {intl.formatMessage({
                                         id: 'FARMING_POOL_FORM_WITHDRAW_UNCLAIMED_BTN_TEXT',
                                     })}
-                                </button>
+                                </Button>
                             </div>
                         </>
                     )}

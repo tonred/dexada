@@ -2,6 +2,7 @@ import * as React from 'react'
 import { observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
 
+import { Button } from '@/components/common/Button'
 import { Icon } from '@/components/common/Icon'
 import { usePool } from '@/modules/Pool/stores/PoolStore'
 import { formattedAmount } from '@/utils'
@@ -54,9 +55,8 @@ function DexAccountData(): JSX.Element | null {
                             {pool.leftToken.symbol}
                         </span>
                         {pool.isLeftTokenWithdrawAvailable && (
-                            <button
-                                type="button"
-                                className="btn btn-icon"
+                            <Button
+                                type="icon"
                                 title="Withdraw"
                                 onClick={onWithdrawLeftToken}
                             >
@@ -65,7 +65,7 @@ function DexAccountData(): JSX.Element | null {
                                 ) : (
                                     <Icon icon="push" ratio={0.7} />
                                 )}
-                            </button>
+                            </Button>
                         )}
                     </div>
                     <div className="list-bill__val">
@@ -81,9 +81,8 @@ function DexAccountData(): JSX.Element | null {
                             {pool.rightToken.symbol}
                         </span>
                         {pool.isRightTokenWithdrawAvailable && (
-                            <button
-                                type="button"
-                                className="btn btn-icon"
+                            <Button
+                                type="icon"
                                 title="Withdraw"
                                 onClick={onWithdrawRightToken}
                             >
@@ -92,7 +91,7 @@ function DexAccountData(): JSX.Element | null {
                                 ) : (
                                     <Icon icon="push" ratio={0.7} />
                                 )}
-                            </button>
+                            </Button>
                         )}
                     </div>
                     <div className="list-bill__val">
@@ -110,10 +109,9 @@ function DexAccountData(): JSX.Element | null {
                             })}
                         </span>
                         {pool.isWithdrawLpAvailable && (
-                            <button
+                            <Button
                                 key="withdrawLp"
-                                type="button"
-                                className="btn btn-icon"
+                                type="icon"
                                 title="Withdraw"
                                 onClick={onWithdrawLpToken}
                             >
@@ -122,13 +120,12 @@ function DexAccountData(): JSX.Element | null {
                                 ) : (
                                     <Icon icon="push" ratio={0.7} />
                                 )}
-                            </button>
+                            </Button>
                         )}
                         {pool.isWithdrawLiquidityAvailable && (
-                            <button
+                            <Button
                                 key="withdrawLiquidity"
-                                type="button"
-                                className="btn btn-icon"
+                                type="icon"
                                 title="Withdraw Liquidity"
                                 onClick={onWithdrawLiquidity}
                             >
@@ -137,7 +134,7 @@ function DexAccountData(): JSX.Element | null {
                                 ) : (
                                     <Icon icon="remove" ratio={0.9} />
                                 )}
-                            </button>
+                            </Button>
                         )}
                     </div>
                     <div className="list-bill__val">
