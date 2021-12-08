@@ -471,7 +471,9 @@ export class SwapStore {
             this.changeState('isEnoughLiquidity', false)
             debug(
                 '#recalculate reset when no pair',
-                toJS(this.data), toJS(this.state), toJS(this.data.bill),
+                toJS(this.data),
+                toJS(this.state),
+                toJS(this.data.bill),
             )
             return
         }
@@ -688,7 +690,9 @@ export class SwapStore {
             this.changeData('pair', undefined)
             debug(
                 '#handleTokensChange only one token selected -> reset',
-                toJS(this.data), toJS(this.state), toJS(this.data.bill),
+                toJS(this.data),
+                toJS(this.state),
+                toJS(this.data.bill),
             )
             return
         }
@@ -778,7 +782,9 @@ export class SwapStore {
 
         debug(
             '#handleTokensChange check cross-exchange',
-            toJS(this.data), toJS(this.state), toJS(this.data.bill),
+            toJS(this.data),
+            toJS(this.state),
+            toJS(this.data.bill),
         )
     }
 
@@ -896,7 +902,9 @@ export class SwapStore {
         ) {
             debug(
                 '#calculateByLeftAmount reset before start',
-                toJS(this.data), toJS(this.state), toJS(this.data.bill),
+                toJS(this.data),
+                toJS(this.state),
+                toJS(this.data.bill),
             )
             return
         }
@@ -905,7 +913,9 @@ export class SwapStore {
 
         debug(
             '#calculateByLeftAmount start',
-            toJS(this.data), toJS(this.state), toJS(this.data.bill),
+            toJS(this.data),
+            toJS(this.state),
+            toJS(this.data.bill),
         )
 
         if (this.isEnoughLiquidity && this.isLeftAmountValid && this.leftTokenAddress !== undefined) {
@@ -950,7 +960,9 @@ export class SwapStore {
 
         debug(
             '#calculateByLeftAmount done',
-            toJS(this.data), toJS(this.state), toJS(this.data.bill),
+            toJS(this.data),
+            toJS(this.state),
+            toJS(this.data.bill),
         )
     }
 
@@ -970,7 +982,9 @@ export class SwapStore {
         ) {
             debug(
                 '#calculateByRightAmount reset before start',
-                toJS(this.data), toJS(this.state), toJS(this.data.bill),
+                toJS(this.data),
+                toJS(this.state),
+                toJS(this.data.bill),
             )
             return
         }
@@ -979,7 +993,9 @@ export class SwapStore {
 
         debug(
             '#calculateByRightAmount start',
-            toJS(this.data), toJS(this.state), toJS(this.data.bill),
+            toJS(this.data),
+            toJS(this.state),
+            toJS(this.data.bill),
         )
 
         if (this.isEnoughLiquidity && this.isRightAmountValid) {
@@ -1043,7 +1059,9 @@ export class SwapStore {
 
         debug(
             '#calculateByRightAmount done',
-            toJS(this.data), toJS(this.state), toJS(this.data.bill),
+            toJS(this.data),
+            toJS(this.state),
+            toJS(this.data.bill),
         )
     }
 
@@ -1321,7 +1339,8 @@ export class SwapStore {
 
         debug(
             '#calculateLtrCrossExchangeBill invalidate routes',
-            toJS(this.data.bestCrossExchangeRoute), toJS(this.data.bill),
+            toJS(this.data.bestCrossExchangeRoute),
+            toJS(this.data.bill),
         )
 
         await (
@@ -1493,7 +1512,9 @@ export class SwapStore {
 
         debug(
             '#calculateLtrCrossExchangeBill done',
-            toJS(this.data), toJS(this.state), toJS(this.data.bill),
+            toJS(this.data),
+            toJS(this.state),
+            toJS(this.data.bill),
         )
     }
 
@@ -1520,7 +1541,9 @@ export class SwapStore {
 
         debug(
             '#calculateRtlCrossExchangeBill invalidate routes',
-            toJS(this.data), toJS(this.state), toJS(this.data.bill),
+            toJS(this.data),
+            toJS(this.state),
+            toJS(this.data.bill),
         )
 
         let routes: SwapRoute[] = []
@@ -1600,7 +1623,9 @@ export class SwapStore {
 
         debug(
             '#calculateRtlCrossExchangeBill first iteration',
-            toJS({ ...this.data, routes }), toJS(this.state), toJS(this.data.bill),
+            toJS({ ...this.data, routes }),
+            toJS(this.state),
+            toJS(this.data.bill),
         )
 
         await (
@@ -1736,7 +1761,9 @@ export class SwapStore {
 
         debug(
             '#calculateRtlCrossExchangeBill done',
-            toJS(this.data), toJS(this.state), toJS(this.data.bill),
+            toJS(this.data),
+            toJS(this.state),
+            toJS(this.data.bill),
         )
     }
 
@@ -1868,9 +1895,9 @@ export class SwapStore {
 
             if (pair.roots?.left !== undefined && pair.roots?.right !== undefined) {
                 const leftToken = this.tokensCache.get(meta.baseAddress)
-                pair.decimals!.left = leftToken?.decimals || DEFAULT_DECIMALS
+                pair.decimals!.left = leftToken?.decimals ?? DEFAULT_DECIMALS
                 const rightToken = this.tokensCache.get(meta.counterAddress)
-                pair.decimals!.right = rightToken?.decimals || DEFAULT_DECIMALS
+                pair.decimals!.right = rightToken?.decimals ?? DEFAULT_DECIMALS
             }
 
             return pair
@@ -2203,7 +2230,7 @@ export class SwapStore {
      * @returns {boolean}
      */
     public get leftTokenDecimals(): number {
-        return this.leftToken?.decimals || DEFAULT_DECIMALS
+        return this.leftToken?.decimals ?? DEFAULT_DECIMALS
     }
 
     /**
@@ -2211,7 +2238,7 @@ export class SwapStore {
      * @returns {boolean}
      */
     public get rightTokenDecimals(): number {
-        return this.rightToken?.decimals || DEFAULT_DECIMALS
+        return this.rightToken?.decimals ?? DEFAULT_DECIMALS
     }
 
     /**
