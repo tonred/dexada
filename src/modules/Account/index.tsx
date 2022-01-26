@@ -53,7 +53,7 @@ export function Account(): JSX.Element | null {
                                                 wallet.balance,
                                                 9,
                                             ) || 0,
-                                            currency: 'TON',
+                                            currency: 'EVER',
                                         })}
                                     </div>
                                 )}
