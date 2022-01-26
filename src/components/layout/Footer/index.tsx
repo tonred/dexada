@@ -152,7 +152,7 @@ export function Footer(): JSX.Element {
                     <ul className="footer-soc">
                         <li>
                             <a
-                                href="https://t.me/tonbridge_official"
+                                href="https://t.me/DexadaCommunity"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 title="Telegram"
@@ -162,7 +162,7 @@ export function Footer(): JSX.Element {
                         </li>
                         <li>
                             <a
-                                href="https://twitter.com/Broxus"
+                                href="https://twitter.com/Dexada_io"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 title="Twitter"
@@ -182,7 +182,7 @@ export function Footer(): JSX.Element {
                         </li>
                         <li>
                             <a
-                                href="https://broxus.medium.com/"
+                                href="https://medium.com/dexada"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 title="Medium"

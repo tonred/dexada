@@ -7,4 +7,12 @@
     @media only screen and (max-width: 767px) {
         justify-content: space-between;
     }
+
+    @media (max-width: 1023px) {
+        align-items: flex-start;
+        flex-direction: column;
+        .main-nav {
+            margin-top: 24px;
+        }
+    }
 }
