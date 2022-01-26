@@ -22,7 +22,7 @@ export function Footer(): JSX.Element {
                         {(!wallet.isInitialized && !wallet.isInitializing) && (
                             <a
                                 href="https://chrome.google.com/webstore/detail/ton-crystal-wallet/cgeeodpfagjceefieflmdfphplkenlfk"
-                                className="btn btn--xl btn--tertiary footer-tool"
+                                className="btn btn--md btn--primary footer-tool"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
@@ -36,7 +36,7 @@ export function Footer(): JSX.Element {
             </Observer>
             <a
                 href="https://github.com/broxus/ton-dex"
-                className="btn btn--tertiary footer-tool"
+                className="btn btn--md btn--tertiary footer-tool"
                 target="_blank"
                 rel="noopener noreferrer"
             >
@@ -172,7 +172,7 @@ export function Footer(): JSX.Element {
                         </li>
                         <li>
                             <a
-                                href="https://github.com/broxus"
+                                href="https://github.com/cardano-foundation"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 title="GitHub"
@@ -208,7 +208,7 @@ export function Footer(): JSX.Element {
                             <ul>
                                 <li>
                                     <a
-                                        href="https://broxus.com/wp-content/uploads/2021/08/terms_of_use.pdf"
+                                        href="https://cardanofoundation.org/en/terms-and-conditions/"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
@@ -219,7 +219,7 @@ export function Footer(): JSX.Element {
                                 </li>
                                 <li>
                                     <a
-                                        href="https://broxus.com/wp-content/uploads/2021/08/privacy_policy.pdf"
+                                        href="https://cardanofoundation.org/en/privacy/"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
