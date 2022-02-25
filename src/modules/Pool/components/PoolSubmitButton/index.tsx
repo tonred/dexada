@@ -2,17 +2,17 @@ import * as React from 'react'
 import { observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
 
+import { Button } from '@/components/common/Button'
 import { useBalanceValidation } from '@/hooks/useBalanceValidation'
-import { usePool } from '@/modules/Pool/stores/PoolStore'
+import { usePoolStore } from '@/modules/Pool/stores/PoolStore'
 import { AddLiquidityStep } from '@/modules/Pool/types'
 import { useWallet } from '@/stores/WalletService'
-import { Button } from '@/components/common/Button'
 
 
 function SubmitButton(): JSX.Element {
     const intl = useIntl()
     const wallet = useWallet()
-    const pool = usePool()
+    const pool = usePoolStore()
 
     const buttonProps: Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> = {
         disabled: false,

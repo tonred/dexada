@@ -52,7 +52,8 @@ export function Account(): JSX.Element | null {
                                             balance: formattedAmount(
                                                 wallet.balance,
                                                 9,
-                                            ) || 0,
+                                                { preserve: true },
+                                            ),
                                             currency: 'EVER',
                                         })}
                                     </div>

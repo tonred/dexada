@@ -3,12 +3,12 @@ import classNames from 'classnames'
 import { observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
 
+import { Button } from '@/components/common/Button'
 import { Icon } from '@/components/common/Icon'
 import { TokenIcon } from '@/components/common/TokenIcon'
 import { useField } from '@/hooks/useField'
 import { TokenCache } from '@/stores/TokensCacheService'
 import { useTokenFormattedBalance } from '@/hooks/useTokenFormattedBalance'
-import { Button } from '@/components/common/Button'
 
 
 type Props = {
@@ -108,7 +108,7 @@ function Field({
                                 address={token.root}
                                 name={token.symbol}
                                 size="small"
-                                uri={token.icon}
+                                icon={token.icon}
                             />
                         </span>
                         <span className="form-drop__name">

@@ -26,7 +26,7 @@ export function FarmingMessageAdminLowBalance(): JSX.Element {
             <div className="farming-message__actions">
                 <a
                     href="#pool-management"
-                    className="btn btn--primary"
+                    className="btn btn-primary"
                 >
                     {intl.formatMessage({
                         id: 'FARMING_MESSAGE_ADMIN_LOW_BALANCE_BTN',

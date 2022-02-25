@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
 
+import { Button } from '@/components/common/Button'
 import { TokenIcon } from '@/components/common/TokenIcon'
 import { useTokenFormattedBalance } from '@/hooks/useTokenFormattedBalance'
 import { TokenImportPopup } from '@/modules/TokensList/components/TokenImportPopup'
@@ -22,18 +23,12 @@ export const Item = observer(({ disabled, token, onSelect }: Props) => {
         subscriberPrefix: 'list',
     })
 
-    const [isImporting, setImportingTo] = React.useState(false)
-
     const onClick = () => {
         onSelect?.(token.root)
     }
 
-    const onImporting = () => {
-        setImportingTo(true)
-    }
-
-    const onDismissImporting = () => {
-        setImportingTo(false)
+    const onImporting = async () => {
+        await tokensCache.addToImportQueue(token.root)
     }
 
     const isStored = tokensCache.has(token.root)
@@ -53,7 +48,7 @@ export const Item = observer(({ disabled, token, onSelect }: Props) => {
                             address={token.root}
                             name={token.symbol}
                             size="small"
-                            uri={token.icon}
+                            icon={token.icon}
                         />
                     </div>
                     <div className="popup-item__main">
@@ -71,24 +66,20 @@ export const Item = observer(({ disabled, token, onSelect }: Props) => {
                     </div>
                 ) : (
                     <div className="popup-item__right">
-                        <button
-                            type="button"
-                            className="btn btn-s btn--primary"
+                        <Button
+                            type="primary"
+                            size="sm"
                             onClick={onImporting}
                         >
                             {intl.formatMessage({
                                 id: 'TOKENS_LIST_POPUP_BTN_TEXT_IMPORT_TOKEN',
                             })}
-                        </button>
+                        </Button>
                     </div>
                 )}
             </div>
-            {isImporting && (
-                <TokenImportPopup
-                    token={token}
-                    onDismiss={onDismissImporting}
-                    onImport={onSelect}
-                />
+            {tokensCache.isImporting && (
+                <TokenImportPopup />
             )}
         </>
     )

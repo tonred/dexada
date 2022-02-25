@@ -1,12 +1,11 @@
 import * as React from 'react'
 import { useParams } from 'react-router-dom'
-import { Address } from 'ton-inpage-provider'
+import { Address } from 'everscale-inpage-provider'
 import BigNumber from 'bignumber.js'
 import { useIntl } from 'react-intl'
 
 import { PairResponse } from '@/modules/Pairs/types'
 import { FarmingPoolsItemResponse, RewardTokenRootInfo } from '@/modules/Farming/types'
-import { useTokensList } from '@/stores/TokensListService'
 import { useDexAccount } from '@/stores/DexAccountService'
 import { useWallet } from '@/stores/WalletService'
 import { TokenCache, useTokensCache } from '@/stores/TokensCacheService'
@@ -14,10 +13,15 @@ import { useApi } from '@/modules/Pools/hooks/useApi'
 import { useDexBalances } from '@/modules/Pools/hooks/useDexBalances'
 import { FarmingTableProps } from '@/modules/Farming/components/FarmingTable'
 import {
-    error, formattedAmount, getPrice, shareAmount,
+    error, formattedAmount, formattedTokenAmount,
+    getPrice,
+    shareAmount,
 } from '@/utils'
 import {
-    Farm, Pool, PoolData, UserPendingReward,
+    Farm,
+    Pool,
+    PoolData,
+    UserPendingReward,
 } from '@/misc'
 import { appRoutes } from '@/routes'
 
@@ -62,7 +66,6 @@ export function usePoolContent(): UsePoolContent {
     const api = useApi()
     const params = useParams<{ address: string }>()
     const wallet = useWallet()
-    const tokensList = useTokensList()
     const dexAccount = useDexAccount()
     const dexBalances = useDexBalances()
     const tokensCache = useTokensCache()
@@ -100,13 +103,9 @@ export function usePoolContent(): UsePoolContent {
     ), [pair, pool])
 
     const lockedLp = React.useMemo(() => (
-        pool && farm
-            .reduce((acc, item) => (
-                acc
-                    .plus(item.info.user_token_balance)
-                    .shiftedBy(item.info.token_root_scale)
-            ), new BigNumber(0))
-            .toFixed()
+        pool && farm.reduce((acc, item) => (
+            acc.plus(item.info.user_token_balance).shiftedBy(item.info.token_root_scale)
+        ), new BigNumber(0)).toFixed()
     ), [pool, farm])
 
     const lockedLeft = React.useMemo(() => (
@@ -114,18 +113,18 @@ export function usePoolContent(): UsePoolContent {
             lockedLp,
             pool.left.inPool,
             pool.lp.inPool,
-            Number(tokensCache.get(pool.left.address)?.decimals),
+            leftToken?.decimals ?? 0,
         )
-    ), [pool, lockedLp])
+    ), [pool, lockedLp, leftToken])
 
     const lockedRight = React.useMemo(() => (
         pool && lockedLp && shareAmount(
             lockedLp,
             pool.right.inPool,
             pool.lp.inPool,
-            Number(tokensCache.get(pool.right.address)?.decimals),
+            rightToken?.decimals ?? 0,
         )
-    ), [pool, lockedLp])
+    ), [pool, lockedLp, rightToken])
 
     const walletLeft = React.useMemo(() => (
         pool && leftToken && shareAmount(
@@ -134,7 +133,7 @@ export function usePoolContent(): UsePoolContent {
             pool.lp.inPool,
             leftToken.decimals,
         )
-    ), [pool])
+    ), [pool, leftToken])
 
     const walletRight = React.useMemo(() => (
         pool && rightToken && shareAmount(
@@ -143,7 +142,7 @@ export function usePoolContent(): UsePoolContent {
             pool.lp.inPool,
             rightToken.decimals,
         )
-    ), [pool])
+    ), [pool, rightToken])
 
     const totalLp = React.useMemo(() => (
         pool && lockedLp && new BigNumber(lockedLp)
@@ -177,31 +176,31 @@ export function usePoolContent(): UsePoolContent {
         farm.map(({ info, balance: { reward }}) => ({
             tvl: info.tvl,
             tvlChange: info.tvl_change,
-            apr: info.apr,
+            apr: formattedAmount(info.apr, undefined, { preserve: true }),
             aprChange: info.apr_change,
-            share: info.share,
+            share: formattedAmount(info.share, undefined, { preserve: true }),
             startTime: info.farm_start_time,
             endTime: info.farm_end_time,
             leftToken: {
                 address: info.left_address as string,
                 name: info.left_currency as string,
-                uri: tokensList.getUri(info.left_address as string),
+                icon: tokensCache.get(info.left_address)?.icon,
             },
             rightToken: {
                 address: info.right_address as string,
                 name: info.right_currency as string,
-                uri: tokensList.getUri(info.right_address as string),
+                icon: tokensCache.get(info.right_address)?.icon,
             },
             rewardsIcons: info.reward_token_root_info.map(rewardToken => ({
                 address: rewardToken.reward_root_address,
-                uri: tokensList.getUri(rewardToken.reward_root_address),
+                icon: tokensCache.get(rewardToken.reward_root_address)?.icon,
             })),
             vestedRewards: reward.map(({ vested, symbol }) => (
                 intl.formatMessage({
                     id: 'POOLS_LIST_TOKEN_BALANCE',
                 }, {
                     symbol,
-                    value: vested,
+                    value: formattedTokenAmount(vested),
                 })
             )),
             entitledRewards: reward.map(({ entitled, symbol }) => (
@@ -209,9 +208,10 @@ export function usePoolContent(): UsePoolContent {
                     id: 'POOLS_LIST_TOKEN_BALANCE',
                 }, {
                     symbol,
-                    value: entitled,
+                    value: formattedTokenAmount(entitled),
                 })
             )),
+            poolAddress: info.pool_address,
             link: appRoutes.farmingItem.makeUrl({
                 address: info.pool_address,
             }),
@@ -257,7 +257,7 @@ export function usePoolContent(): UsePoolContent {
         try {
             userReward = await Farm.userPendingReward(
                 userDataAddress,
-                poolRewardData._accTonPerShare,
+                poolRewardData._accRewardPerShare,
                 poolRewardData._lastRewardTime,
                 `${farmEnd ? farmEnd / 1000 : 0}`,
             )
@@ -272,8 +272,8 @@ export function usePoolContent(): UsePoolContent {
             const totalVested = new BigNumber(vested).plus(poolDebt)
 
             return {
-                vested: formattedAmount(totalVested.toFixed(), reward_scale),
-                entitled: formattedAmount(entitled, reward_scale),
+                vested: formattedTokenAmount(totalVested.toFixed(), reward_scale),
+                entitled: formattedTokenAmount(entitled, reward_scale),
                 symbol: reward_currency,
             }
         })
@@ -325,8 +325,8 @@ export function usePoolContent(): UsePoolContent {
                 api.pair({ address: pairAddress.toString() }),
             ])
             await Promise.all([
-                tokensCache.fetchIfNotExist(poolData.left.address),
-                tokensCache.fetchIfNotExist(poolData.right.address),
+                tokensCache.syncCustomToken(poolData.left.address),
+                tokensCache.syncCustomToken(poolData.right.address),
             ])
             const farmData = await getFarmData(
                 new Address(poolData.lp.address),

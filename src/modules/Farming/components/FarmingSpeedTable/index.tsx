@@ -55,13 +55,15 @@ export function FarmingSpeedTableInner({
                                     <div className="farming-speed__token" key={token.root}>
                                         <TokenIcon
                                             size="xsmall"
-                                            uri={token.icon}
+                                            icon={token.icon}
                                             address={token.root}
                                         />
                                         {intl.formatMessage({
                                             id: 'FARMING_TOKEN',
                                         }, {
-                                            amount: formattedAmount(rps[idx], 0),
+                                            amount: formattedAmount(rps[idx], undefined, {
+                                                preserve: true,
+                                            }),
                                             symbol: token.symbol,
                                         })}
                                     </div>

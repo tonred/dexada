@@ -59,9 +59,7 @@ export function FarmingInner(): JSX.Element {
 
     React.useEffect(() => {
         if (!wallet.isConnecting && !wallet.isInitializing) {
-            (async () => {
-                await farmingData.getData(params.address)
-            })()
+            farmingData.getData(params.address)
         }
 
         return () => {
@@ -383,6 +381,7 @@ export function FarmingInner(): JSX.Element {
                                         vestingRatio={farmingData.vestingRatio}
                                         vestingPeriodDays={farmingData.vestingPeriodDays}
                                         vestingTime={farmingData.vestingTime}
+                                        rewardTokensAddress={farmingData.rewardTokensAddress}
                                     />
 
                                     <FarmingAddresses
@@ -393,6 +392,7 @@ export function FarmingInner(): JSX.Element {
                                         rewardTokensRoots={farmingData.rewardTokensAddress}
                                     />
                                 </div>
+
 
                                 {
                                     farmingData.poolAddress

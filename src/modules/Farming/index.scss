@@ -62,13 +62,12 @@
     gap: 16px;
     grid-template-columns: 1fr 1fr;
 
-    @media only screen and (max-width: 767px) {
+    @media only screen and (max-width: 1023px) {
         grid-template-columns: 1fr;
     }
 }
 
 .farming-balance-panel {
-    border-radius: 32px;
     flex-grow: 1;
     font-size: 14px;
     height: 100%;
@@ -114,8 +113,7 @@
 }
 
 .farming-panel {
-    background: rgb(240 197 211 / 8%);
-    border-radius: 32px;
+    background: rgb(255 255 255 / 8%);
     padding: 24px;
 
     &:last-child {
@@ -193,10 +191,18 @@
         &:last-child {
             margin-bottom: 0;
         }
+
+        @media only screen and (max-width: 767px) {
+            flex-direction: column;
+        }
     }
 
     &__label {
         color: rgb(255 255 255 / 56%);
+
+        @media only screen and (max-width: 767px) {
+            margin: 0 0 5px;
+        }
     }
 
     &__value {
@@ -205,6 +211,11 @@
         gap: 8px;
         justify-self: flex-end;
         text-align: right;
+
+        @media only screen and (max-width: 767px) {
+            justify-self: flex-start;
+            text-align: left;
+        }
     }
 
     &__info {

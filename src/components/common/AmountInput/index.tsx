@@ -32,22 +32,9 @@ export function AmountInput({
     const intl = useIntl()
     const field = useField({
         decimals,
+        value: props.value,
+        onChange: props.onChange,
     })
-
-    const onChange = (value: string) => {
-        let val = value.replace(/[,]/g, '.')
-        if (
-            props.value
-            && props.value.indexOf('.') > -1
-            && val.length > props.value.length
-            && val.charAt(val.length - 1) === '.'
-        ) {
-            return
-        }
-        val = val.replace(/[.]+/g, '.')
-        val = val.replace(/(?!- )[^0-9.]/g, '')
-        props.onChange?.(val)
-    }
 
     return (
         <div
@@ -66,7 +53,7 @@ export function AmountInput({
                 invalid={invalid}
                 inputMode="decimal"
                 onBlur={field.onBlur}
-                onChange={onChange}
+                onChangeInput={field.onChange}
             />
 
             {maxIsVisible && (

@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite'
 
 import { TokenIcon } from '@/components/common/TokenIcon'
 import { useTokensCache } from '@/stores/TokensCacheService'
-import { formattedAmount, parseCurrencyBillions } from '@/utils'
+import { formattedAmount, formattedTokenAmount, parseCurrencyBillions } from '@/utils'
 
 import './index.scss'
 
@@ -67,7 +67,7 @@ function FarmingBaseInfoInner({
                                 symbol: lpTokenSymbol,
                             })}
                         </div>
-                        {formattedAmount(lpTokenBalance, 0)}
+                        {formattedAmount(lpTokenBalance)}
                     </div>
 
                     {
@@ -83,27 +83,27 @@ function FarmingBaseInfoInner({
                                 <div className="farming-panel__token">
                                     <TokenIcon
                                         size="xsmall"
-                                        uri={leftToken.icon}
+                                        icon={leftToken.icon}
                                         address={leftToken.root}
                                     />
 
                                     {intl.formatMessage({
                                         id: 'FARMING_TOKEN',
                                     }, {
-                                        amount: formattedAmount(leftTokenBalance, 0),
+                                        amount: formattedTokenAmount(leftTokenBalance),
                                         symbol: leftToken.symbol,
                                     })}
                                 </div>
                                 <div className="farming-panel__token">
                                     <TokenIcon
                                         size="xsmall"
-                                        uri={rightToken.icon}
+                                        icon={rightToken.icon}
                                         address={rightToken.root}
                                     />
                                     {intl.formatMessage({
                                         id: 'FARMING_TOKEN',
                                     }, {
-                                        amount: formattedAmount(rightTokenBalance, 0),
+                                        amount: formattedTokenAmount(rightTokenBalance),
                                         symbol: rightToken.symbol,
                                     })}
                                 </div>
@@ -123,7 +123,7 @@ function FarmingBaseInfoInner({
                     {apr === null ? nullMessage : intl.formatMessage({
                         id: 'FARMING_BASE_INFO_APR_VALUE',
                     }, {
-                        value: formattedAmount(apr, 0),
+                        value: formattedAmount(apr),
                     })}
                 </div>
             )}
@@ -140,13 +140,16 @@ function FarmingBaseInfoInner({
                             <div className="farming-panel__token" key={token.root}>
                                 <TokenIcon
                                     size="xsmall"
-                                    uri={token.icon}
+                                    icon={token.icon}
                                     address={token.root}
                                 />
                                 {intl.formatMessage({
                                     id: 'FARMING_TOKEN',
                                 }, {
-                                    amount: formattedAmount(rewardTokensAmount[index], token.decimals),
+                                    amount: formattedTokenAmount(
+                                        rewardTokensAmount[index],
+                                        token.decimals,
+                                    ),
                                     symbol: token.symbol,
                                 })}
                             </div>
@@ -167,13 +170,15 @@ function FarmingBaseInfoInner({
                             <div className="farming-panel__token" key={token.root}>
                                 <TokenIcon
                                     size="xsmall"
-                                    uri={token.icon}
+                                    icon={token.icon}
                                     address={token.root}
                                 />
                                 {intl.formatMessage({
                                     id: 'FARMING_TOKEN',
                                 }, {
-                                    amount: formattedAmount(rpsAmount[index], 0),
+                                    amount: formattedAmount(rpsAmount[index], undefined, {
+                                        preserve: true,
+                                    }),
                                     symbol: token.symbol,
                                 })}
                             </div>

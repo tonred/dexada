@@ -1,16 +1,21 @@
 import BigNumber from 'bignumber.js'
-import { Address } from 'ton-inpage-provider'
+import { Address } from 'everscale-inpage-provider'
 import { makeAutoObservable, runInAction } from 'mobx'
 
 import { TokenCache, TokensCacheService, useTokensCache } from '@/stores/TokensCacheService'
 import { useWallet, WalletService } from '@/stores/WalletService'
 import {
-    CustomToken, Dex, PairBalances, PairTokenRoots, Pool, TokenWallet,
+    Dex,
+    PairBalances,
+    PairTokenRoots,
+    Pool,
+    Token,
+    TokenWallet,
 } from '@/misc'
 import { error, shareAmount } from '@/utils'
 
 type Data = {
-    lpToken?: CustomToken;
+    lpToken?: Token;
     userLpTotalAmount: string;
     pairBalances: PairBalances;
     pairTokens: PairTokenRoots;
@@ -89,13 +94,15 @@ export class RemoveLiquidityStore {
                 pairTokens,
             ] = await Promise.all([
                 TokenWallet.balanceByWalletAddress(userLpWalletAddress),
-                TokenWallet.getTokenData(pairLpRoot.toString()),
+                TokenWallet.getTokenFullDetails(pairLpRoot.toString()),
                 Dex.pairBalances(pairAddress),
                 Dex.pairTokenRoots(pairAddress),
             ])
 
-            this.tokensCache.fetchIfNotExist(leftTokenAddress)
-            this.tokensCache.fetchIfNotExist(rightTokenAddress)
+            await Promise.all([
+                this.tokensCache.syncCustomToken(leftTokenAddress),
+                this.tokensCache.syncCustomToken(rightTokenAddress),
+            ])
 
             runInAction(() => {
                 this.state.data = {
@@ -112,7 +119,7 @@ export class RemoveLiquidityStore {
             runInAction(() => {
                 this.state.data = undefined
             })
-            error(e)
+            error('Get pair data error', e)
         }
         finally {
             runInAction(() => {
@@ -265,12 +272,34 @@ export class RemoveLiquidityStore {
         return this.tokensCache.get(this.state.data.leftTokenAddress)
     }
 
+    public setLeftToken(root?: string): void {
+        if (root === undefined) {
+            return
+        }
+
+        this.state.data = {
+            ...(this.state.data as Data),
+            leftTokenAddress: root,
+        }
+    }
+
     public get rightToken(): TokenCache | undefined {
         if (!this.state.data) {
             return undefined
         }
 
         return this.tokensCache.get(this.state.data.rightTokenAddress)
+    }
+
+    public setRightToken(root?: string): void {
+        if (root === undefined) {
+            return
+        }
+
+        this.state.data = {
+            ...(this.state.data as Data),
+            rightTokenAddress: root,
+        }
     }
 
     public get isInverted(): boolean | undefined {
@@ -293,7 +322,7 @@ export class RemoveLiquidityStore {
     }
 
     public get pairAmountLp(): string | undefined {
-        return this.state.data?.pairBalances.lp
+        return this.state.data?.pairBalances?.lp
     }
 
     public get amountShifted(): string | undefined {

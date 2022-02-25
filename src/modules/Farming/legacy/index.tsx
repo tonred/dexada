@@ -65,7 +65,7 @@ export function Farming(): JSX.Element {
                         <Observer>
                             {() => (
                                 wallet.address != null ? (
-                                    <Link key="createPoolLink" to="/farming/create" className="btn btn--primary">
+                                    <Link key="createPoolLink" to="/farming/create" className="btn btn-primary">
                                         {intl.formatMessage({
                                             id: 'FARMING_HEADER_CREATE_LINK_TEXT',
                                         })}
@@ -90,7 +90,7 @@ export function Farming(): JSX.Element {
                             <div>
                                 <button
                                     type="button"
-                                    className="btn btn--primary btn-lg btn-block swap-form-submit"
+                                    className="btn btn-primary btn-lg btn-block swap-form-submit"
                                     onClick={connect}
                                     disabled={wallet.isConnecting}
                                 >

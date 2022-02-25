@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { NavLink } from 'react-router-dom'
 
-import './style.scss'
+import './index.scss'
 
 type Item = {
     link?: string

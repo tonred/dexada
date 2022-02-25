@@ -104,7 +104,7 @@ function Field({
                                     address={token.root}
                                     name={token.symbol}
                                     size="small"
-                                    uri={token.icon}
+                                    icon={token.icon}
                                 />
                             </span>
                             <span className="form-drop__name">

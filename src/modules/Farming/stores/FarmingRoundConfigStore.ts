@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { DateTime } from 'luxon'
-import { Address } from 'ton-inpage-provider'
+import { Address } from 'everscale-inpage-provider'
 import { makeAutoObservable, runInAction, toJS } from 'mobx'
 
 import { FarmingDataStore, useFarmingDataStore } from '@/modules/Farming/stores/FarmingDataStore'
@@ -175,7 +175,7 @@ export class FarmingRoundConfigStore {
 
         const invalidAmountIndex = this.reward
             .findIndex(amount => (
-                !amount || amount.isNaN() || amount.isNegative()
+                !amount || amount.isNaN() || amount.lt(0)
             ))
 
         return invalidAmountIndex === -1

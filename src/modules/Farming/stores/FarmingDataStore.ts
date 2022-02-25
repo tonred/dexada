@@ -1,9 +1,11 @@
 import BigNumber from 'bignumber.js'
-import { Address } from 'ton-inpage-provider'
+import { Address } from 'everscale-inpage-provider'
 import { makeAutoObservable, runInAction, toJS } from 'mobx'
 
 import { FarmingApi, useApi } from '@/modules/Farming/hooks/useApi'
-import { FarmingPoolResponse, Transaction, TransactionsRequest } from '@/modules/Farming/types'
+import {
+    FarmingPoolResponse, RewardInfo, Transaction, TransactionsRequest,
+} from '@/modules/Farming/types'
 import { getUserAmount, getUserPendingReward } from '@/modules/Farming/utils'
 import { CurrencyInfo } from '@/modules/Currencies/types'
 import { useWallet, WalletService } from '@/stores/WalletService'
@@ -90,6 +92,18 @@ export class FarmingDataStore {
                 ),
             )
             : undefined
+
+        // FIXME: Hotfix, need to refactoring using objects instead of arrays for rewards data
+        if (poolDetails) {
+            const cache = apiResponse.reward_token_root_info
+                .reduce<any>((acc, item) => ({
+                    ...acc,
+                    [item.reward_root_address]: item,
+                }), {})
+
+            apiResponse.reward_token_root_info = poolDetails.rewardTokenRoot
+                .map(root => cache[root.toString()])
+        }
 
         const rewardCurrencies = await Promise.all(
             apiResponse.reward_token_root_info
@@ -265,20 +279,20 @@ export class FarmingDataStore {
     public syncTokens(): void {
         if (this.rewardTokensAddress) {
             this.rewardTokensAddress.forEach(address => {
-                this.tokensCache.fetchIfNotExist(address)
+                this.tokensCache.syncCustomToken(address)
             })
         }
 
         if (this.leftTokenAddress) {
-            this.tokensCache.fetchIfNotExist(this.leftTokenAddress)
+            this.tokensCache.syncCustomToken(this.leftTokenAddress)
         }
 
         if (this.rightTokenAddress) {
-            this.tokensCache.fetchIfNotExist(this.rightTokenAddress)
+            this.tokensCache.syncCustomToken(this.rightTokenAddress)
         }
 
         if ((!this.leftTokenAddress || !this.rightTokenAddress) && this.lpTokenAddress) {
-            this.tokensCache.fetchIfNotExist(this.lpTokenAddress)
+            this.tokensCache.syncCustomToken(this.lpTokenAddress)
         }
     }
 
@@ -491,7 +505,11 @@ export class FarmingDataStore {
         }
 
         const reduceReward = (acc: BigNumber, item: string, index: number): BigNumber => {
-            const { decimals } = rewardTokens[index] as TokenCache
+            const token = rewardTokens[index] as TokenCache
+            if (token === undefined) {
+                return acc
+            }
+            const { decimals } = token
             const currency = poolData.rewardCurrencies[index]
             const current = new BigNumber(item).shiftedBy(-decimals).multipliedBy(currency.price)
             return acc.plus(current)
@@ -536,35 +554,15 @@ export class FarmingDataStore {
         return this.state.poolData?.apiResponse.share
     }
 
-    public get vestingTime(): number {
-        if (!this.state.userData || !this.vestingPeriodDays || !this.userInFarming) {
-            return 0
+    public get vestingTime(): number[] | undefined {
+        const { userData } = this.state
+
+        if (!userData || !userData.userPendingReward) {
+            return undefined
         }
 
-        const vestingPeriodTime = parseInt(this.vestingPeriodDays, 10) * SECONDS_IN_DAY * 1000
-
-        if (this.endTime > 0) {
-            return vestingPeriodTime + this.endTime
-        }
-
-        if (this.userLpFarmingAmount === undefined) {
-            return 0
-        }
-
-        const userLpFarmingAmountIsNotZero = new BigNumber(this.userLpFarmingAmount)
-            .isGreaterThan(0)
-
-        if (userLpFarmingAmountIsNotZero) {
-            return vestingPeriodTime + new Date().getTime()
-        }
-
-        const { userLastWithdrawTransaction } = this.state.userData
-
-        if (!userLastWithdrawTransaction) {
-            return 0
-        }
-
-        return userLastWithdrawTransaction.timestampBlock + vestingPeriodTime
+        return userData.userPendingReward._vesting_time
+            .map(seconds => parseInt(seconds, 10) * 1000)
     }
 
     public get vestingRatio(): number | undefined {
@@ -606,30 +604,53 @@ export class FarmingDataStore {
     }
 
     public get rpsAmount(): string[] | undefined {
-        if (!this.state.poolData?.apiResponse) {
+        const apiResponse = this.state.poolData?.apiResponse
+
+        if (!apiResponse) {
             return undefined
         }
 
-        const activePeriods = this.state.poolData.apiResponse.pool_info.rounds_info
+        const activePeriods = apiResponse.pool_info.rounds_info
             .filter(({ start_time }) => (
                 start_time * 1000 < new Date().getTime()
             ))
+
         const currentPeriod = activePeriods.length > 0
             ? activePeriods[activePeriods.length - 1]
             : undefined
 
-        return currentPeriod
-            ? currentPeriod.reward_info.map(info => info.rewardPerSec)
-            : []
+        if (currentPeriod) {
+            const rewards = currentPeriod.reward_info
+                .reduce<{[k: string]: RewardInfo}>((acc, item) => ({
+                    ...acc,
+                    [item.rewardTokenRootAddress]: item,
+                }), {})
+
+            return apiResponse.reward_token_root_info
+                .map(item => rewards[item.reward_root_address].rewardPerSec)
+        }
+
+        return []
     }
 
     public get roundRps(): string[][] | undefined {
-        if (!this.state.poolData?.apiResponse) {
+        const apiResponse = this.state.poolData?.apiResponse
+
+        if (!apiResponse) {
             return undefined
         }
 
-        return toJS(this.state.poolData.apiResponse.pool_info.rounds_info)
-            .map(round => round.reward_info.map(info => info.rewardPerSec))
+        return toJS(apiResponse.pool_info.rounds_info)
+            .map(round => {
+                const rewards = round.reward_info
+                    .reduce<{[k: string]: RewardInfo}>((acc, item) => ({
+                        ...acc,
+                        [item.rewardTokenRootAddress]: item,
+                    }), {})
+
+                return apiResponse.reward_token_root_info
+                    .map(item => rewards[item.reward_root_address].rewardPerSec)
+            })
     }
 
     public get roundStartTimes(): number[] | undefined {
@@ -647,7 +668,7 @@ export class FarmingDataStore {
         }
 
         return this.rewardTokensBalance
-            .findIndex(amount => new BigNumber(amount).isLessThanOrEqualTo(0)) > -1
+            .every(amount => new BigNumber(amount).lte(0))
     }
 
     public get rewardBalanceIsLow(): boolean | undefined {

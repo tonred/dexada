@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { Observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
 
+import { Button } from '@/components/common/Button'
 import { Icon } from '@/components/common/Icon'
 import { WaypointWrappedItem } from '@/modules/TokensList/components'
 import { TokenCache, useTokensCache } from '@/stores/TokensCacheService'
@@ -48,13 +49,13 @@ export function TokensList({ currentToken, onDismiss, ...props }: Props): JSX.El
         <div className="popup">
             <div onClick={onDismiss} className="popup-overlay" />
             <div className="popup__wrap popup__wrap--list">
-                <button
-                    type="button"
+                <Button
+                    className="popup-close"
+                    type="icon"
                     onClick={onDismiss}
-                    className="btn btn--icon popup-close"
                 >
                     <Icon icon="close" />
-                </button>
+                </Button>
                 <h2 className="popup-title">
                     {intl.formatMessage({
                         id: 'TOKENS_LIST_POPUP_TITLE',

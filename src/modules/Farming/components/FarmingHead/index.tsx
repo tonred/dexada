@@ -10,7 +10,10 @@ import { FarmingStatus } from '@/modules/Farming/components/FarmingStatus'
 import { FarmingToggleButton } from '@/modules/Farming/components/FarmingToggleButton'
 import { useTokensCache } from '@/stores/TokensCacheService'
 import {
-    concatSymbols, formatDate, formattedAmount, isExists,
+    concatSymbols,
+    formatDate,
+    formattedAmount,
+    isExists,
 } from '@/utils'
 
 import './index.scss'
@@ -56,20 +59,20 @@ export function FarmingHeadInner({
                 {leftToken && rightToken ? (
                     <PairIcons
                         leftToken={leftToken && {
-                            uri: leftToken.icon,
-                            address: leftToken.root,
+                            icon: leftToken.icon,
+                            root: leftToken.root,
                             name: leftToken.symbol,
                         }}
                         rightToken={rightToken && {
-                            uri: rightToken.icon,
-                            address: rightToken.root,
+                            icon: rightToken.icon,
+                            root: rightToken.root,
                             name: rightToken.symbol,
                         }}
                     />
                 ) : (
                     <PairIcons
                         leftToken={{
-                            address: rootTokenAddress,
+                            root: rootTokenAddress,
                         }}
                     />
                 )}
@@ -87,7 +90,7 @@ export function FarmingHeadInner({
                                 {intl.formatMessage({
                                     id: 'FARMING_ITEM_APR',
                                 }, {
-                                    value: formattedAmount(apr, 0),
+                                    value: formattedAmount(apr),
                                 })}
                             </div>
                         )}
@@ -110,7 +113,7 @@ export function FarmingHeadInner({
                             size="medium"
                             icons={rewardTokens.map(item => ({
                                 address: item.root,
-                                uri: item.icon,
+                                icon: item.icon,
                             }))}
                         />
                     </>
@@ -124,7 +127,7 @@ export function FarmingHeadInner({
                     />
                     <AccountExplorerLink
                         address={poolAddress}
-                        className="btn btn--md btn--icon"
+                        className="btn btn-md btn-square btn-icon"
                     >
                         <Icon icon="externalLink" />
                     </AccountExplorerLink>

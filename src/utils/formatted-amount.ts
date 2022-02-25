@@ -1,46 +1,81 @@
 import BigNumber from 'bignumber.js'
 
-import { isGoodBignumber } from '@/utils/is-good-bignumber'
+import { formatDigits } from './format-digits'
+import { splitAmount } from './split-amount'
 
-
-export function splitAmount(value?: string | number, decimals?: number): string[] {
-    let val = new BigNumber(value || 0)
-
-    if (decimals !== undefined) {
-        val = val.shiftedBy(-decimals)
-    }
-
-    if (!isGoodBignumber(val)) {
-        return ['0']
-    }
-
-    return val.toFixed().split('.')
+export type FormattedAmountOptions = {
+    truncate?: number;
+    /** Preserve all decimals after dot */
+    preserve?: boolean;
+    /**
+     * Round the amount if the value is greater than or equal
+     * to the value passed in this option (`1e3`, `1e6`, `1e9` etc.).
+     *
+     * If enable - the `preserve` option is ignored.
+     *
+     * If passed `true` default round value will be `1e3`.
+     * Otherwise, if pass `false` - the amount will not be rounded.
+     *
+     * Default: true
+     */
+    roundOn?: number | boolean;
 }
 
-export function formatDigits(value?: string): string {
-    if (!value) {
-        return ''
-    }
-    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
-}
-
-export function formattedAmount(value?: string | number, decimals?: number): string {
-    const parts = splitAmount(value, decimals)
-    return [formatDigits(parts[0]), parts[1]].filter(e => e).join('.')
-}
-
-export function shareAmount(
-    walletLpBalance: string,
-    poolTokenBalance: string,
-    poolLpBalance: string,
-    tokenDecimals: number,
+export function formattedAmount(
+    value?: string | number,
+    decimals?: number,
+    options: FormattedAmountOptions = { roundOn: true },
 ): string {
-    return poolLpBalance !== '0'
-        ? new BigNumber(walletLpBalance)
-            .times(new BigNumber(poolTokenBalance))
-            .dividedBy(new BigNumber(poolLpBalance))
-            .decimalPlaces(0, BigNumber.ROUND_DOWN)
-            .shiftedBy(-tokenDecimals)
-            .toFixed()
-        : '0'
+    const parts = splitAmount(value, decimals)
+    const digits = [formatDigits(parts[0])]
+    const integerNumber = new BigNumber(parts[0] || 0)
+
+    let fractionalPartNumber = new BigNumber(`0.${parts[1] || 0}`)
+    const roundOn = options?.roundOn === true ? 1e3 : options?.roundOn
+
+    if (options?.preserve) {
+        if (roundOn && integerNumber.gte(roundOn)) {
+            return formatDigits(integerNumber.toFixed()) ?? ''
+        }
+        digits.push(fractionalPartNumber.toFixed().split('.')[1])
+        return digits.filter(Boolean).join('.')
+    }
+
+    if (options?.truncate !== undefined) {
+        fractionalPartNumber = fractionalPartNumber.dp(options?.truncate, BigNumber.ROUND_DOWN)
+        digits.push(fractionalPartNumber.toFixed().split('.')[1])
+        return digits.filter(Boolean).join('.')
+    }
+
+    if (roundOn && integerNumber.gte(roundOn)) {
+        return formatDigits(integerNumber.toFixed()) ?? ''
+    }
+
+    let dp = 2
+
+    switch (true) {
+        case roundOn && integerNumber.gte(roundOn):
+            dp = 0
+            break
+
+        case integerNumber.isZero() && fractionalPartNumber.lte(1e-4):
+            dp = fractionalPartNumber.decimalPlaces()
+            break
+
+        case integerNumber.isZero() && fractionalPartNumber.lte(1e-3):
+            dp = 4
+            break
+
+        case integerNumber.isZero() && fractionalPartNumber.lte(1e-2):
+            dp = 3
+            break
+
+        default:
+    }
+
+    fractionalPartNumber = fractionalPartNumber.dp(dp, BigNumber.ROUND_DOWN)
+
+    digits.push(fractionalPartNumber.toFixed().split('.')[1] ?? '')
+
+    return digits.filter(Boolean).join('.')
 }

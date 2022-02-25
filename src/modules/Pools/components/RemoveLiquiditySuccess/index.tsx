@@ -3,13 +3,13 @@ import * as ReactDOM from 'react-dom'
 import { useIntl } from 'react-intl'
 import { observer } from 'mobx-react-lite'
 
+import { Button } from '@/components/common/Button'
 import { Icon } from '@/components/common/Icon'
 import { useTokensCache } from '@/stores/TokensCacheService'
-import { formattedAmount } from '@/utils'
+import { formattedTokenAmount } from '@/utils'
 
 import './index.scss'
-import { Button } from '@/components/common/Button'
-import { TransactionExplorerLink } from '@/components/common/TransactionExplorerLink'
+
 
 type Props = {
     lpAmount?: string;
@@ -42,9 +42,9 @@ function RemoveLiquiditySuccessInner({
             <div className="popup-overlay" onClick={onClose} />
             <div className="popup__wrap remove-liquidity-success">
                 <Button
-                    className="popup-close"
                     type="icon"
                     onClick={onClose}
+                    className="popup-close"
                 >
                     <Icon icon="close" />
                 </Button>
@@ -72,7 +72,9 @@ function RemoveLiquiditySuccessInner({
                             {intl.formatMessage({
                                 id: 'REMOVE_LIQUIDITY_SUCCESS_MINUS',
                             }, {
-                                value: formattedAmount(lpAmount, 0),
+                                value: formattedTokenAmount(lpAmount, undefined, {
+                                    preserve: true,
+                                }),
                             })}
                         </div>
                     </React.Fragment>
@@ -91,7 +93,9 @@ function RemoveLiquiditySuccessInner({
                             {intl.formatMessage({
                                 id: 'REMOVE_LIQUIDITY_SUCCESS_PLUS',
                             }, {
-                                value: formattedAmount(leftAmount, 0),
+                                value: formattedTokenAmount(leftAmount, undefined, {
+                                    preserve: true,
+                                }),
                             })}
                         </div>
                     </React.Fragment>
@@ -110,7 +114,9 @@ function RemoveLiquiditySuccessInner({
                             {intl.formatMessage({
                                 id: 'REMOVE_LIQUIDITY_SUCCESS_PLUS',
                             }, {
-                                value: formattedAmount(rightAmount, 0),
+                                value: formattedTokenAmount(rightAmount, undefined, {
+                                    preserve: true,
+                                }),
                             })}
                         </div>
                     </React.Fragment>
@@ -118,11 +124,16 @@ function RemoveLiquiditySuccessInner({
 
                 {transactionHash && (
                     <div className="remove-liquidity-success__action">
-                        <TransactionExplorerLink id={transactionHash}>
+                        <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={`https://tonscan.io/transactions/${transactionHash}`}
+                            className="btn btn--empty"
+                        >
                             {intl.formatMessage({
                                 id: 'REMOVE_LIQUIDITY_SUCCESS_SUBMIT',
                             })}
-                        </TransactionExplorerLink>
+                        </a>
                     </div>
                 )}
             </div>
