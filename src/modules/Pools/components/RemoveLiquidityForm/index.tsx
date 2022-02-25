@@ -4,16 +4,16 @@ import * as React from 'react'
 import { useIntl } from 'react-intl'
 import { observer } from 'mobx-react-lite'
 
+import { Button } from '@/components/common/Button'
 import { Warning } from '@/components/common/Warning'
 import { ContentLoader } from '@/components/common/ContentLoader'
 import { AmountInput } from '@/components/common/AmountInput'
 import { TokenSelector } from '@/modules/TokensList/components/TokenSelector'
 import { Token } from '@/modules/TokensList/components/Token'
 import { useTokensCache } from '@/stores/TokensCacheService'
-import { formattedAmount } from '@/utils'
+import { formattedTokenAmount } from '@/utils'
 
 import './index.scss'
-import { Button } from '@/components/common/Button'
 
 type Props = {
     receiveLeft?: string;
@@ -66,7 +66,7 @@ function RemoveLiquidityFormInner({
     onChangeLeftToken,
     onChangeRightToken,
     onChangeAmount,
-    onSubmit: onSubmitCallback,
+    onSubmit,
 }: Props): JSX.Element {
     const intl = useIntl()
     const tokensCache = useTokensCache()
@@ -78,14 +78,14 @@ function RemoveLiquidityFormInner({
     })
 
     const userHasLiquidity = React.useMemo(
-        () => userLpTotalAmount && new BigNumber(userLpTotalAmount).isGreaterThan(0),
+        () => userLpTotalAmount && new BigNumber(userLpTotalAmount).gt(0),
         [userLpTotalAmount],
     )
 
     const amountInputIsInvalid = amount.length > 0 && (!amountIsLessOrEqualBalance || !amountIsPositiveNum)
 
     const totalAmountFormatted = userLpTotalAmount && lpDecimals !== undefined
-        ? formattedAmount(userLpTotalAmount, lpDecimals)
+        ? formattedTokenAmount(userLpTotalAmount, lpDecimals, { preserve: true, roundOn: false })
         : '0'
 
     const amountInputHint = amount.length > 0 && amountIsPositiveNum && !amountIsLessOrEqualBalance
@@ -100,9 +100,9 @@ function RemoveLiquidityFormInner({
             value: totalAmountFormatted,
         })
 
-    const onSubmit = (event?: React.FormEvent) => {
-        event?.preventDefault()
-        onSubmitCallback()
+    const submit = (e: React.FormEvent) => {
+        e.preventDefault()
+        onSubmit()
     }
 
     const setMax = () => {
@@ -115,20 +115,20 @@ function RemoveLiquidityFormInner({
 
     React.useEffect(() => {
         if (leftTokenAddress) {
-            tokensCache.fetchIfNotExist(leftTokenAddress)
+            tokensCache.syncCustomToken(leftTokenAddress)
         }
     }, [leftTokenAddress])
 
     React.useEffect(() => {
         if (rightTokenAddress) {
-            tokensCache.fetchIfNotExist(rightTokenAddress)
+            tokensCache.syncCustomToken(rightTokenAddress)
         }
     }, [rightTokenAddress])
 
     return (
         <form
             className="remove-liquidity-form"
-            onSubmit={onSubmit}
+            onSubmit={submit}
         >
             <h1 className="remove-liquidity-form__title">
                 {intl.formatMessage({
@@ -248,7 +248,7 @@ function RemoveLiquidityFormInner({
                                     size="xsmall"
                                 />
                                 <div className="remove-liquidity-form__value">
-                                    {new BigNumber(receiveLeft || '0').isZero() ? '0.00' : formattedAmount(receiveLeft, 0)}
+                                    {formattedTokenAmount(receiveLeft)}
                                 </div>
                             </div>
 
@@ -258,7 +258,7 @@ function RemoveLiquidityFormInner({
                                     size="xsmall"
                                 />
                                 <div className="remove-liquidity-form__value">
-                                    {new BigNumber(receiveRight || '0').isZero() ? '0.00' : formattedAmount(receiveRight, 0)}
+                                    {formattedTokenAmount(receiveRight)}
                                 </div>
                             </div>
                         </div>
@@ -278,7 +278,6 @@ function RemoveLiquidityFormInner({
                                 id: 'REMOVE_LIQUIDITY_FORM_POSITION',
                             })}
                         </div>
-
 
                         <div className="remove-liquidity-form-stats">
                             <div className="remove-liquidity-form-stats__head">
@@ -320,12 +319,12 @@ function RemoveLiquidityFormInner({
                                     {leftToken.symbol}
                                 </span>
                                 <span className="remove-liquidity-form-stats__value">
-                                    {currentLeftAmount && formattedAmount(currentLeftAmount, 0)}
+                                    {currentLeftAmount && formattedTokenAmount(currentLeftAmount)}
                                 </span>
                                 <span className="remove-liquidity-form-stats__value">
                                     {
                                         resultLeftAmount && amountIsValid
-                                            ? formattedAmount(resultLeftAmount, 0)
+                                            ? formattedTokenAmount(resultLeftAmount)
                                             : nullMessage
                                     }
                                 </span>
@@ -335,18 +334,19 @@ function RemoveLiquidityFormInner({
                                     {rightToken.symbol}
                                 </span>
                                 <span className="remove-liquidity-form-stats__value">
-                                    {currentRightAmount && formattedAmount(currentRightAmount, 0)}
+                                    {currentRightAmount && formattedTokenAmount(currentRightAmount)}
                                 </span>
                                 <span className="remove-liquidity-form-stats__value">
                                     {
                                         resultRightAmount && amountIsValid
-                                            ? formattedAmount(resultRightAmount, 0)
+                                            ? formattedTokenAmount(resultRightAmount, undefined, {
+                                                preserve: true,
+                                            })
                                             : nullMessage
                                     }
                                 </span>
                             </div>
                         </div>
-
                     </div>
                 )
             }

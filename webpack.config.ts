@@ -12,7 +12,6 @@ type WebpackConfig = webpack.Configuration & { devServer?: DevServerConfiguratio
 export default (_: any, options: any): WebpackConfig => {
     const HOST = process.env.HOST ?? 'localhost'
     const PORT = parseInt(process.env.PORT ?? '3000', 10)
-    const hmrDisabled = process.env.NO_HMR
 
     const isProduction = options.mode === 'production'
     const isDevelopment = options.mode === 'development'
@@ -89,7 +88,7 @@ export default (_: any, options: any): WebpackConfig => {
 
     config.plugins = []
 
-    if (isDevelopment && !hmrDisabled) {
+    if (isDevelopment) {
         config.plugins.push(new webpack.HotModuleReplacementPlugin())
     }
 
@@ -150,7 +149,7 @@ export default (_: any, options: any): WebpackConfig => {
                 use: {
                     loader: 'file-loader',
                     options: {
-                        publicPath: '/',
+                        publicPath: '/assets/',
                         outputPath: 'assets/',
                         esModule: false,
                         name: '[hash:16].[ext]',
@@ -199,8 +198,8 @@ export default (_: any, options: any): WebpackConfig => {
         config.devServer = {
             host: HOST,
             port: PORT,
-            hot: !hmrDisabled,
-            historyApiFallback: true,
+            hot: true,
+            historyApiFallback: true
         }
     }
 
@@ -224,7 +223,7 @@ export default (_: any, options: any): WebpackConfig => {
      * -------------------------------------------------------------
      */
 
-    config.stats = 'summary'
+    config.stats = 'errors-warnings'
 
     return config
 }

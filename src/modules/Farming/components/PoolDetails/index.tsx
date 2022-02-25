@@ -1,3 +1,5 @@
+// TODO: Legacy need to remove this file and it deps
+
 import * as React from 'react'
 import { useIntl } from 'react-intl'
 import BigNumber from 'bignumber.js'
@@ -45,7 +47,7 @@ export function PoolDetails({ pool }: Props): JSX.Element {
                         {formattedAmount(
                             pool.tokenBalance,
                             pool.tokenDecimals,
-                        ) || 0}
+                        )}
                     </div>
                 </div>
                 {pool.rewardTokenSymbol.map((symbol, idx) => (
@@ -62,7 +64,7 @@ export function PoolDetails({ pool }: Props): JSX.Element {
                                 {formattedAmount(
                                     pool.farmSpeed[idx],
                                     pool.rewardTokenDecimals[idx],
-                                ) || 0}
+                                )}
                             </div>
                         </div>
                         <div className="farming-pool-details-table__row">
@@ -77,7 +79,7 @@ export function PoolDetails({ pool }: Props): JSX.Element {
                                 {formattedAmount(
                                     pool.rewardTokenBalance[idx],
                                     pool.rewardTokenDecimals[idx],
-                                ) || 0}
+                                )}
                             </div>
                         </div>
                     </React.Fragment>
@@ -207,7 +209,7 @@ export function PoolDetails({ pool }: Props): JSX.Element {
                                 {formattedAmount(
                                     pool.userBalance,
                                     pool.tokenDecimals,
-                                ) || 0}
+                                )}
                             </div>
                         </div>
                         {pool.rewardTokenSymbol.map((symbol, idx) => (
@@ -224,7 +226,7 @@ export function PoolDetails({ pool }: Props): JSX.Element {
                                         {formattedAmount(
                                             pool.userReward?._vested[idx],
                                             pool.rewardTokenDecimals[idx],
-                                        ) || 0}
+                                        )}
                                     </div>
                                 </div>
                                 <div className="farming-pool-details-table__row">
@@ -239,7 +241,7 @@ export function PoolDetails({ pool }: Props): JSX.Element {
                                         {formattedAmount(
                                             pool.userReward?._pool_debt[idx],
                                             pool.rewardTokenDecimals[idx],
-                                        ) || 0}
+                                        )}
                                     </div>
                                 </div>
                                 <div className="farming-pool-details-table__row">
@@ -254,11 +256,12 @@ export function PoolDetails({ pool }: Props): JSX.Element {
                                         {formattedAmount(
                                             pool.userReward?._entitled[idx],
                                             pool.rewardTokenDecimals[idx],
-                                        ) || 0}
+                                        )}
                                     </div>
                                 </div>
                             </div>
                         ))}
+                        {/* @ts-ignore */}
                         {pool.userReward?._vesting_time !== '0' && (
                             <>
                                 <div className="farming-pool-details-table__row">
@@ -268,6 +271,7 @@ export function PoolDetails({ pool }: Props): JSX.Element {
                                         })}
                                     </div>
                                     <div>
+                                        {/* @ts-ignore */}
                                         {intl.formatDate(parseInt(pool.userReward?._vesting_time || '0', 10) * 1000, {
                                             day: 'numeric',
                                             month: 'short',

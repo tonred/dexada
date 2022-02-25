@@ -8,13 +8,9 @@ import {
     reaction,
     runInAction,
 } from 'mobx'
-import ton, {
-    Address,
-    Contract,
-    Subscriber,
-} from 'ton-inpage-provider'
+import { Address, Subscriber } from 'everscale-inpage-provider'
 
-import { DEFAULT_DECIMALS } from '@/modules/Swap/constants'
+import { useRpcClient } from '@/hooks/useRpcClient'
 import {
     checkPair,
     Dex,
@@ -23,6 +19,7 @@ import {
     PairTokenRoots,
     TokenWallet,
 } from '@/misc'
+import { DEFAULT_DECIMALS } from '@/modules/Swap/constants'
 import {
     DEFAULT_POOL_DATA,
     DEFAULT_POOL_STORE_DATA,
@@ -43,8 +40,14 @@ import { TokenCache, TokensCacheService, useTokensCache } from '@/stores/TokensC
 import { useWallet, WalletService } from '@/stores/WalletService'
 import { FavoritePairs, useFavoritePairs } from '@/stores/FavoritePairs'
 import {
-    concatSymbols, debounce, error, isGoodBignumber,
+    concatSymbols,
+    debounce,
+    error,
+    isGoodBignumber,
 } from '@/utils'
+
+
+const rpc = useRpcClient()
 
 
 export class PoolStore {
@@ -125,7 +128,7 @@ export class PoolStore {
     public async init(): Promise<void> {
         await this.unsubscribeTransactionSubscriber()
 
-        this.#transactionSubscriber = new Subscriber(ton)
+        this.#transactionSubscriber = rpc.createSubscriber()
 
         this.#dexLeftBalanceValidationDisposer = reaction(() => this.isDexLeftBalanceValid, value => {
             if (value) {
@@ -374,14 +377,10 @@ export class PoolStore {
         this.cleanDepositLiquidityResult()
         this.changeState('isDepositingLiquidity', true)
 
-        try {
-            await this.dex.syncNonce()
-        }
-        catch (e) {
-            error('Nonce sync error', e)
-        }
+        const owner = rpc.createContract(DexAbi.Callbacks, new Address(this.wallet.address))
 
-        const owner = new Contract(DexAbi.Callbacks, new Address(this.wallet.address))
+        // eslint-disable-next-line no-bitwise
+        const callId = ((Math.random() * 100000) | 0).toString()
 
         let stream = this.#transactionSubscriber?.transactions(
             new Address(this.wallet.address),
@@ -404,14 +403,14 @@ export class PoolStore {
             if (result !== undefined) {
                 if (
                     result.method === 'dexPairOperationCancelled'
-                    && result.input.id.toString() === this.dex.nonce
+                    && result.input.id.toString() === callId
                 ) {
                     return E.left({ input: result.input })
                 }
 
                 if (
                     result.method === 'dexPairDepositLiquiditySuccess'
-                    && result.input.id.toString() === this.dex.nonce
+                    && result.input.id.toString() === callId
                     && result.input.via_account
                 ) {
                     return E.right({ input: result.input, transaction })
@@ -437,6 +436,7 @@ export class PoolStore {
                     .decimalPlaces(0)
                     .toFixed(),
                 this.isAutoExchangeEnabled,
+                callId,
             )
 
             if (resultHandler !== undefined) {
@@ -476,7 +476,9 @@ export class PoolStore {
         }
 
         try {
-            await this.dex.withdrawToken(root, amount)
+            // eslint-disable-next-line no-bitwise
+            const callId = ((Math.random() * 100000) | 0).toString()
+            await this.dex.withdrawToken(root, amount, callId)
         }
         catch (e) {
             error('Token withdraw error', e)
@@ -517,9 +519,11 @@ export class PoolStore {
                 new Address(this.rightToken?.root),
                 new Address(this.lpRoot),
                 this.lpWalletBalance,
+                new Date().getTime().toString(),
             )
         }
         catch (e) {
+            error('Withdraw Liquidity error', e)
             this.changeState('isWithdrawingLiquidity', false)
             return
         }
@@ -685,8 +689,6 @@ export class PoolStore {
             error('Transaction LP Wallet balance error', e)
         }
 
-        const leftDecimals = this.leftToken.decimals
-        const rightDecimals = this.rightToken.decimals
         const leftSymbol = this.leftToken.symbol
         const rightSymbol = this.rightToken.symbol
         const {
@@ -751,6 +753,10 @@ export class PoolStore {
         }
 
         const isInverted = this.pairRoots.left.toString() !== this.leftToken.root
+
+        const leftDecimals = this.leftToken.decimals
+        const rightDecimals = this.rightToken.decimals
+
         const leftDeposit = isInverted ? rightBN.toFixed() : leftBN.toFixed()
         const rightDeposit = isInverted ? leftBN.toFixed() : rightBN.toFixed()
 
@@ -1151,11 +1157,7 @@ export class PoolStore {
             new BigNumber(price || 0).multipliedBy(amount).decimalPlaces(decimals, BigNumber.ROUND_UP)
         )
 
-        if (
-            key === 'leftAmount'
-            && this.isLeftAmountValid
-            && this.rightToken
-        ) {
+        if (key === 'leftAmount' && this.isLeftAmountValid && this.rightToken) {
             const right = getAmount(this.rightPrice || '0', this.leftAmount, this.rightToken?.decimals)
 
             if (isGoodBignumber(right)) {
@@ -1165,11 +1167,7 @@ export class PoolStore {
                 this.data.rightAmount = ''
             }
         }
-        else if (
-            key === 'rightAmount'
-            && this.isRightAmountValid
-            && this.leftToken
-        ) {
+        else if (key === 'rightAmount' && this.isRightAmountValid && this.leftToken) {
             const left = getAmount(this.leftPrice || '0', this.rightAmount, this.leftToken.decimals)
 
             if (isGoodBignumber(left)) {
@@ -1279,8 +1277,8 @@ export class PoolStore {
 
         if (!this.lpDecimals) {
             try {
-                const decimals = await TokenWallet.decimal(new Address(this.lpRoot))
-                this.changePoolData('lpDecimals', !decimals ? undefined : parseInt(decimals, 10))
+                const decimals = await TokenWallet.getDecimals(new Address(this.lpRoot))
+                this.changePoolData('lpDecimals', !decimals ? undefined : decimals)
             }
             catch (e) {
                 error('LP Wallet decimals error', e)
@@ -1478,7 +1476,7 @@ export class PoolStore {
             }
         }
         catch (e) {
-            error('Pool share sync error', e)
+            error('PoolStoreSingleton share sync error', e)
         }
     }
 
@@ -1557,10 +1555,10 @@ export class PoolStore {
     }
 
     public get isSupplyComputeReady(): boolean {
-        if (!this.isAutoExchangeEnabled) {
-            return this.isLeftAmountValid && this.isRightAmountValid
+        if (this.isAutoExchangeEnabled) {
+            return this.isLeftAmountValid || this.isRightAmountValid
         }
-        return this.isLeftAmountValid || this.isRightAmountValid
+        return this.isLeftAmountValid && this.isRightAmountValid
     }
 
     public get isSupplyReady(): boolean {
@@ -1568,12 +1566,10 @@ export class PoolStore {
             ? (
                 (
                     this.isLeftAmountValid
-                    && this.rightAmount.length === 0
                     && this.isDexLeftBalanceValid
                 )
                 || (
                     this.isRightAmountValid
-                    && this.leftAmount.length === 0
                     && this.isDexRightBalanceValid
                 )
                 || (
@@ -1596,34 +1592,34 @@ export class PoolStore {
      * ----------------------------------------------------------------------------------
      */
 
-    public get dexLeftBalance(): string {
-        return this.leftToken !== undefined ? (this.dex.balances?.get(this.leftToken?.root) || '0') : '0'
+    public get dexLeftBalance(): string | undefined {
+        return this.leftToken && this.dex.balances?.get(this.leftToken?.root)
     }
 
     public get isDexLeftBalanceValid(): boolean {
-        if (!this.leftToken) {
+        if (!this.leftToken || this.dexLeftBalance === undefined) {
             return false
         }
 
         const leftAmount = new BigNumber(this.leftAmount || 0).shiftedBy(this.leftToken.decimals ?? DEFAULT_DECIMALS)
-        return leftAmount.lte(this.dexLeftBalance || 0)
+        return leftAmount.lte(this.dexLeftBalance)
     }
 
     public get isLeftTokenWithdrawAvailable(): boolean {
         return this.dexLeftBalance !== undefined && this.dexLeftBalance !== '0'
     }
 
-    public get dexRightBalance(): string {
-        return this.rightToken !== undefined ? (this.dex.balances?.get(this.rightToken?.root) || '0') : '0'
+    public get dexRightBalance(): string | undefined {
+        return this.rightToken && this.dex.balances?.get(this.rightToken?.root)
     }
 
     public get isDexRightBalanceValid(): boolean {
-        if (!this.rightToken) {
+        if (!this.rightToken || this.dexRightBalance === undefined) {
             return false
         }
 
         const rightAmount = new BigNumber(this.rightAmount || 0).shiftedBy(this.rightToken.decimals ?? DEFAULT_DECIMALS)
-        return rightAmount.lte(this.dexRightBalance || 0)
+        return rightAmount.lte(this.dexRightBalance)
     }
 
     public get isRightTokenWithdrawAvailable(): boolean {
@@ -1648,11 +1644,11 @@ export class PoolStore {
      */
 
     public get isLeftAmountValid(): boolean {
-        return isGoodBignumber(new BigNumber(this.leftAmount || 0))
+        return isGoodBignumber(new BigNumber(this.leftAmount))
     }
 
     public get isRightAmountValid(): boolean {
-        return isGoodBignumber(new BigNumber(this.rightAmount || 0))
+        return isGoodBignumber(new BigNumber(this.rightAmount))
     }
 
     public get leftAmount(): PoolStoreData['leftAmount'] {
@@ -1660,7 +1656,8 @@ export class PoolStore {
     }
 
     public get leftToken(): TokenCache | undefined {
-        return this.data.leftToken !== undefined ? this.tokensCache.get(this.data.leftToken) : undefined
+        // Note: should use only accepted tokens
+        return this.tokensCache.tokens.find(({ root }) => root === this.data.leftToken)
     }
 
     public get rightAmount(): PoolStoreData['rightAmount'] {
@@ -1668,7 +1665,8 @@ export class PoolStore {
     }
 
     public get rightToken(): TokenCache | undefined {
-        return this.data.rightToken !== undefined ? this.tokensCache.get(this.data.rightToken) : undefined
+        // Note: should use only accepted tokens
+        return this.tokensCache.tokens.find(({ root }) => root === this.data.rightToken)
     }
 
     /*
@@ -1838,13 +1836,13 @@ export class PoolStore {
 }
 
 
-const Pool = new PoolStore(
+const PoolStoreSingleton = new PoolStore(
     useWallet(),
     useTokensCache(),
     useDexAccount(),
     useFavoritePairs(),
 )
 
-export function usePool(): PoolStore {
-    return Pool
+export function usePoolStore(): PoolStore {
+    return PoolStoreSingleton
 }

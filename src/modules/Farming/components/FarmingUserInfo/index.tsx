@@ -8,6 +8,7 @@ import { useTokensCache } from '@/stores/TokensCacheService'
 import {
     formatDateUTC,
     formattedAmount,
+    formattedTokenAmount,
     parseCurrencyBillions,
     shareAmount,
 } from '@/utils'
@@ -33,7 +34,7 @@ type Props = {
     userHistoryLeftAmount?: string | null;
     userHistoryRightAmount?: string | null;
     userHistoryLastUpdateTime?: number,
-    vestingTime?: number;
+    vestingTime?: number[];
     rewardTotalBalance?: string;
 }
 
@@ -109,36 +110,36 @@ function FarmingUserInfoInner({
                                 <div className="farming-panel__token">
                                     <TokenIcon
                                         size="xsmall"
-                                        uri={leftToken.icon}
+                                        icon={leftToken.icon}
                                         address={leftToken.root}
                                     />
                                     {intl.formatMessage({
                                         id: 'FARMING_TOKEN',
                                     }, {
-                                        amount: formattedAmount(shareAmount(
+                                        amount: formattedTokenAmount(shareAmount(
                                             userLpFarmingAmount,
                                             pairBalanceLeft,
                                             pairBalanceLp,
                                             leftToken.decimals,
-                                        ), 0),
+                                        )),
                                         symbol: leftToken.symbol,
                                     })}
                                 </div>
                                 <div className="farming-panel__token">
                                     <TokenIcon
                                         size="xsmall"
-                                        uri={rightToken.icon}
+                                        icon={rightToken.icon}
                                         address={rightToken.root}
                                     />
                                     {intl.formatMessage({
                                         id: 'FARMING_TOKEN',
                                     }, {
-                                        amount: formattedAmount(shareAmount(
+                                        amount: formattedTokenAmount(shareAmount(
                                             userLpFarmingAmount,
                                             pairBalanceRight,
                                             pairBalanceLp,
                                             rightToken.decimals,
-                                        ), 0),
+                                        )),
                                         symbol: rightToken.symbol,
                                     })}
                                 </div>
@@ -155,7 +156,7 @@ function FarmingUserInfoInner({
                                     symbol: lpTokenSymbol,
                                 })}
                             </div>
-                            {formattedAmount(userLpFarmingAmount, lpTokenDecimals)}
+                            {formattedTokenAmount(userLpFarmingAmount, lpTokenDecimals)}
                         </div>
                     )}
 
@@ -169,7 +170,7 @@ function FarmingUserInfoInner({
                             {intl.formatMessage({
                                 id: 'FARMING_USER_INFO_SHARE_VALUE',
                             }, {
-                                value: formattedAmount(userShare, 0),
+                                value: userShare,
                             })}
                         </div>
                     )}
@@ -210,7 +211,7 @@ function FarmingUserInfoInner({
                                 <div className="farming-panel__token">
                                     <TokenIcon
                                         size="xsmall"
-                                        uri={leftToken.icon}
+                                        icon={leftToken.icon}
                                         address={leftToken.root}
                                     />
                                     {
@@ -219,7 +220,7 @@ function FarmingUserInfoInner({
                                             : intl.formatMessage({
                                                 id: 'FARMING_TOKEN',
                                             }, {
-                                                amount: formattedAmount(userHistoryLeftAmount, 0),
+                                                amount: formattedTokenAmount(userHistoryLeftAmount),
                                                 symbol: leftToken.symbol,
                                             })
                                     }
@@ -227,7 +228,7 @@ function FarmingUserInfoInner({
                                 <div className="farming-panel__token">
                                     <TokenIcon
                                         size="xsmall"
-                                        uri={rightToken.icon}
+                                        icon={rightToken.icon}
                                         address={rightToken.root}
                                     />
                                     {
@@ -236,7 +237,7 @@ function FarmingUserInfoInner({
                                             : intl.formatMessage({
                                                 id: 'FARMING_TOKEN',
                                             }, {
-                                                amount: formattedAmount(userHistoryRightAmount, 0),
+                                                amount: formattedTokenAmount(userHistoryRightAmount),
                                                 symbol: rightToken.symbol,
                                             })
                                     }
@@ -271,7 +272,9 @@ function FarmingUserInfoInner({
                                 {
                                     rewardTotalBalance === null
                                         ? nullMessage
-                                        : parseCurrencyBillions(rewardTotalBalance)
+                                        : `$${formattedAmount(rewardTotalBalance, undefined, {
+                                            truncate: 2,
+                                        })}`
                                 }
                             </div>
                         </div>
@@ -288,13 +291,13 @@ function FarmingUserInfoInner({
                                 <div className="farming-panel__token" key={token.root}>
                                     <TokenIcon
                                         size="xsmall"
-                                        uri={token.icon}
+                                        icon={token.icon}
                                         address={token.root}
                                     />
                                     {intl.formatMessage({
                                         id: 'FARMING_TOKEN',
                                     }, {
-                                        amount: formattedAmount(unclaimedAmounts[index], token.decimals),
+                                        amount: formattedTokenAmount(unclaimedAmounts[index], token.decimals),
                                         symbol: token.symbol,
                                     })}
                                 </div>
@@ -314,13 +317,13 @@ function FarmingUserInfoInner({
                                     <div className="farming-panel__token" key={token.root}>
                                         <TokenIcon
                                             size="xsmall"
-                                            uri={token.icon}
+                                            icon={token.icon}
                                             address={token.root}
                                         />
                                         {intl.formatMessage({
                                             id: 'FARMING_TOKEN',
                                         }, {
-                                            amount: formattedAmount(debtAmounts[index], token.decimals),
+                                            amount: formattedTokenAmount(debtAmounts[index], token.decimals),
                                             symbol: token.symbol,
                                         })}
                                     </div>
@@ -340,13 +343,13 @@ function FarmingUserInfoInner({
                                 <div className="farming-panel__token" key={token.root}>
                                     <TokenIcon
                                         size="xsmall"
-                                        uri={token.icon}
+                                        icon={token.icon}
                                         address={token.root}
                                     />
                                     {intl.formatMessage({
                                         id: 'FARMING_TOKEN',
                                     }, {
-                                        amount: formattedAmount(entitledAmounts[index], token.decimals),
+                                        amount: formattedTokenAmount(entitledAmounts[index], token.decimals),
                                         symbol: token.symbol,
                                     })}
                                 </div>
@@ -354,14 +357,30 @@ function FarmingUserInfoInner({
                         ))}
                     </div>
 
-                    {vestingTime !== undefined && vestingTime > 0 && (
+                    {vestingTime && (
                         <div>
                             <div className="farming-panel__label">
                                 {intl.formatMessage({
                                     id: 'FARMING_USER_INFO_VESTING_TIME',
                                 })}
                             </div>
-                            {formatDateUTC(vestingTime)}
+
+                            {[...new Set(vestingTime)].length > 1 ? (
+                                rewardTokens.map((token, index) => (
+                                    token && (
+                                        <div className="farming-panel__token" key={token.root}>
+                                            <TokenIcon
+                                                size="xsmall"
+                                                icon={token.icon}
+                                                address={token.root}
+                                            />
+                                            {formatDateUTC(vestingTime[index])}
+                                        </div>
+                                    )
+                                ))
+                            ) : (
+                                formatDateUTC(vestingTime[0])
+                            )}
                         </div>
                     )}
                 </div>

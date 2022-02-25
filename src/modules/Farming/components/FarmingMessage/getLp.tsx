@@ -54,7 +54,7 @@ export function FarmingMessageGetLp({
                     {intl.formatMessage({
                         id: 'FARMING_MESSAGE_GET_LP_TITLE',
                     }, {
-                        apr: formattedAmount(apr, 0),
+                        apr: formattedAmount(apr),
                     })}
                 </h3>
                 <p>
@@ -78,7 +78,7 @@ export function FarmingMessageGetLp({
                     target="_blank"
                     rel="nofollow noopener noreferrer"
                     href="https://docs.tonbridge.io/ton-swap/yield-farming-guide/farming-guide"
-                    className="btn btn--empty btn--dark"
+                    className="btn btn--empty btn-dark"
                 >
                     {intl.formatMessage({
                         id: 'FARMING_MESSAGE_GET_LP_GUIDE',

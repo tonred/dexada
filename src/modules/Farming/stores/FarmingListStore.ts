@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { makeAutoObservable, runInAction, toJS } from 'mobx'
-import { Address } from 'ton-inpage-provider'
+import { Address } from 'everscale-inpage-provider'
 
 import { FarmingApi, useApi } from '@/modules/Farming/hooks/useApi'
 import {
@@ -13,8 +13,9 @@ import { error, lastOfCalls } from '@/utils'
 import { DexConstants, Farm } from '@/misc'
 
 type Reward = {
-    vested: string[];
-    entitled: string[];
+    vested?: string[];
+    entitled?: string[];
+    loading?: boolean;
 }
 
 type State = {
@@ -46,7 +47,6 @@ export class FarmingListStore {
 
     protected lastOfFetchData: () => Promise<Promise<[
         FarmingPoolsItemResponse[],
-        Reward[],
         number,
     ]> | undefined>
 
@@ -120,7 +120,7 @@ export class FarmingListStore {
             )
             const reward = await Farm.userPendingReward(
                 userDataAddress,
-                poolRewardData._accTonPerShare,
+                poolRewardData._accRewardPerShare,
                 poolRewardData._lastRewardTime,
                 `${pool.farm_end_time ? pool.farm_end_time / 1000 : 0}`,
             )
@@ -142,24 +142,52 @@ export class FarmingListStore {
 
     protected async fetchRewards(
         pools: FarmingPoolsItemResponse[],
-    ): Promise<Reward[]> {
+    ): Promise<void> {
         if (!this.wallet.address) {
-            return []
+            return
         }
 
-        return Promise.all(pools.map(this.fetchReward))
+        pools.forEach((pool, index) => {
+            (async () => {
+                runInAction(() => {
+                    this.state.rewards[index] = {
+                        loading: true,
+                        entitled: undefined,
+                        vested: undefined,
+                    }
+                })
+
+                try {
+                    const reward = await this.fetchReward(pool)
+
+                    runInAction(() => {
+                        this.state.rewards[index] = {
+                            loading: false,
+                            entitled: reward.entitled,
+                            vested: reward.vested,
+                        }
+                    })
+                }
+                catch (e) {
+                    error(e)
+                    runInAction(() => {
+                        this.state.rewards[index] = {
+                            loading: false,
+                        }
+                    })
+                }
+            })()
+        })
     }
 
     protected async fetchData(): Promise<[
         FarmingPoolsItemResponse[],
-        Reward[],
         number,
     ]> {
         const { pools, total } = await this.fetchFarmingPools()
-        const rewards = await this.fetchRewards(pools)
         const totalPage = Math.ceil(total / PAGE_SIZE)
 
-        return [pools, rewards, totalPage]
+        return [pools, totalPage]
     }
 
     public async getData(): Promise<void> {
@@ -173,31 +201,60 @@ export class FarmingListStore {
             return
         }
 
+        this.fetchRewards(result[0])
+
         runInAction(() => {
             [
                 this.state.data,
-                this.state.rewards,
                 this.state.totalPage,
             ] = result
             this.state.loading = false
         })
 
-        this.syncTokens()
+        await this.syncTokens()
     }
 
-    public syncTokens(): void {
+    public async syncTokens(): Promise<void> {
+        const tokensForSync: string[] = []
+
         this.state.data.forEach(item => {
             if (item.left_address && item.right_address) {
-                this.tokensCache.fetchIfNotExist(item.left_address)
-                this.tokensCache.fetchIfNotExist(item.right_address)
+                if (!this.tokensCache.has(item.left_address) && !tokensForSync.includes(item.left_address)) {
+                    tokensForSync.push(item.left_address)
+                }
+
+                if (!this.tokensCache.has(item.right_address) && !tokensForSync.includes(item.right_address)) {
+                    tokensForSync.push(item.right_address)
+                }
             }
-            else {
-                this.tokensCache.fetchIfNotExist(item.token_root_address)
+            else if (
+                !this.tokensCache.has(item.token_root_address)
+                && !tokensForSync.includes(item.token_root_address)
+            ) {
+                tokensForSync.push(item.token_root_address)
             }
             item.reward_token_root_info.forEach(reward => {
-                this.tokensCache.fetchIfNotExist(reward.reward_root_address)
+                if (
+                    !this.tokensCache.has(reward.reward_root_address)
+                    && !tokensForSync.includes(reward.reward_root_address)
+                ) {
+                    tokensForSync.push(reward.reward_root_address)
+                }
             })
         })
+
+        try {
+            if (tokensForSync.length > 0) {
+                await Promise.all(
+                    tokensForSync.map(
+                        root => this.tokensCache.syncCustomToken(root),
+                    ),
+                )
+            }
+        }
+        catch (e) {
+            error(e)
+        }
     }
 
     public nextPage(): void {

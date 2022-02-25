@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Settings } from 'luxon'
 import { IntlProvider } from 'react-intl'
 import {
     Redirect,
@@ -6,8 +7,10 @@ import {
     BrowserRouter as Router,
     Switch,
 } from 'react-router-dom'
+import { Observer } from 'mobx-react-lite'
 
 import { Footer } from '@/components/layout/Footer'
+import { TokensUpgradeModal } from '@/components/common/TokensUpgradeModal'
 import { WalletConnectingModal } from '@/components/common/WalletConnectingModal'
 import { WalletUpdateModal } from '@/components/common/WalletUpdateModal'
 import { Header } from '@/components/layout/Header'
@@ -25,13 +28,22 @@ import Token from '@/pages/tokens/item'
 import Pools from '@/pages/pools'
 import Pool from '@/pages/pools/item'
 import BurnLiquidity from '@/pages/pools/burn-liquidity'
-import { noop } from '@/utils'
 import { appRoutes } from '@/routes'
+import { useUpgradeTokens } from '@/stores/UpgradeTokens'
+import { useWallet } from '@/stores/WalletService'
+import { noop } from '@/utils'
 
 import './App.scss'
 
 
 export function App(): JSX.Element {
+    const wallet = useWallet()
+    const upgradeTokens = useUpgradeTokens()
+
+    React.useEffect(() => {
+        Settings.defaultLocale = 'en'
+    }, [])
+
     return (
         <IntlProvider
             key="intl"
@@ -95,9 +107,21 @@ export function App(): JSX.Element {
                 </div>
                 <div className="wallets">
                     <Account key="account" />
-                    <WalletConnectingModal />
-                    <WalletUpdateModal />
                 </div>
+                <WalletConnectingModal />
+                <Observer>
+                    {() => (
+                        <>
+                            {wallet.isInitialized && wallet.isOutdated ? (
+                                <WalletUpdateModal />
+                            ) : null}
+
+                            {upgradeTokens.hasTokensToUpgrade ? (
+                                <TokensUpgradeModal />
+                            ) : null}
+                        </>
+                    )}
+                </Observer>
             </Router>
         </IntlProvider>
     )

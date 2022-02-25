@@ -43,13 +43,7 @@ export function FarmingTable({
                         {intl.formatMessage({ id: 'FARMING_TABLE_TVL' })}
                     </div>
                     <div className="list__cell list__cell--right">
-                        {intl.formatMessage({ id: 'FARMING_TABLE_TVL_CHANGE' })}
-                    </div>
-                    <div className="list__cell list__cell--right">
                         {intl.formatMessage({ id: 'FARMING_TABLE_APR' })}
-                    </div>
-                    <div className="list__cell list__cell--right">
-                        {intl.formatMessage({ id: 'FARMING_TABLE_APR_CHANGE' })}
                     </div>
                     <div className="list__cell list__cell--right">
                         {intl.formatMessage({ id: 'FARMING_TABLE_SHARE' })}
@@ -74,9 +68,11 @@ export function FarmingTable({
                             </div>
                         ) : (
                             <PanelLoader loading={loading && items.length > 0}>
-                                {items.map((item, index) => (
-                                    /* eslint-disable react/no-array-index-key */
-                                    <FarmingTableItem key={index} {...item} />
+                                {items.map(item => (
+                                    <FarmingTableItem
+                                        key={item.poolAddress}
+                                        {...item}
+                                    />
                                 ))}
                             </PanelLoader>
                         )}

@@ -2,10 +2,10 @@ import * as React from 'react'
 import classNames from 'classnames'
 import { observer } from 'mobx-react-lite'
 
+import { Button } from '@/components/common/Button'
 import { Icon } from '@/components/common/Icon'
 import { useFavoritePairs } from '@/stores/FavoritePairs'
 import { concatSymbols } from '@/utils'
-import { Button } from '@/components/common/Button'
 
 type Props = {
     iconRatio?: number;

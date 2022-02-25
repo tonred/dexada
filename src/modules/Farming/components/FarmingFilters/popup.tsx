@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { useIntl } from 'react-intl'
 
-import { TextInput } from '@/components/common/TextInput'
+import { Button } from '@/components/common/Button'
 import { Checkbox } from '@/components/common/Checkbox'
+import { TextInput } from '@/components/common/TextInput'
 import { TokenSelector } from '@/modules/TokensList/components/TokenSelector'
 import { FarmingPoolFilter } from '@/modules/Farming/types'
 
 import './index.scss'
-import { Button } from '@/components/common/Button'
 
 type Props = {
     filter?: FarmingPoolFilter
@@ -94,7 +94,7 @@ export function FarmingFiltersPopup({
     }
 
     const onChangeWithoutMyFarming = (value: boolean) => {
-        changeOwnerInclude(value ? false : undefined)
+        changeOwnerInclude(value === true ? false : undefined)
     }
 
     const onChangeLowBalance = (value: boolean) => {

@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite'
 import { Button } from '@/components/common/Button'
 import { TokenIcon } from '@/components/common/TokenIcon'
 import { useTokensCache } from '@/stores/TokensCacheService'
-import { formattedAmount } from '@/utils'
+import { formattedTokenAmount } from '@/utils'
 
 type Props = {
     tokensRoots: string[]
@@ -53,13 +53,13 @@ function FarmingAdminWithdrawInner({
                                 <div className="farming-panel__token" key={token.root}>
                                     <TokenIcon
                                         size="xsmall"
-                                        uri={token.icon}
+                                        icon={token.icon}
                                         address={token.root}
                                     />
                                     {intl.formatMessage({
                                         id: 'FARMING_TOKEN',
                                     }, {
-                                        amount: formattedAmount(tokensAmounts[index], token.decimals),
+                                        amount: formattedTokenAmount(tokensAmounts[index], token.decimals),
                                         symbol: token.symbol,
                                     })}
                                 </div>

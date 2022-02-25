@@ -7,14 +7,14 @@ import {
     reaction,
     toJS,
 } from 'mobx'
-import ton, {
+import {
     Address,
-    Contract,
     DecodedAbiFunctionInputs,
     Subscriber,
-} from 'ton-inpage-provider'
+} from 'everscale-inpage-provider'
 
 import { CROSS_PAIR_EXCHANGE_WHITE_LIST } from '@/constants'
+import { useRpcClient } from '@/hooks/useRpcClient'
 import { checkPair, DexAbi, TokenWallet } from '@/misc'
 import { CrossPairsRequest, PairsResponse } from '@/modules/Pairs/types'
 import {
@@ -60,6 +60,9 @@ import {
     isGoodBignumber,
     storage,
 } from '@/utils'
+
+
+const rpc = useRpcClient()
 
 
 export class SwapStore {
@@ -148,7 +151,7 @@ export class SwapStore {
 
         await this.unsubscribeTransactionSubscriber()
 
-        this.#transactionSubscriber = new Subscriber(ton)
+        this.#transactionSubscriber = rpc.createSubscriber()
 
         this.#slippageDisposer = reaction(
             () => this.data.slippage,
@@ -315,7 +318,6 @@ export class SwapStore {
 
         const minExpectedAmount = steps.slice().shift()?.minExpectedAmount as string
         const params: DecodedAbiFunctionInputs<typeof DexAbi.Pair, 'buildCrossPairExchangePayload'> = {
-            _answer_id: '0',
             id: processingId,
             expected_amount: minExpectedAmount,
             deploy_wallet_grams: deployGrams,
@@ -471,9 +473,7 @@ export class SwapStore {
             this.changeState('isEnoughLiquidity', false)
             debug(
                 '#recalculate reset when no pair',
-                toJS(this.data),
-                toJS(this.state),
-                toJS(this.data.bill),
+                toJS(this.data), toJS(this.state), toJS(this.data.bill),
             )
             return
         }
@@ -690,9 +690,7 @@ export class SwapStore {
             this.changeData('pair', undefined)
             debug(
                 '#handleTokensChange only one token selected -> reset',
-                toJS(this.data),
-                toJS(this.state),
-                toJS(this.data.bill),
+                toJS(this.data), toJS(this.state), toJS(this.data.bill),
             )
             return
         }
@@ -707,7 +705,7 @@ export class SwapStore {
                     address !== undefined
                         ? {
                             address,
-                            contract: new Contract(DexAbi.Pair, address),
+                            contract: rpc.createContract(DexAbi.Pair, address),
                         }
                         : undefined,
                 )
@@ -782,9 +780,7 @@ export class SwapStore {
 
         debug(
             '#handleTokensChange check cross-exchange',
-            toJS(this.data),
-            toJS(this.state),
-            toJS(this.data.bill),
+            toJS(this.data), toJS(this.state), toJS(this.data.bill),
         )
     }
 
@@ -902,9 +898,7 @@ export class SwapStore {
         ) {
             debug(
                 '#calculateByLeftAmount reset before start',
-                toJS(this.data),
-                toJS(this.state),
-                toJS(this.data.bill),
+                toJS(this.data), toJS(this.state), toJS(this.data.bill),
             )
             return
         }
@@ -913,9 +907,7 @@ export class SwapStore {
 
         debug(
             '#calculateByLeftAmount start',
-            toJS(this.data),
-            toJS(this.state),
-            toJS(this.data.bill),
+            toJS(this.data), toJS(this.state), toJS(this.data.bill),
         )
 
         if (this.isEnoughLiquidity && this.isLeftAmountValid && this.leftTokenAddress !== undefined) {
@@ -960,9 +952,7 @@ export class SwapStore {
 
         debug(
             '#calculateByLeftAmount done',
-            toJS(this.data),
-            toJS(this.state),
-            toJS(this.data.bill),
+            toJS(this.data), toJS(this.state), toJS(this.data.bill),
         )
     }
 
@@ -982,9 +972,7 @@ export class SwapStore {
         ) {
             debug(
                 '#calculateByRightAmount reset before start',
-                toJS(this.data),
-                toJS(this.state),
-                toJS(this.data.bill),
+                toJS(this.data), toJS(this.state), toJS(this.data.bill),
             )
             return
         }
@@ -993,9 +981,7 @@ export class SwapStore {
 
         debug(
             '#calculateByRightAmount start',
-            toJS(this.data),
-            toJS(this.state),
-            toJS(this.data.bill),
+            toJS(this.data), toJS(this.state), toJS(this.data.bill),
         )
 
         if (this.isEnoughLiquidity && this.isRightAmountValid) {
@@ -1059,9 +1045,7 @@ export class SwapStore {
 
         debug(
             '#calculateByRightAmount done',
-            toJS(this.data),
-            toJS(this.state),
-            toJS(this.data.bill),
+            toJS(this.data), toJS(this.state), toJS(this.data.bill),
         )
     }
 
@@ -1243,12 +1227,12 @@ export class SwapStore {
             { denominator, numerator },
         ] = await Promise.all([
             this.pair.contract.methods.getTokenRoots({
-                _answer_id: 0,
+                answerId: 0,
             }).call({
                 cachedState: toJS(this.pair.state),
             }),
             this.pair.contract.methods.getFeeParams({
-                _answer_id: 0,
+                answerId: 0,
             }).call({
                 cachedState: toJS(this.pair.state),
             }),
@@ -1303,7 +1287,7 @@ export class SwapStore {
             return
         }
 
-        const { state } = await ton.getFullContractState({
+        const { state } = await rpc.getFullContractState({
             address: this.pair.address,
         })
 
@@ -1339,8 +1323,7 @@ export class SwapStore {
 
         debug(
             '#calculateLtrCrossExchangeBill invalidate routes',
-            toJS(this.data.bestCrossExchangeRoute),
-            toJS(this.data.bill),
+            toJS(this.data.bestCrossExchangeRoute), toJS(this.data.bill),
         )
 
         await (
@@ -1370,7 +1353,7 @@ export class SwapStore {
                             }
 
                             if (pair.contract === undefined) {
-                                pair.contract = new Contract(DexAbi.Pair, pair.address)
+                                pair.contract = rpc.createContract(DexAbi.Pair, pair.address)
                             }
 
                             route.pairs.push(pair)
@@ -1512,9 +1495,7 @@ export class SwapStore {
 
         debug(
             '#calculateLtrCrossExchangeBill done',
-            toJS(this.data),
-            toJS(this.state),
-            toJS(this.data.bill),
+            toJS(this.data), toJS(this.state), toJS(this.data.bill),
         )
     }
 
@@ -1541,9 +1522,7 @@ export class SwapStore {
 
         debug(
             '#calculateRtlCrossExchangeBill invalidate routes',
-            toJS(this.data),
-            toJS(this.state),
-            toJS(this.data.bill),
+            toJS(this.data), toJS(this.state), toJS(this.data.bill),
         )
 
         let routes: SwapRoute[] = []
@@ -1573,7 +1552,7 @@ export class SwapStore {
                             }
 
                             if (pair.contract === undefined) {
-                                pair.contract = new Contract(DexAbi.Pair, pair.address)
+                                pair.contract = rpc.createContract(DexAbi.Pair, pair.address)
                             }
 
                             route.pairs.unshift(pair)
@@ -1623,9 +1602,7 @@ export class SwapStore {
 
         debug(
             '#calculateRtlCrossExchangeBill first iteration',
-            toJS({ ...this.data, routes }),
-            toJS(this.state),
-            toJS(this.data.bill),
+            toJS({ ...this.data, routes }), toJS(this.state), toJS(this.data.bill),
         )
 
         await (
@@ -1644,7 +1621,7 @@ export class SwapStore {
                         }
 
                         if (step.pair.contract === undefined) {
-                            step.pair.contract = new Contract(DexAbi.Pair, step.pair.address)
+                            step.pair.contract = rpc.createContract(DexAbi.Pair, step.pair.address)
                         }
 
                         try {
@@ -1761,9 +1738,7 @@ export class SwapStore {
 
         debug(
             '#calculateRtlCrossExchangeBill done',
-            toJS(this.data),
-            toJS(this.state),
-            toJS(this.data.bill),
+            toJS(this.data), toJS(this.state), toJS(this.data.bill),
         )
     }
 
@@ -1878,7 +1853,7 @@ export class SwapStore {
         const crossPairs: SwapPair[] = [...leftPairs, ...rightPairs].map(({ meta }) => {
             const pair: SwapPair = {
                 address: new Address(meta.poolAddress),
-                contract: new Contract(DexAbi.Pair, new Address(meta.poolAddress)),
+                contract: rpc.createContract(DexAbi.Pair, new Address(meta.poolAddress)),
                 decimals: {
                     left: DEFAULT_DECIMALS,
                     right: DEFAULT_DECIMALS,
@@ -1969,14 +1944,14 @@ export class SwapStore {
                         }
 
                         if (pair.contract === undefined) {
-                            pair.contract = new Contract(DexAbi.Pair, pair.address)
+                            pair.contract = rpc.createContract(DexAbi.Pair, pair.address)
                         }
 
                         const {
                             denominator,
                             numerator,
                         } = await pair.contract.methods.getFeeParams({
-                            _answer_id: 0,
+                            answerId: 0,
                         }).call({
                             cachedState: toJS(pair.state),
                         })
@@ -2007,7 +1982,7 @@ export class SwapStore {
                         }
 
                         if (pair.contract === undefined) {
-                            pair.contract = new Contract(DexAbi.Pair, pair.address)
+                            pair.contract = rpc.createContract(DexAbi.Pair, pair.address)
                         }
 
                         const [
@@ -2044,7 +2019,7 @@ export class SwapStore {
             const crossPairs = this.data.crossPairs.slice()
 
             const promises = crossPairs.map(pair => (
-                ton.getFullContractState({
+                rpc.getFullContractState({
                     address: pair.address!,
                 })
             ))
@@ -2425,7 +2400,8 @@ export class SwapStore {
      * @returns {TokenCache | undefined}
      */
     public get leftToken(): TokenCache | undefined {
-        return this.data.leftToken !== undefined ? this.tokensCache.get(this.data.leftToken) : undefined
+        // Note: should use only accepted tokens
+        return this.tokensCache.tokens.find(({ root }) => root === this.data.leftToken)
     }
 
     /**
@@ -2457,7 +2433,8 @@ export class SwapStore {
      * @returns {TokenCache | undefined}
      */
     public get rightToken(): TokenCache | undefined {
-        return this.data.rightToken !== undefined ? this.tokensCache.get(this.data.rightToken) : undefined
+        // Note: should use only accepted tokens
+        return this.tokensCache.tokens.find(({ root }) => root === this.data.rightToken)
     }
 
     /**

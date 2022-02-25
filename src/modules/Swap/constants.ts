@@ -1,3 +1,4 @@
+import { DexConstants } from '@/misc'
 import {
     SwapBill,
     SwapDirection,
@@ -8,10 +9,10 @@ import {
 
 
 /* ADA root address */
-export const DEFAULT_LEFT_TOKEN_ROOT = '0:2bac5f96685be79a9d8cac73e54803310f6f15f34dce5361563333bf432deb65'
+export const DEFAULT_LEFT_TOKEN_ROOT = DexConstants.ADARootAddress.toString()
 
-/* WTON root address */
-export const DEFAULT_RIGHT_TOKEN_ROOT = '0:0ee39330eddb680ce731cd6a443c71d9069db06d149a9bec9569d1eb8d04eb37'
+/* WEVER root address */
+export const DEFAULT_RIGHT_TOKEN_ROOT = DexConstants.WEVERRootAddress.toString()
 
 export const DEFAULT_DECIMALS = 18
 

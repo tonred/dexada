@@ -2,26 +2,22 @@ import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { useIntl } from 'react-intl'
 
-import { TvlChange } from '@/components/common/TvlChange'
+import { Icon } from '@/components/common/Icon'
+import { RateChange } from '@/components/common/RateChange'
 import { TokenIcons } from '@/components/common/TokenIcons'
 import { FarmingPair } from '@/modules/Farming/components/FarmingPair'
+import { TokenCache } from '@/stores/TokensCacheService'
 import {
-    concatSymbols, formattedAmount, getChangesDirection,
+    concatSymbols,
     parseCurrencyBillions,
 } from '@/utils'
 
 import './index.scss'
 
-type Token = {
-    address: string;
-    name?: string;
-    uri?: string;
-}
-
 export type FarmingTableItemProps = {
-    leftToken: Token;
-    rightToken?: Token;
-    rewardsIcons: Token[];
+    leftToken: Partial<TokenCache>;
+    rightToken?: Partial<TokenCache>;
+    rewardsIcons: Partial<TokenCache>[];
     tvl: string | null;
     tvlChange: string | null;
     apr: string | null;
@@ -35,6 +31,8 @@ export type FarmingTableItemProps = {
     isPublic?: boolean;
     balanceWarning?: boolean;
     link?: string;
+    rewardsLoading?: boolean;
+    poolAddress: string;
 }
 
 export function FarmingTableItem({
@@ -54,6 +52,7 @@ export function FarmingTableItem({
     isPublic,
     balanceWarning,
     link,
+    rewardsLoading,
 }: FarmingTableItemProps): JSX.Element {
     const Tag = (link ? Link : 'div') as React.ElementType
     const intl = useIntl()
@@ -63,12 +62,12 @@ export function FarmingTableItem({
     const shareFormatted = intl.formatMessage({
         id: 'FARMING_TABLE_SHARE_VALUE',
     }, {
-        value: formattedAmount(share, 0),
+        value: share,
     })
     const aprFormatted = apr ? intl.formatMessage({
         id: 'FARMING_TABLE_APR_VALUE',
     }, {
-        value: formattedAmount(apr, 0),
+        value: apr,
     }) : undefined
     const tvlFormatted = tvl ? parseCurrencyBillions(tvl) : undefined
 
@@ -87,7 +86,7 @@ export function FarmingTableItem({
             </div>
             <div className="list__cell list__cell--left">
                 <TokenIcons
-                    limit={1}
+                    limit={2}
                     icons={rewardsIcons}
                     title={intl.formatMessage({ id: 'FARMING_TABLE_REWARDS_TITLE' })}
                 />
@@ -96,13 +95,12 @@ export function FarmingTableItem({
                 className="list__cell list__cell--left list__cell--right"
                 title={tvlFormatted}
             >
-                {tvl === null ? nullMessage : tvlFormatted}
-            </div>
-            <div className="list__cell list__cell--left list__cell--right">
-                {tvlChange === null ? nullMessage : (
-                    <TvlChange
-                        changesDirection={getChangesDirection(tvlChange)}
-                        priceChange={tvlChange}
+                <div>{tvl === null ? nullMessage : tvlFormatted}</div>
+                {tvlChange && (
+                    <RateChange
+                        size="sm"
+                        value={tvlChange}
+                        className="farming-table__rate-change"
                     />
                 )}
             </div>
@@ -110,13 +108,12 @@ export function FarmingTableItem({
                 className="list__cell list__cell--left list__cell--right"
                 title={aprFormatted}
             >
-                {apr === null ? nullMessage : aprFormatted}
-            </div>
-            <div className="list__cell list__cell--left list__cell--right">
-                {aprChange === null ? nullMessage : (
-                    <TvlChange
-                        changesDirection={getChangesDirection(aprChange)}
-                        priceChange={aprChange}
+                <div>{apr === null ? nullMessage : aprFormatted}</div>
+                {aprChange && (
+                    <RateChange
+                        size="sm"
+                        value={aprChange}
+                        className="farming-table__rate-change"
                     />
                 )}
             </div>
@@ -126,16 +123,24 @@ export function FarmingTableItem({
             >
                 {shareFormatted}
             </div>
-            <div
-                className="list__cell list__cell--left list__cell--right"
-                dangerouslySetInnerHTML={{ __html: vestedRewards.join('<br />') }}
-                title={vestedRewards.join('&#013;')}
-            />
-            <div
-                className="list__cell list__cell--left list__cell--right"
-                dangerouslySetInnerHTML={{ __html: entitledRewards.join('<br />') }}
-                title={entitledRewards.join('&#013;')}
-            />
+            <div className="list__cell list__cell--left list__cell--right">
+                {rewardsLoading ? (
+                    <Icon icon="loader" ratio={0.6} className="spin farming-table__loading" />
+                ) : (
+                    vestedRewards.map(item => (
+                        <div key={item}>{item}</div>
+                    ))
+                )}
+            </div>
+            <div className="list__cell list__cell--left list__cell--right">
+                {rewardsLoading ? (
+                    <Icon icon="loader" ratio={0.6} className="spin farming-table__loading" />
+                ) : (
+                    entitledRewards.map(item => (
+                        <div key={item}>{item}</div>
+                    ))
+                )}
+            </div>
         </Tag>
     )
 }

@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
 
+import { Button } from '@/components/common/Button'
 import { FarmingPoolStoreData, FarmPool } from '@/modules/Farming/types'
 import { useFarmingPool } from '@/modules/Farming/stores/FarmingPoolStore'
 import { formattedAmount } from '@/utils'
@@ -13,11 +14,12 @@ import {
 } from '@/modules/Farming/utils'
 
 import './index.scss'
-import { Button } from '@/components/common/Button'
+
 
 type Props = {
     pool: FarmPool;
 }
+
 
 export function PoolForm({ pool }: Props): JSX.Element {
     const intl = useIntl()
@@ -63,7 +65,7 @@ export function PoolForm({ pool }: Props): JSX.Element {
                                 balance: formattedAmount(
                                     farmingPool.userWalletBalance,
                                     pool.tokenDecimals,
-                                ) || 0,
+                                ),
                                 symbol: pool.tokenSymbol,
                             })}
                         </p>
@@ -188,7 +190,7 @@ export function PoolForm({ pool }: Props): JSX.Element {
                                                     amount: formattedAmount(
                                                         adminWalletBalance,
                                                         pool.rewardTokenDecimals[idx],
-                                                    ) || 0,
+                                                    ),
                                                     symbol,
                                                 })}
                                             </p>

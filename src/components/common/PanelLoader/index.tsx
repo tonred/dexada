@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { ContentLoader } from '@/components/common/ContentLoader'
 
-import './style.scss'
+import './index.scss'
 
 type Props = {
     children: React.ReactNode

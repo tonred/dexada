@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
 
 import { AccountExplorerLink } from '@/components/common/AccountExplorerLink'
@@ -15,23 +14,31 @@ import { PoolTransactions } from '@/modules/Pools/components/PoolTransactions'
 import { PoolFarmings } from '@/modules/Pools/components/PoolContent/farmings'
 import { TogglePoolButton } from '@/modules/Pools/components/TogglePoolButton'
 import { usePoolContent } from '@/modules/Pools/hooks/usePoolContent'
-import { useTokensList } from '@/stores/TokensListService'
-import { concatSymbols, formattedAmount } from '@/utils'
+import { concatSymbols, formattedTokenAmount } from '@/utils'
 import { appRoutes } from '@/routes'
 
-export const PoolContent = observer((): JSX.Element | null => {
+
+export function PoolContent(): JSX.Element {
     const intl = useIntl()
-    const tokensList = useTokensList()
     const {
         pool,
         loading,
-        pairAddress, ownerAddress,
-        walletLeft, walletRight,
-        priceLeftToRight, priceRightToLeft,
-        totalLp, totalLeft, totalRight,
-        lockedLp, lockedLeft, lockedRight,
-        leftToken, rightToken,
-        farmItems, totalShare,
+        pairAddress,
+        ownerAddress,
+        walletLeft,
+        walletRight,
+        priceLeftToRight,
+        priceRightToLeft,
+        totalLp,
+        totalLeft,
+        totalRight,
+        lockedLp,
+        lockedLeft,
+        lockedRight,
+        leftToken,
+        rightToken,
+        farmItems,
+        totalShare,
     } = usePoolContent()
 
     return (
@@ -68,12 +75,8 @@ export const PoolContent = observer((): JSX.Element | null => {
 
                             <div className="pools-pair-title">
                                 <PairIcons
-                                    leftToken={{
-                                        uri: tokensList.getUri(pool.left.address),
-                                    }}
-                                    rightToken={{
-                                        uri: tokensList.getUri(pool.right.address),
-                                    }}
+                                    leftToken={leftToken}
+                                    rightToken={rightToken}
                                 />
                                 <h2 className="section-title">
                                     {intl.formatMessage({
@@ -96,7 +99,7 @@ export const PoolContent = observer((): JSX.Element | null => {
                                         label={intl.formatMessage({
                                             id: 'PAIR_TOKEN_PRICE',
                                         }, {
-                                            amount: formattedAmount(
+                                            amount: formattedTokenAmount(
                                                 priceLeftToRight,
                                                 rightToken?.decimals,
                                             ),
@@ -104,7 +107,8 @@ export const PoolContent = observer((): JSX.Element | null => {
                                             symbolRight: rightToken?.symbol,
                                         })}
                                         tokenIcon={{
-                                            uri: tokensList.getUri(pool.left.address),
+                                            address: leftToken?.root || pool.left.address,
+                                            icon: leftToken?.icon,
                                         }}
                                     />
 
@@ -115,7 +119,7 @@ export const PoolContent = observer((): JSX.Element | null => {
                                         label={intl.formatMessage({
                                             id: 'PAIR_TOKEN_PRICE',
                                         }, {
-                                            amount: formattedAmount(
+                                            amount: formattedTokenAmount(
                                                 priceRightToLeft,
                                                 leftToken?.decimals,
                                             ),
@@ -123,7 +127,8 @@ export const PoolContent = observer((): JSX.Element | null => {
                                             symbolRight: leftToken?.symbol,
                                         })}
                                         tokenIcon={{
-                                            uri: tokensList.getUri(pool.right.address),
+                                            address: rightToken?.root || pool.right.address,
+                                            icon: rightToken?.icon,
                                         }}
                                     />
                                 </div>
@@ -136,7 +141,7 @@ export const PoolContent = observer((): JSX.Element | null => {
                                     />
                                     <AccountExplorerLink
                                         address={pool.address}
-                                        className="btn btn--md btn--icon"
+                                        className="btn btn-md btn-square btn-icon"
                                     >
                                         <Icon icon="externalLink" />
                                     </AccountExplorerLink>
@@ -155,53 +160,53 @@ export const PoolContent = observer((): JSX.Element | null => {
                                 <TotalBalance
                                     share={totalShare}
                                     name={pool.lp.symbol}
-                                    balance={formattedAmount(totalLp, pool.lp.decimals)}
+                                    balance={formattedTokenAmount(totalLp, pool.lp.decimals)}
                                     apportionment={[{
-                                        uri: tokensList.getUri(pool.left.address),
-                                        address: pool.left.address,
+                                        address: leftToken?.root || pool.left.address,
                                         amount: intl.formatMessage({
                                             id: 'POOLS_LIST_TOKEN_BALANCE',
                                         }, {
-                                            value: totalLeft,
+                                            value: formattedTokenAmount(totalLeft),
                                             symbol: leftToken?.symbol,
                                         }),
+                                        icon: leftToken?.icon,
                                     }, {
-                                        uri: tokensList.getUri(pool.right.address),
-                                        address: pool.right.address,
+                                        address: rightToken?.root || pool.right.address,
                                         amount: intl.formatMessage({
                                             id: 'POOLS_LIST_TOKEN_BALANCE',
                                         }, {
-                                            value: totalRight,
+                                            value: formattedTokenAmount(totalRight),
                                             symbol: rightToken?.symbol,
                                         }),
+                                        icon: rightToken?.icon,
                                     }]}
-                                    leftTokenRoot={pool.left.address}
-                                    rightTokenRoot={pool.right.address}
+                                    leftTokenRoot={leftToken?.root || pool.left.address}
+                                    rightTokenRoot={rightToken?.root || pool.right.address}
                                     walletLpAmount={pool.lp.inWallet}
                                 />
 
                                 <BalancePanel
                                     title={intl.formatMessage({ id: 'POOLS_LIST_WALLET_BALANCE' })}
                                     symbol={pool.lp.symbol}
-                                    balance={formattedAmount(pool.lp.inWallet, pool.lp.decimals)}
+                                    balance={formattedTokenAmount(pool.lp.inWallet, pool.lp.decimals)}
                                     tokens={[{
-                                        uri: tokensList.getUri(pool.left.address),
-                                        address: pool.left.address,
+                                        address: leftToken?.root || pool.left.address,
                                         amount: intl.formatMessage({
                                             id: 'POOLS_LIST_TOKEN_BALANCE',
                                         }, {
-                                            value: walletLeft,
+                                            value: formattedTokenAmount(walletLeft),
                                             symbol: leftToken?.symbol,
                                         }),
+                                        icon: leftToken?.icon,
                                     }, {
-                                        uri: tokensList.getUri(pool.right.address),
-                                        address: pool.right.address,
+                                        address: rightToken?.root || pool.right.address,
                                         amount: intl.formatMessage({
                                             id: 'POOLS_LIST_TOKEN_BALANCE',
                                         }, {
-                                            value: walletRight,
+                                            value: formattedTokenAmount(walletRight),
                                             symbol: rightToken?.symbol,
                                         }),
+                                        icon: rightToken?.icon,
                                     }]}
                                 />
 
@@ -210,25 +215,25 @@ export const PoolContent = observer((): JSX.Element | null => {
                                         id: 'POOLS_LIST_LOCKED_FARM',
                                     })}
                                     symbol={pool.lp.symbol}
-                                    balance={formattedAmount(lockedLp, pool.lp.decimals)}
+                                    balance={formattedTokenAmount(lockedLp, pool.lp.decimals)}
                                     tokens={[{
-                                        uri: tokensList.getUri(pool.left.address),
-                                        address: pool.left.address,
+                                        address: leftToken?.root || pool.left.address,
                                         amount: intl.formatMessage({
                                             id: 'POOLS_LIST_TOKEN_BALANCE',
                                         }, {
-                                            value: lockedLeft,
+                                            value: formattedTokenAmount(lockedLeft),
                                             symbol: leftToken?.symbol,
                                         }),
+                                        icon: leftToken?.icon,
                                     }, {
-                                        uri: tokensList.getUri(pool.right.address),
-                                        address: pool.right.address,
+                                        address: rightToken?.root || pool.right.address,
                                         amount: intl.formatMessage({
                                             id: 'POOLS_LIST_TOKEN_BALANCE',
                                         }, {
-                                            value: lockedRight,
+                                            value: formattedTokenAmount(lockedRight),
                                             symbol: rightToken?.symbol,
                                         }),
+                                        icon: rightToken?.icon,
                                     }]}
                                 />
                             </div>
@@ -249,4 +254,4 @@ export const PoolContent = observer((): JSX.Element | null => {
             )}
         </>
     )
-})
+}

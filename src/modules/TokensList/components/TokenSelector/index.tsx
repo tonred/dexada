@@ -2,6 +2,7 @@ import * as React from 'react'
 import classNames from 'classnames'
 import { useIntl } from 'react-intl'
 
+import { Button } from '@/components/common/Button'
 import { Icon } from '@/components/common/Icon'
 import { TokenIcon } from '@/components/common/TokenIcon'
 import { TokensList } from '@/modules/TokensList'
@@ -58,19 +59,18 @@ export function TokenSelector({
 
     React.useEffect(() => {
         if (root) {
-            tokensCache.fetchIfNotExist(root)
+            tokensCache.syncCustomToken(root)
         }
     }, [root])
 
     return (
         <>
-            <button
-                type="button"
-                onClick={open}
+            <Button
                 className={classNames('token-selector', {
                     'token-selector_dirty': Boolean(token),
                     [`token-selector_size_${size}`]: Boolean(size),
                 })}
+                onClick={open}
             >
                 <span
                     className="token-selector__value"
@@ -80,7 +80,7 @@ export function TokenSelector({
                         <TokenIcon
                             size="small"
                             address={token.root}
-                            uri={token.icon}
+                            icon={token.icon}
                         />
                     )}
                     <span className="token-selector__symbol">
@@ -88,7 +88,7 @@ export function TokenSelector({
                     </span>
                 </span>
                 <Icon icon="arrowDown" />
-            </button>
+            </Button>
 
             {listVisible && (
                 <TokensList

@@ -4,14 +4,14 @@ import { useIntl } from 'react-intl'
 import { TokenIcon } from '@/components/common/TokenIcon'
 
 type Props = {
-    title: string
-    symbol: string
-    balance: string
+    title: string;
+    symbol: string;
+    balance: string;
     tokens: {
-        uri?: string
-        amount: string
-        address: string
-    }[]
+        address: string;
+        amount: string;
+        icon?: string;
+    }[];
 }
 
 export function BalancePanel({
@@ -32,7 +32,11 @@ export function BalancePanel({
                         <h5 className="balance-section__title">
                             {intl.formatMessage({ id: 'POOLS_LIST_AMOUNT' }, { name: symbol })}
                         </h5>
-                        <div className="balance-section__content">{balance}</div>
+                        <div className="balance-section__content">
+                            <div className="balance-amount">
+                                {balance}
+                            </div>
+                        </div>
                     </div>
 
                     <div className="balance-section">
@@ -42,7 +46,7 @@ export function BalancePanel({
                         <div className="balance-section__content">
                             {tokens.map(token => (
                                 <div className="balance__token" key={token.address}>
-                                    <TokenIcon address={token.address} size="xsmall" uri={token.uri} />
+                                    <TokenIcon address={token.address} size="xsmall" icon={token.icon} />
                                     {token.amount}
                                 </div>
                             ))}
