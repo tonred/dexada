@@ -172,7 +172,7 @@ export function Footer(): JSX.Element {
                         </li>
                         <li>
                             <a
-                                href="https://github.com/cardano-foundation"
+                                href="https://github.com/broxus"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 title="GitHub"
@@ -208,7 +208,7 @@ export function Footer(): JSX.Element {
                             <ul>
                                 <li>
                                     <a
-                                        href="https://cardanofoundation.org/en/terms-and-conditions/"
+                                        href="https://broxus.com/wp-content/uploads/2021/08/terms_of_use.pdf"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
@@ -219,7 +219,7 @@ export function Footer(): JSX.Element {
                                 </li>
                                 <li>
                                     <a
-                                        href="https://cardanofoundation.org/en/privacy/"
+                                        href="https://broxus.com/wp-content/uploads/2021/08/privacy_policy.pdf"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
