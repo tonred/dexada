@@ -17,3 +17,5 @@ export const CROSS_PAIR_EXCHANGE_WHITE_LIST = [
 ]
 
 export const SECONDS_IN_DAY = 86400
+
+export const LANGUAGES = ['en', 'ko', 'ja'];

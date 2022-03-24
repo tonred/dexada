@@ -1,0 +1,30 @@
+.languages {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+
+    li {
+        cursor: pointer;
+
+        &:hover {
+            color: #2f66f2;
+        }
+    }
+}
+
+.picked-language {
+    cursor: pointer;
+}
+
+.language-select__arrow {
+    margin-left: 4px;
+    transition: 300ms;
+    svg {
+        fill: #fff;
+        fill-opacity: 0.48;
+    }
+
+    &.list-opened {
+        transform: rotate(180deg);
+    }
+}
