@@ -1,4 +1,4 @@
-@import '~@/styles/_mix';
+@import "~@/styles/_mix";
 
 .swap-settings {
     position: relative;
@@ -15,7 +15,9 @@
         opacity: 0.5;
         width: 36px;
 
-        svg { fill: #ffffff; }
+        svg {
+            fill: #ffffff;
+        }
 
         &:hover,
         &.active {
@@ -25,6 +27,7 @@
     }
 
     &__drop {
+        -webkit-backdrop-filter: blur(64px);
         backdrop-filter: blur(64px);
         background-color: rgb(255 255 255 / 8%);
         border-radius: 8px;

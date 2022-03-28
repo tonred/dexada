@@ -4,6 +4,7 @@
         max-width: 360px;
 
         @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+            -webkit-backdrop-filter: blur(120px);
             backdrop-filter: blur(120px);
             background: rgb(255 255 255 / 8%);
         }

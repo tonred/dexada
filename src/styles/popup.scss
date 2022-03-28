@@ -1,4 +1,4 @@
-@import '_mix';
+@import "_mix";
 
 .popup {
     height: 100%;
@@ -22,8 +22,14 @@
         z-index: 2;
 
         @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+            -webkit-backdrop-filter: blur(12px);
             backdrop-filter: blur(12px);
-            background: linear-gradient(0deg, rgb(5 11 46 / 12%), rgb(5 11 46 / 12%)), rgb(255 255 255 / 12%);
+            background: linear-gradient(
+                    0deg,
+                    rgb(5 11 46 / 12%),
+                    rgb(5 11 46 / 12%)
+                ),
+                rgb(255 255 255 / 12%);
         }
     }
 
@@ -91,9 +97,13 @@ button.popup-close {
         border-color: #e6ac00;
     }
 
-    &.nb { border: 0 none; }
+    &.nb {
+        border: 0 none;
+    }
 
-    &.np { padding: 0; }
+    &.np {
+        padding: 0;
+    }
 
     &__ava {
         background-color: rgb(255 255 255 / 50%);

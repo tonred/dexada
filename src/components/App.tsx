@@ -1,55 +1,54 @@
-import * as React from 'react'
-import { Settings } from 'luxon'
-import { IntlProvider } from 'react-intl'
+import * as React from "react";
+import { IntlProvider } from "react-intl";
 import {
     Redirect,
     Route,
     BrowserRouter as Router,
     Switch,
-} from 'react-router-dom'
-import { Observer } from 'mobx-react-lite'
+} from "react-router-dom";
+import { Observer, observer } from "mobx-react-lite";
 
-import { Footer } from '@/components/layout/Footer'
-import { TokensUpgradeModal } from '@/components/common/TokensUpgradeModal'
-import { WalletConnectingModal } from '@/components/common/WalletConnectingModal'
-import { WalletUpdateModal } from '@/components/common/WalletUpdateModal'
-import { Header } from '@/components/layout/Header'
-import messages from '@/lang/en'
-import { Account } from '@/modules/Account'
-import Farming from '@/pages/farming'
-import FarmingItem from '@/pages/farming/item'
-import CreateFarmPool from '@/pages/farming/create'
-import Pairs from '@/pages/pairs'
-import Pair from '@/pages/pairs/item'
-import AddLiquidityPool from '@/pages/pool'
-import Swap from '@/pages/swap'
-import Tokens from '@/pages/tokens'
-import Token from '@/pages/tokens/item'
-import Pools from '@/pages/pools'
-import Pool from '@/pages/pools/item'
-import BurnLiquidity from '@/pages/pools/burn-liquidity'
-import { appRoutes } from '@/routes'
-import { useUpgradeTokens } from '@/stores/UpgradeTokens'
-import { useWallet } from '@/stores/WalletService'
-import { noop } from '@/utils'
+import { Footer } from "@/components/layout/Footer";
+import { TokensUpgradeModal } from "@/components/common/TokensUpgradeModal";
+import { WalletConnectingModal } from "@/components/common/WalletConnectingModal";
+import { WalletUpdateModal } from "@/components/common/WalletUpdateModal";
+import { Header } from "@/components/layout/Header";
+import { messages } from "@/i18n/messages";
+import { Account } from "@/modules/Account";
+import Farming from "@/pages/farming";
+import FarmingItem from "@/pages/farming/item";
+import CreateFarmPool from "@/pages/farming/create";
+import Pairs from "@/pages/pairs";
+import Pair from "@/pages/pairs/item";
+import AddLiquidityPool from "@/pages/pool";
+import Swap from "@/pages/swap";
+import Tokens from "@/pages/tokens";
+import Token from "@/pages/tokens/item";
+import Pools from "@/pages/pools";
+import Pool from "@/pages/pools/item";
+import BurnLiquidity from "@/pages/pools/burn-liquidity";
+import { appRoutes } from "@/routes";
+import { useUpgradeTokens } from "@/stores/UpgradeTokens";
+import { useWallet } from "@/stores/WalletService";
+import { noop } from "@/utils";
 
-import './App.scss'
+import "./App.scss";
+import { LOCALES } from "@/i18n/locales";
+import Languages from "./layout/Languages";
+import { useLanguage } from "@/hooks/useLanguage";
 
+function App(): JSX.Element {
+    const wallet = useWallet();
+    const upgradeTokens = useUpgradeTokens();
 
-export function App(): JSX.Element {
-    const wallet = useWallet()
-    const upgradeTokens = useUpgradeTokens()
-
-    React.useEffect(() => {
-        Settings.defaultLocale = 'en'
-    }, [])
+    const { langStore } = useLanguage();
 
     return (
         <IntlProvider
             key="intl"
-            locale="en"
-            defaultLocale="en"
-            messages={messages}
+            locale={LOCALES[langStore.language]}
+            defaultLocale={LOCALES.en}
+            messages={messages[LOCALES[langStore.language]]}
             onError={noop}
         >
             <Router>
@@ -68,7 +67,10 @@ export function App(): JSX.Element {
                             <Route exact path={appRoutes.poolList.path}>
                                 <Pools />
                             </Route>
-                            <Route exact path={appRoutes.poolRemoveLiquidity.path}>
+                            <Route
+                                exact
+                                path={appRoutes.poolRemoveLiquidity.path}
+                            >
                                 <BurnLiquidity />
                             </Route>
                             <Route exact path={appRoutes.poolItem.path}>
@@ -106,6 +108,9 @@ export function App(): JSX.Element {
                     <Footer key="footer" />
                 </div>
                 <div className="wallets">
+                    <div className="desktop-languages">
+                        <Languages />
+                    </div>
                     <Account key="account" />
                 </div>
                 <WalletConnectingModal />
@@ -124,5 +129,7 @@ export function App(): JSX.Element {
                 </Observer>
             </Router>
         </IntlProvider>
-    )
+    );
 }
+
+export default observer(App);

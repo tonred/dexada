@@ -1,4 +1,4 @@
-@import '~@/styles/index.scss';
+@import "~@/styles/index.scss";
 
 .wrapper {
     align-items: stretch;
@@ -26,12 +26,21 @@
 
 .wallets {
     align-items: center;
-    background: rgba(5, 11, 46, 0.9) linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08));
+    background: rgba(5, 11, 46, 0.9)
+        linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.08),
+            rgba(255, 255, 255, 0.08)
+        );
     bottom: 0;
     column-gap: 20px;
     display: flex;
     padding: 12px 20px;
     position: sticky;
+
+    .desktop-languages {
+        display: none;
+    }
 
     @media only screen and (min-width: 768px) {
         background: none;
@@ -39,5 +48,9 @@
         position: absolute;
         right: 0;
         top: 0;
+
+        .desktop-languages {
+            display: block;
+        }
     }
 }
