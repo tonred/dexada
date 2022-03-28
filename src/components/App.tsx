@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Settings } from "luxon";
 import { IntlProvider } from "react-intl";
 import {
     Redirect,
@@ -35,37 +34,14 @@ import { noop } from "@/utils";
 
 import "./App.scss";
 import { LOCALES } from "@/i18n/locales";
-import { useLanguageStore } from "@/stores/Languages";
 import Languages from "./layout/Languages";
+import { useLanguage } from "@/hooks/useLanguage";
 
 function App(): JSX.Element {
     const wallet = useWallet();
     const upgradeTokens = useUpgradeTokens();
 
-    const langStore = useLanguageStore();
-
-    const setLanguage = (event: StorageEvent) => {
-        if (event.key === "lang" && event.newValue) {
-            langStore.setLanguage(event.newValue);
-        }
-    };
-
-    React.useEffect(() => {
-        window.addEventListener("storage", setLanguage);
-        const storageLang = localStorage.getItem("lang");
-        const browserLang = navigator.language.split(/[-_]/)[0];
-        const isBrowserLangExists = LOCALES[browserLang] !== undefined;
-        const language = !!storageLang
-            ? storageLang
-            : isBrowserLangExists
-            ? browserLang
-            : LOCALES.en;
-        langStore.setLanguage(language);
-
-        Settings.defaultLocale = language;
-
-        return () => window.removeEventListener("storage", setLanguage);
-    }, []);
+    const { langStore } = useLanguage();
 
     return (
         <IntlProvider

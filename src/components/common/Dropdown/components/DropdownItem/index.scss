@@ -1,0 +1,12 @@
+.language_dropdown-item {
+    cursor: pointer;
+    margin-bottom: 16px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &:hover {
+        color: #2f66f2;
+    }
+}

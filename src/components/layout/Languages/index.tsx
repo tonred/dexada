@@ -6,7 +6,8 @@ import cn from "classnames";
 
 import "./index.scss";
 import { Icon } from "@/components/common/Icon";
-import { ucFirst } from "@/utils/strins";
+import { uppercaseFirstChar } from "@/utils/string";
+import { Dropdown } from "@/components/common/Dropdown";
 
 function Languages(): JSX.Element {
     const language = useLanguageStore();
@@ -17,16 +18,14 @@ function Languages(): JSX.Element {
         setIsOpen(!isOpen);
     };
 
-    const setLanguage = (item: string) => {
-        language.setLanguage(item);
-        localStorage.setItem("lang", item);
+    const closeList = () => {
         setIsOpen(false);
     };
 
     return (
         <div className="languages">
             <div onClick={toggleList} className="picked-language">
-                {ucFirst(language.language)}
+                {uppercaseFirstChar(language.language)}
                 <Icon
                     className={cn(
                         "language-select__arrow",
@@ -35,18 +34,7 @@ function Languages(): JSX.Element {
                     icon="arrowDown"
                 />
             </div>
-            {isOpen && (
-                <ul>
-                    {LANGUAGES.map((item) => (
-                        <li
-                            onClick={() => setLanguage(item)}
-                            key={`${item}-item`}
-                        >
-                            {ucFirst(item)}
-                        </li>
-                    ))}
-                </ul>
-            )}
+            <Dropdown items={LANGUAGES} onCLick={closeList} isOpen={isOpen} />
         </div>
     );
 }

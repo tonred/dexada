@@ -9,6 +9,7 @@ export class LanguageStore {
 
     public setLanguage(lang: string) {
         this.language = lang;
+        localStorage.setItem("lang", lang);
     }
 }
 
