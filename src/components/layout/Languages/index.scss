@@ -1,10 +1,27 @@
 .languages {
-    position: absolute;
-    right: 20px;
-    top: 20px;
+    position: relative;
+
+    ul {
+        position: absolute;
+        border-radius: 8px;
+        padding: 12px;
+        width: 100%;
+        top: 25px;
+
+        @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+            background: rgba(255, 255, 255, 0.08);
+            -webkit-backdrop-filter: blur(64px);
+            backdrop-filter: blur(64px);
+        }
+    }
 
     li {
         cursor: pointer;
+        margin-bottom: 16px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
 
         &:hover {
             color: #2f66f2;
@@ -14,6 +31,7 @@
 
 .picked-language {
     cursor: pointer;
+    padding-left: 12px;
 }
 
 .language-select__arrow {

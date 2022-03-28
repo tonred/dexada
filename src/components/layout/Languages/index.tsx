@@ -37,17 +37,14 @@ function Languages(): JSX.Element {
             </div>
             {isOpen && (
                 <ul>
-                    {LANGUAGES.map(
-                        (item) =>
-                            item !== language.language && (
-                                <li
-                                    onClick={() => setLanguage(item)}
-                                    key={`${item}-item`}
-                                >
-                                    {ucFirst(item)}
-                                </li>
-                            )
-                    )}
+                    {LANGUAGES.map((item) => (
+                        <li
+                            onClick={() => setLanguage(item)}
+                            key={`${item}-item`}
+                        >
+                            {ucFirst(item)}
+                        </li>
+                    ))}
                 </ul>
             )}
         </div>

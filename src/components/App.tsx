@@ -36,6 +36,7 @@ import { noop } from "@/utils";
 import "./App.scss";
 import { LOCALES } from "@/i18n/locales";
 import { useLanguageStore } from "@/stores/Languages";
+import Languages from "./layout/Languages";
 
 function App(): JSX.Element {
     const wallet = useWallet();
@@ -131,6 +132,9 @@ function App(): JSX.Element {
                     <Footer key="footer" />
                 </div>
                 <div className="wallets">
+                    <div className="desktop-languages">
+                        <Languages />
+                    </div>
                     <Account key="account" />
                 </div>
                 <WalletConnectingModal />

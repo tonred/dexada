@@ -5,8 +5,19 @@
     padding: 18px 16px;
     position: relative;
 
+    .mobile-languages {
+        display: none;
+    }
+
     @media only screen and (max-width: 767px) {
         justify-content: space-between;
+
+        .mobile-languages {
+            display: block;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
     }
 
     @media (max-width: 1023px) {

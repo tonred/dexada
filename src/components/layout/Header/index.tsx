@@ -11,7 +11,9 @@ export function Header(): JSX.Element {
         <header className="header">
             <Logo />
             <Nav />
-            <Languages />
+            <div className="mobile-languages">
+                <Languages />
+            </div>
         </header>
     );
 }
