@@ -1,5 +1,4 @@
 import { useLanguageStore } from "@/stores/Languages";
-import { uppercaseFirstChar } from "@/utils/string";
 import * as React from "react";
 
 import "./index.scss";
@@ -23,7 +22,7 @@ export function DropdownItem({ onClick, item }: TDropdownItem) {
             key={`${item}-item`}
             className="language_dropdown-item"
         >
-            {uppercaseFirstChar(item)}
+            {item}
         </li>
     );
 }

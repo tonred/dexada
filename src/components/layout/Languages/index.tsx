@@ -6,7 +6,6 @@ import cn from "classnames";
 
 import "./index.scss";
 import { Icon } from "@/components/common/Icon";
-import { uppercaseFirstChar } from "@/utils/string";
 import { Dropdown } from "@/components/common/Dropdown";
 
 function Languages(): JSX.Element {
@@ -25,7 +24,7 @@ function Languages(): JSX.Element {
     return (
         <div className="languages">
             <div onClick={toggleList} className="picked-language">
-                {uppercaseFirstChar(language.language)}
+                {language.language}
                 <Icon
                     className={cn(
                         "language-select__arrow",
