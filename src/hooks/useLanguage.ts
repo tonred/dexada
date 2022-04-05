@@ -17,7 +17,7 @@ export function useLanguage() {
         const storageLang = localStorage.getItem("lang");
         const browserLang = navigator.language.split(/[-_]/)[0];
         const isBrowserLangExists = LOCALES[browserLang] !== undefined;
-        const defaultLang = isBrowserLangExists ? browserLang : LOCALES.en;
+        const defaultLang = isBrowserLangExists ? browserLang : LOCALES.ko;
         const language = !!storageLang ? storageLang : defaultLang;
         langStore.setLanguage(language);
 

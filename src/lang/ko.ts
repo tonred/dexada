@@ -1,15 +1,15 @@
 export default {
-    
+
     OPEN_IN_EXPLORER: 'Open in explorer',
-    
+
         NAV_LINK_SOON_HINT: ' 곧',
-        NAV_LINK_TEXT_SWAP: '스왑',
+        NAV_LINK_TEXT_SWAP: '환전',
         NAV_LINK_TEXT_POOLS: '풀',
         NAV_LINK_TEXT_TOKENS: '토큰',
         NAV_LINK_TEXT_PAIRS: '페어',
         NAV_LINK_TEXT_FARMING: 'Farming',
         NAV_LINK_TEXT_BUILDER: '빌더',
-    
+
         WALLET_CONNECTING_POPUP_TITLE: '지갑에 연결',
         WALLET_CONNECTING_POPUP_LEAD_WALLET_NAME: '에버월릿',
         WALLET_CONNECTING_POPUP_LEAD_IN_PROCESS: '초기화 중...',
@@ -18,10 +18,10 @@ export default {
         WALLET_UPDATING_LINK_TEXT: '에버월릿 업데이트',
         WALLET_INSTALLATION_LINK_TEXT: '에버월릿 설치',
         WALLET_INSTALLATION_NOTE: '<p>현재 덱스에이다는 에버월릿만 지원합니다</p><p>확장프로그램을 아직 설치하지 않으셨다면 여기에서 설치 가능합니다.<a href="https://chrome.google.com/webstore/category/extensions" target="_blank" rel="nofollow noopener noreferrer">chrome.google.com</a></p>',
-    
+
         WALLET_BALANCE_HINT: '{balance} EVER',
         WALLET_BTN_TEXT_CONNECT: '지갑(월릿)에 연결',
-    
+
         FOOTER_NAV_HEADER_PRODUCT: '제품',
         FOOTER_NAV_HEADER_DEFI_PRODUCTS: 'DeFi 제품',
         FOOTER_NAV_TON_BRIDGE_LINK_TEXT: '옥터스브릿지',
@@ -33,13 +33,13 @@ export default {
         FOOTER_PRIVACY_POLICY_LINK_TEXT: '프라이버시 정책',
         FOOTER_COOKIES_TERMS_LINK_TEXT: '쿠키',
         FOOTER_COPYRIGHTS: '&copy; <a href="https://broxus.com" target="_blank" rel="noopener noreferrer">Broxus</a>, {year}',
-    
+
         PAGINATION_BEFORE_TEXT: '페이지',
         PAGINATION_PAGE_OF: 'of {totalPages}',
-    
+
         COPY_CLIPBOARD_SUCCESS: '복사됨',
-    
-        SWAP_HEADER_TITLE: '토큰 스왑',
+
+        SWAP_HEADER_TITLE: '토큰 환전',
         SWAP_SETTINGS_DROP_TITLE: '트랜잭션 설정',
         SWAP_SETTINGS_DROP_NOTE: 'Slippage tolerance',
         SWAP_FIELD_TOKEN_WALLET_BALANCE: '잔고: {balance}',
@@ -76,19 +76,19 @@ export default {
         SWAP_TRANSACTION_RECEIPT_LINK_TXT_TRANSACTION: '트랜잭션 결과',
         SWAP_TRANSACTION_RECEIPT_CANCELLED_NOTE: '<p>스왑이 취소되었습니다. 당신의 잔액은 변경되지 않았습니다.</p>',
         SWAP_TRANSACTION_RECEIPT_CROSS_EXCHANGE_CANCELLED_NOTE: 'Slippage이 {leftSymbol}/{rightSymbol} 페어의 {slippage}% 이상이므로 {leftSymbol} 상태로 남겨졌습니다.',
-    
+
         TOKENS_LIST_POPUP_TITLE: '토큰을 고르십시오',
         TOKENS_LIST_POPUP_FIELD_SEARCH_PLACEHOLDER: '토큰명이나 주소를 입력하십시ㅇ...',
         TOKENS_LIST_POPUP_NO_RESULTS: '검색 결과가 없습니다',
         TOKENS_LIST_POPUP_BTN_TEXT_IMPORT_TOKEN: '임포트',
         TOKENS_LIST_POPUP_IMPORT_TOKEN_TITLE: '토큰 임포트',
         TOKENS_LIST_POPUP_IMPORT_TOKEN_WARNING: '이 토큰은 활성 토큰 목록에 표시되지 않습니다. 거래하시려는 토큰이 맞는지 확인하십시오.',
-    
+
         ACCOUNT_CONNECTOR_NOTE: '계속하려면 계정을 연결해야 합니다. 이 지갑에 대한 계정 연결은 한번만 하시면 됩니다. 앞으로는 이 절차를 거칠 필요가 없습니다.',
         ACCOUNT_CONNECTOR_BUTTON: '계정 연결',
-    
+
         TOKEN_SELECTOR_PLACEHOLDER: '토큰…',
-    
+
         REMOVE_LIQUIDITY_FORM_TITLE: '유동성 제거',
         REMOVE_LIQUIDITY_FORM_SELECT_PAIR: '페어 고르기',
         REMOVE_LIQUIDITY_FORM_WARNING_NO_LP_TITLE: '이 풀에는 유동성이 없습니다',
@@ -98,7 +98,7 @@ export default {
         REMOVE_LIQUIDITY_FORM_INPUT_AMOUNT: '소각할 LP 토큰 수량 입력',
         REMOVE_LIQUIDITY_FORM_BALANCE: '사용 가능한 잔액: {value}',
         REMOVE_LIQUIDITY_FORM_ERROR_TO_BIG: '사용 가능한 잔액: {value}<br />요청 금액이 너무 큽니다.',
-    
+
         REMOVE_LIQUIDITY_FORM_RECEIVE: '받으실 것입니다',
         REMOVE_LIQUIDITY_FORM_POSITION: '풀에서의 포지션',
         REMOVE_LIQUIDITY_FORM_NOW: '현재',
@@ -108,18 +108,18 @@ export default {
         REMOVE_LIQUIDITY_FORM_CONFIRM: '확인',
         REMOVE_LIQUIDITY_FORM_CONNECT: '월릿에 연결하기',
         REMOVE_LIQUIDITY_FORM_SHARE_NULL: '—',
-    
+
         REMOVE_LIQUIDITY_PROCESS_TITLE: '확인 대기 중',
         REMOVE_LIQUIDITY_PROCESS_TEXT: '소각 {amount} {symbol}',
         REMOVE_LIQUIDITY_PROCESS_HINT: '월릿에서 이 거래를 컨펌하세요.',
-    
+
         REMOVE_LIQUIDITY_SUCCESS_TITLE: '거래 제출',
         REMOVE_LIQUIDITY_SUCCESS_BURNED: '소각됨, {symbol}',
         REMOVE_LIQUIDITY_SUCCESS_SUBMIT: '에버스캔에서 보기',
         REMOVE_LIQUIDITY_SUCCESS_SENT: '보냄, {symbol}',
         REMOVE_LIQUIDITY_SUCCESS_PLUS: '+{value}',
         REMOVE_LIQUIDITY_SUCCESS_MINUS: '-{value}',
-    
+
         POOLS_LIST_CONNECT_WALLET_TITLE: '귀하의 유동성 포지션은 여기에 나타날 것입니다.',
         POOLS_LIST_TITLE: '풀 개요',
         POOLS_LIST_HEADER_NEW: '새로운 포지션',
@@ -147,11 +147,11 @@ export default {
         POOLS_LIST_EMPTY_TABLE_META_LINK_TEXT: '페어',
         POOLS_LIST_TOKEN_BALANCE: '{value} {symbol}',
         POOLS_FARMINGS_TITLE: 'Farming 풀',
-    
+
         POOLS_LIST_ITEM_NOT_FOUND: '풀을 찾을 수 없음',
         POOLS_LIST_ITEM_TITLE: '{symbol} 유동성 풀',
         POOLS_LIST_ITEM_OVERVIEW: '풀 개요',
-    
+
         POOL_HEADER_TITLE: '유동성 추가',
         POOL_FIELD_TOKEN_WALLET_BALANCE: '잔고: {balance}',
         POOL_FIELD_LABEL_LEFT: '왼쪽',
@@ -222,7 +222,7 @@ export default {
         POOL_SUPPLY_RECEIPT_LEAD_CANCELLED: '공급 취소',
         POOL_SUPPLY_RECEIPT_CANCELLED_NOTE: '<p>공급이 취소되었습니다. 잔액은 변경되지 않았습니다.</p>',
         POOL_SUPPLY_RECEIPT_POPUP_BTN_TEXT_CLOSE: '닫기',
-    
+
         FARMING_HEADER_TITLE: 'Farming',
         FARMING_HEADER_CREATE_LINK_TEXT: 'farm 풀 만들기',
         FARMING_HEADER_GUIDE_LINK_TEXT: '가이드',
@@ -306,12 +306,12 @@ export default {
         FARMING_CREATE_POOL_VALID_STATE_CREATION_NOTE: 'Farm 풀 생성 비용은 7 EVER입니다. 가스는 반환되지 않습니다.',
         FARMING_CREATE_POOL_VALID_STATE_DEPOSIT_NOTE: '풀 주소가 활성화되기 전에 전체 {tokensDeposits} 금액을 풀 주소에 입금해야 합니다.',
         FARMING_CREATE_BTN_TEXT_SUBMIT: '풀 생성',
-    
+
         FARMING_LIST_TITLE: 'Farming 풀',
         FARMING_LIST_TITLE_ALL: '모든 풀',
         FARMING_LIST_TITLE_FAV: '즐겨찾는 풀',
         FARMING_LIST_CREATE_BTN: 'Farm 풀 생성하기',
-    
+
         FARMING_TABLE_FARMING_POOL: 'Farming 풀',
         FARMING_TABLE_REWARD: '보상',
         FARMING_TABLE_TVL: 'TVL',
@@ -327,20 +327,20 @@ export default {
         FARMING_TABLE_APR_VALUE: '{value}%',
         FARMING_TABLE_SHARE_VALUE: '{value}%',
         FARMING_TABLE_NULL: 'N/A',
-    
+
         FARMING_DATE_WAITING: '시작 {date}',
         FARMING_DATE_ACTIVE: '종료 {date}',
         FARMING_DATE_INFINITE: '시작함',
         FARMING_DATE_ENDED: '종료됨',
-    
+
         FARMING_PAIR_WAITING_TOOLTIP: '<h4>Farming 시작을 기다리는 중</h4><p>이 풀에서는 아직 farming 기간이 시작되지 않았습니다.</p>',
         FARMING_PAIR_PUBLIC_TOOLTIP: '<h4>귀하의 farming 풀은 모든 사람이 볼 수 있습니다.</h4>',
         FARMING_PAIR_PRIVATE_TOOLTIP: '<h4>당신만이 자신의 farming 풀을 볼 수 있습니다</h4><p>공개적으로 볼 수 있도록 풀<br />잔액에 보상 금액을 예치합니다.</p>',
         FARMING_PAIR_WARNING_TOOLTIP: '<h4>경고!</h4><p>보상 잔액이 낮습니다.<br />이 풀에 투자하지 않는 것이 좋습니다.</p>',
-    
+
         FARMING_FILTER_FORM_BUTTON: '필터',
         FARMING_FILTER_FORM_INPUT: '찾기...',
-    
+
         FARMING_ITEM_BREADCRUMB_LIST: '모든 Farming 풀',
         FARMING_ITEM_BREADCRUMB_ITEM: '{symbol} farming 풀',
         FARMING_ITEM_NOT_FOUND: 'Farming 풀을 찾을 수가 없습니다',
@@ -353,7 +353,7 @@ export default {
         FARMING_ITEM_DETAILS_TITLE: '구체적사항',
         FARMING_ITEM_SPEED_TITLE: 'Farming 속도변동',
         FARMING_ITEM_TRANSACTIONS_TITLE: '트랜잭션',
-    
+
         FARMING_MESSAGE_GET_LP_TITLE: '필요한 LP 토큰이 없습니다. 그를 확보하셔서 APR{apr}%로 farming을 시작하세요',
         FARMING_MESSAGE_GET_LP_ACCEPTS: '이 풀은 {symbol} 토큰을 받아들입니다.',
         FARMING_MESSAGE_GET_LP_DEPOSIT: '{left}와 {right}를 유동성 풀에 예치하고 LP 토큰을 받아 Farming을 시작하세요.',
@@ -367,7 +367,7 @@ export default {
         FARMING_MESSAGE_ADMIN_NULL_BALANCE_TITLE: '잔고부족',
         FARMING_MESSAGE_ADMIN_NULL_BALANCE_TEXT: '보상 토큰의 잔액이 낮아 Farm에 부채가 쌓이고 있습니다.<br />부채를 상환하기 위해 Farm의 잔액을 채우거나 적자의 증가를 방지하기 위해 풀을 닫으십시오.',
         FARMING_MESSAGE_ADMIN_NULL_BALANCE_BTN: '보상토큰을 예치하세요',
-    
+
         FARMING_BALANCE_DEPOSIT_TITLE: 'Deposit',
         FARMING_BALANCE_DEPOSIT_TEXT: 'LP 토큰을 예치하여 Farming을 시작하세요',
         FARMING_BALANCE_DEPOSIT_ACTION: 'Deposit',
@@ -379,7 +379,7 @@ export default {
         FARMING_BALANCE_WITHDRAW_ACTION_WITHDRAW: '인출',
         FARMING_BALANCE_WITHDRAW_BALANCE: '당신의 farming 잔고: {value} {symbol}',
         FARMING_BALANCE_TOKEN: '{amount} {symbol}',
-    
+
         FARMING_ADMIN_DEPOSIT_REQUIRED_BALANCE: '예치됨: <b>{amount} {symbol}</b> / {required} {symbol}',
         FARMING_ADMIN_DEPOSIT_BALANCE: '예치됨: {amount} {symbol}',
         FARMING_ADMIN_DEPOSIT_TITLE: '보상토큰을 예치하세요',
@@ -388,12 +388,12 @@ export default {
         FARMING_ADMIN_DEPOSIT_WARNING_TEXT: '오직 당신만이 이 Farming 풀을 볼 수 있습니다. 이 Farming 풀에 보상 토큰을 예치하여 Farming을 시작하고 모두에게 공개하십시오.',
         FARMING_ADMIN_DEPOSIT_ACTION: '예치',
         FARMING_ADMIN_DEPOSIT_HINT: '당신의 지갑잔고: {amount} {symbol}',
-    
+
         FARMING_ADMIN_WITHDRAW_TITLE: '보상 토큰 인출',
         FARMING_ADMIN_WITHDRAW_TEXT: '베스팅 및 잠금 기간이 끝난 후 사용하지 않은 보상 토큰을 인출할 수 있습니다.',
         FARMING_ADMIN_WITHDRAW_BTN: '인출',
         FARMING_ADMIN_WITHDRAW_TOKENS_TITLE: '사용 가능한 잔액',
-    
+
         FARMING_CONFIG_TITLE: 'Farm 구성',
         FARMING_CONFIG_TAB_SPEED: '스피드',
         FARMING_CONFIG_TAB_END_TIME: '위험지대',
@@ -409,7 +409,7 @@ export default {
         FARMING_CONFIG_CONFIRMATION_TEXT: '⚠️ Farm 풀의 폐쇄는 되돌릴 수 없습니다. 주의하여 이 작업을 수행하십시오.',
         FARMING_CONFIG_CONFIRMATION_YES: '예, Pool을 닫습니다.',
         FARMING_CONFIG_CONFIRMATION_NO: '아니오, 취소합니다',
-    
+
         FARMING_BASE_INFO_TVL: 'TVL',
         FARMING_BASE_INFO_TOKENS: 'LP 내역, 토큰',
         FARMING_BASE_INFO_LP_TOKENS: 'LP 토큰, {symbol}',
@@ -418,7 +418,7 @@ export default {
         FARMING_BASE_INFO_REWARD: '남은 보상 잔고',
         FARMING_BASE_INFO_SPEED: 'Farming 스피드, sec',
         FARMING_BASE_INFO_NULL: 'N/A',
-    
+
         FARMING_USER_INFO_FARMING_BALANCE: 'Farming 잔고',
         FARMING_USER_INFO_TOKENS: 'LP 내역, 토큰',
         FARMING_USER_INFO_LP_TOKENS: 'LP 토큰, {symbol}',
@@ -433,14 +433,14 @@ export default {
         FARMING_USER_INFO_VESTING_TIME: '베스팅 종료일, UTC',
         FARMING_USER_INFO_TOTAL_REWARD: '보상잔고',
         FARMING_USER_INFO_HISTORY_LAST_UPD: '최종 업데이트, UTC',
-    
+
         FARMING_ADDRESSES_TITLE: '주소',
         FARMING_ADDRESSES_POOL: 'Farming 풀 컨트랙트 주소',
         FARMING_ADDRESSES_OWNER: '소유자 주소',
         FARMING_ADDRESSES_USER: '나의 farming 주소',
         FARMING_ADDRESSES_TOKEN_ROOT: 'Farming 토큰 루트',
         FARMING_ADDRESSES_TOKEN: '보상 토큰 루트, {symbol}',
-    
+
         FARMING_VESTING_TITLE: '베스팅',
         FARMING_VESTING_RATIO_TITLE: '베스팅 비율',
         FARMING_VESTING_RATIO_VALUE: '{value}%',
@@ -451,13 +451,13 @@ export default {
         FARMING_VESTING_VESTING_UNTIL: '베스팅 종료일, UTC',
         FARMING_VESTING_VESTING_HINT: '베스팅 종료 날짜는 모든 보상을 수령하는 날짜입니다.',
         FARMING_VESTING_NULL: '—',
-    
+
         FARMING_CHART_TAB_TVL: 'TVL',
         FARMING_CHART_TAB_APR: 'APR',
         FARMING_CHART_TIMEFRAME_H1: '1H',
         FARMING_CHART_TIMEFRAME_D1: '1D',
         FARMING_CHART_NO_DATA: '그래프에 대한 데이터가 없습니다.',
-    
+
         FARMING_FILTER_TITLE: '필터',
         FARMING_FILTER_PAIR: '페어',
         FARMING_FILTER_STATES: 'Pool states',
@@ -475,11 +475,11 @@ export default {
         FARMING_FILTER_APY: 'APY, %',
         FARMING_FILTER_CLEAR: 'Clear',
         FARMING_FILTER_APPLY: '적용',
-    
+
         FARMING_SPEED_TITLE: 'Farming 스피드, 초',
         FARMING_SPEED_START_TITLE: '시작, UTC',
         FARMING_SPEED_END_TITLE: '종료, UTC',
-    
+
         FARMING_TRANSACTIONS_TAB_ALL: '전체',
         FARMING_TRANSACTIONS_TAB_CLAIMS: '클레임',
         FARMING_TRANSACTIONS_TAB_DEPOSITS: '예치',
@@ -497,12 +497,12 @@ export default {
         FARMING_TRANSACTIONS_TYPE_DEPOSIT: '예치',
         FARMING_TRANSACTIONS_TYPE_WITHDRAW: '인출',
         FARMING_TRANSACTIONS_TYPE_REWARD: '보상 보증금',
-    
+
         FARMING_TOKEN: '{amount} {symbol}',
-    
+
         AMOUNT_INPUT_MAX: 'Max',
         AMOUNT_INPUT_PLACEHOLDER: '액수...',
-    
+
         CURRENCIES_HEADER_TITLE: '모든 토큰',
         CURRENCIES_WATCHLIST_HEADER_TITLE: '내 토큰 관심 목록',
         CURRENCIES_LIST_HEADER_NAME_CELL: '이름',
@@ -522,7 +522,7 @@ export default {
         CURRENCY_GRAPH_TAB_TVL: 'TVL',
         CURRENCY_PAIRS_LIST_HEADER_TITLE: '페어',
         CURRENCY_TRANSACTIONS_LIST_HEADER_TITLE: '트랜잭션',
-    
+
         PAIRS_HEADER_TITLE: '모든 페어',
         PAIRS_LIST_HEADER_PAIR_CELL: '페어',
         PAIRS_LIST_HEADER_VOLUME24_CELL: '볼륨 24H',
@@ -539,7 +539,7 @@ export default {
         PAIR_GRAPH_TAB_VOLUME: '볼륨',
         PAIR_GRAPH_TAB_TVL: '유동성',
         PAIR_TRANSACTIONS_LIST_HEADER_TITLE: '트랜잭션',
-    
+
         BUILDER_HEADER_TITLE: '빌더',
         BUILDER_HEADER_CREATE_LINK_TEXT: '새 토큰 생성',
         BUILDER_LIST_HEADER_NAME_CELL: '이름',
@@ -611,7 +611,7 @@ export default {
         BUILDER_MANAGE_TOKEN_CONFIRMATION_BURN_DESCRIPTION: '토큰 소각 중',
         BUILDER_MANAGE_TOKEN_CONFIRMATION_TRANSFER_TITLE: '전송을 기다리는 중',
         BUILDER_MANAGE_TOKEN_CONFIRMATION_TRANSFER_DESCRIPTION: '전송이 진행 중입니다',
-    
+
         TRANSACTIONS_LIST_HEADER_TRANSACTION_CELL: '트랜잭션n',
         TRANSACTIONS_LIST_HEADER_TOTAL_VALUE_CELL: '총 가치',
         TRANSACTIONS_LIST_HEADER_LEFT_TOKEN_CELL: '왼쪽 토큰',
