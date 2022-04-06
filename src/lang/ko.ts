@@ -32,7 +32,7 @@ export default {
         FOOTER_TERMS_OF_USE_LINK_TEXT: '사용조건',
         FOOTER_PRIVACY_POLICY_LINK_TEXT: '프라이버시 정책',
         FOOTER_COOKIES_TERMS_LINK_TEXT: '쿠키',
-        FOOTER_COPYRIGHTS: '&copy; <a href="https://broxus.com" target="_blank" rel="noopener noreferrer">Broxus</a>, {year}',
+        FOOTER_COPYRIGHTS: '&copy; <a rel="noopener noreferrer">Dexada</a>, {year}',
 
         PAGINATION_BEFORE_TEXT: '페이지',
         PAGINATION_PAGE_OF: 'of {totalPages}',

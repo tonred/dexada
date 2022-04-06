@@ -145,7 +145,7 @@ export default (_: any, options: any): WebpackConfig => {
                 ],
             },
             {
-                test: /\.(png|jpe?g|gif|webp|svg|woff2?)$/,
+                test: /\.(png|pdf|jpe?g|gif|webp|svg|woff2?)$/,
                 use: {
                     loader: 'file-loader',
                     options: {

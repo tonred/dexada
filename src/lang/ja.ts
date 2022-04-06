@@ -32,7 +32,7 @@ OPEN_IN_EXPLORER: 'Open in explorer',
     FOOTER_TERMS_OF_USE_LINK_TEXT: '利用規約',
     FOOTER_PRIVACY_POLICY_LINK_TEXT: 'プライバシーポリシー',
     FOOTER_COOKIES_TERMS_LINK_TEXT: 'クッキー',
-    FOOTER_COPYRIGHTS: '&copy; <a href="https://broxus.com" target="_blank" rel="noopener noreferrer">Broxus</a>, {year}',
+    FOOTER_COPYRIGHTS: '&copy; <a rel="noopener noreferrer">Dexada</a>, {year}',
 
     PAGINATION_BEFORE_TEXT: 'ページ',
     PAGINATION_PAGE_OF: 'of {totalPages}',
