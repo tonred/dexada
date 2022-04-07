@@ -1,6 +1,9 @@
+// @ts-ignore
+import ogImg from '../../public/OG - Dexada-En.jpg'
+
 export default {
 
-OPEN_IN_EXPLORER: 'Open in explorer',
+    OPEN_IN_EXPLORER: 'Open in explorer',
 
     NAV_LINK_SOON_HINT: ' すぐ',
     NAV_LINK_TEXT_SWAP: 'スワップ',
@@ -628,4 +631,8 @@ OPEN_IN_EXPLORER: 'Open in explorer',
     TRANSACTIONS_LIST_EVENT_WITHDRAW: '削除します',
     TRANSACTIONS_LIST_NO_TRANSACTIONS: 'トランザクションなし',
     TRANSACTIONS_LIST_NULL: 'なし',
+
+    OG_META_TITLE: 'DEX、流動性プール、ファーミング, ベスティング | DEXADA',
+    OG_META_DESCRIPTION: 'エバースケールベースのDEXとファーミングのハーブ。 さまざまな資産の両替とファーミングとベスティングの機会があります。',
+    OG_META_IMG: ogImg,
 }

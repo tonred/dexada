@@ -1,4 +1,7 @@
 /* eslint-disable */
+// @ts-ignore
+import ogImg from '../../public/OG - Dexada-En.jpg'
+
 export default {
     OPEN_IN_EXPLORER: 'Open in explorer',
 
@@ -567,4 +570,9 @@ export default {
     TRANSACTIONS_LIST_NO_TRANSACTIONS: 'No transactions',
     TRANSACTIONS_LIST_NULL: 'N/A',
     TRANSACTIONS_LIST_TITLE: 'Transactions',
+
+    OG_META_TITLE: 'DEX, Liquidity Pools, Farming and Vesting | DEXADA',
+    OG_META_DESCRIPTION: 'Everscale powered DEX and farming hub. Exchange assets and explore a multitide of farming and vesting opportunities.',
+    OG_META_IMG: ogImg
+
 }
