@@ -12,6 +12,7 @@ import './index.scss'
 import PrivacyPolicyPdf from './policy/Dexada_Privacy_Policy.pdf'
 // @ts-ignore
 import TermsOfUse from './policy/Dexada_Terms_of_use.pdf'
+
 export function Footer(): JSX.Element {
     const intl = useIntl()
     const wallet = useWallet()
@@ -200,6 +201,15 @@ export function Footer(): JSX.Element {
                                 title="Medium"
                             >
                                 <Icon icon="medium" />
+                            </a>
+                        </li>
+                        <li>
+                            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                            <a
+                                rel="noopener noreferrer"
+                                title="Discord"
+                            >
+                                <Icon icon="discord" />
                             </a>
                         </li>
                     </ul>
