@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {IntlProvider} from 'react-intl'
+import { IntlProvider } from 'react-intl'
 import {
     Redirect,
     Route,
@@ -7,7 +7,7 @@ import {
     Switch,
 } from 'react-router-dom'
 import { Observer, observer } from 'mobx-react-lite'
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
 
 import { Footer } from '@/components/layout/Footer'
 import { TokensUpgradeModal } from '@/components/common/TokensUpgradeModal'
@@ -52,7 +52,7 @@ function App(): JSX.Element {
         <IntlProvider
             key="intl"
             locale={LOCALES[langStore.language]}
-            defaultLocale={LOCALES.en}
+            defaultLocale={LOCALES.ko}
             messages={messages[LOCALES[langStore.language]]}
             onError={noop}
         >
