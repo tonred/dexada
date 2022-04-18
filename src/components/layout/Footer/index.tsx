@@ -8,7 +8,10 @@ import { Logo } from '@/components/layout/Logo'
 import { useWallet } from '@/stores/WalletService'
 
 import './index.scss'
-
+// @ts-ignore
+import PrivacyPolicyPdf from './policy/Dexada_Privacy_Policy.pdf'
+// @ts-ignore
+import TermsOfUse from './policy/Dexada_Terms_of_use.pdf'
 
 export function Footer(): JSX.Element {
     const intl = useIntl()
@@ -182,12 +185,31 @@ export function Footer(): JSX.Element {
                         </li>
                         <li>
                             <a
+                                href="https://www.youtube.com/channel/UC3xAdlyTH0zbDNDRd3zhVlg"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                title="YouTube"
+                            >
+                                <Icon icon="youtube" />
+                            </a>
+                        </li>
+                        <li>
+                            <a
                                 href="https://medium.com/dexada"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 title="Medium"
                             >
                                 <Icon icon="medium" />
+                            </a>
+                        </li>
+                        <li>
+                            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                            <a
+                                rel="noopener noreferrer"
+                                title="Discord"
+                            >
+                                <Icon icon="discord" />
                             </a>
                         </li>
                     </ul>
@@ -208,7 +230,7 @@ export function Footer(): JSX.Element {
                             <ul>
                                 <li>
                                     <a
-                                        href="https://broxus.com/wp-content/uploads/2021/08/terms_of_use.pdf"
+                                        href={TermsOfUse}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
@@ -219,23 +241,12 @@ export function Footer(): JSX.Element {
                                 </li>
                                 <li>
                                     <a
-                                        href="https://broxus.com/wp-content/uploads/2021/08/privacy_policy.pdf"
+                                        href={PrivacyPolicyPdf}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
                                         {intl.formatMessage({
                                             id: 'FOOTER_PRIVACY_POLICY_LINK_TEXT',
-                                        })}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="https://broxus.com/wp-content/uploads/2021/08/cookie_policy.pdf"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        {intl.formatMessage({
-                                            id: 'FOOTER_COOKIES_TERMS_LINK_TEXT',
                                         })}
                                     </a>
                                 </li>

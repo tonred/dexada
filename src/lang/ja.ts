@@ -1,6 +1,9 @@
+// @ts-ignore
+import ogImg from '../../public/OG - Dexada-En.jpg'
+
 export default {
 
-OPEN_IN_EXPLORER: 'Open in explorer',
+    OPEN_IN_EXPLORER: 'Open in explorer',
 
     NAV_LINK_SOON_HINT: ' すぐ',
     NAV_LINK_TEXT_SWAP: 'スワップ',
@@ -32,7 +35,7 @@ OPEN_IN_EXPLORER: 'Open in explorer',
     FOOTER_TERMS_OF_USE_LINK_TEXT: '利用規約',
     FOOTER_PRIVACY_POLICY_LINK_TEXT: 'プライバシーポリシー',
     FOOTER_COOKIES_TERMS_LINK_TEXT: 'クッキー',
-    FOOTER_COPYRIGHTS: '&copy; <a href="https://broxus.com" target="_blank" rel="noopener noreferrer">Broxus</a>, {year}',
+    FOOTER_COPYRIGHTS: '&copy; <a rel="noopener noreferrer">Dexada</a>, {year}',
 
     PAGINATION_BEFORE_TEXT: 'ページ',
     PAGINATION_PAGE_OF: 'of {totalPages}',
@@ -628,4 +631,8 @@ OPEN_IN_EXPLORER: 'Open in explorer',
     TRANSACTIONS_LIST_EVENT_WITHDRAW: '削除します',
     TRANSACTIONS_LIST_NO_TRANSACTIONS: 'トランザクションなし',
     TRANSACTIONS_LIST_NULL: 'なし',
+
+    OG_META_TITLE: 'DEX、流動性プール、ファーミング, ベスティング | DEXADA',
+    OG_META_DESCRIPTION: 'エバースケールベースのDEXとファーミングのハーブ。 さまざまな資産の両替とファーミングとベスティングの機会があります。',
+    OG_META_IMG: ogImg,
 }

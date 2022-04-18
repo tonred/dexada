@@ -1,4 +1,7 @@
 /* eslint-disable */
+// @ts-ignore
+import ogImg from '../../public/OG - Dexada-En.jpg'
+
 export default {
     OPEN_IN_EXPLORER: 'Open in explorer',
 
@@ -37,7 +40,7 @@ export default {
     FOOTER_TERMS_OF_USE_LINK_TEXT: 'Terms of use',
     FOOTER_PRIVACY_POLICY_LINK_TEXT: 'Privacy policy',
     FOOTER_COOKIES_TERMS_LINK_TEXT: 'Cookies',
-    FOOTER_COPYRIGHTS: '&copy; <a href="https://broxus.com" target="_blank" rel="noopener noreferrer">Broxus</a>, {year}',
+    FOOTER_COPYRIGHTS: '&copy; <a rel="noopener noreferrer">Dexada</a>, {year}',
 
     PAGINATION_BEFORE_TEXT: 'Page',
     PAGINATION_PAGE_OF: 'of {totalPages}',
@@ -567,4 +570,9 @@ export default {
     TRANSACTIONS_LIST_NO_TRANSACTIONS: 'No transactions',
     TRANSACTIONS_LIST_NULL: 'N/A',
     TRANSACTIONS_LIST_TITLE: 'Transactions',
+
+    OG_META_TITLE: 'DEX, Liquidity Pools, Farming and Vesting | DEXADA',
+    OG_META_DESCRIPTION: 'Everscale powered DEX and farming hub. Exchange assets and explore a multitide of farming and vesting opportunities.',
+    OG_META_IMG: ogImg
+
 }

@@ -5,6 +5,6 @@ import jaLocale from '../lang/ja'
 
 export const messages = {
     [LOCALES.en]: enLocale,
-    [LOCALES.ko]: koLocale,
+    [LOCALES.한국어]: koLocale,
     [LOCALES.ja]: jaLocale
 }
