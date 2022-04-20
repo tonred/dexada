@@ -8,6 +8,7 @@ import { useSwapStore } from '@/modules/Swap/stores/SwapStore'
 import { useSwapSettings } from '@/modules/Swap/hooks/useSwapSettings'
 
 import './index.scss'
+import {useState} from "react";
 
 
 function Settings(): JSX.Element {
@@ -15,12 +16,21 @@ function Settings(): JSX.Element {
     const swap = useSwapStore()
     const settings = useSwapSettings()
 
+    const [settingsToggle,setSettingToggle] = useState(false)
+    const onSettingsClick = ()=> {
+        if(!settingsToggle) {
+            settings.show()
+        }
+        else {settings.hide()}
+        setSettingToggle(!settingsToggle)
+    }
+
     return (
         <div className="swap-settings">
             <Button
                 ref={settings.triggerRef}
                 className="swap-settings__btn"
-                onClick={settings.show}
+                onClick={onSettingsClick}
             >
                 <Icon icon="config" />
             </Button>

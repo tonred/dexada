@@ -120,7 +120,7 @@ export function Footer(): JSX.Element {
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="https://tonscan.io" target="_blank" rel="noopener noreferrer">
+                                    <a href="https://everscan.io" target="_blank" rel="noopener noreferrer">
                                         {intl.formatMessage({
                                             id: 'FOOTER_NAV_TON_SCAN_LINK_TEXT',
                                         })}
