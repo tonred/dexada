@@ -57,9 +57,18 @@ function App(): JSX.Element {
             onError={noop}
         >
             <Helmet>
-                <meta property="og.title" content="탈중앙화 거래소, 유동성 풀, 파밍, 베스팅 I DEXADA" />
-                <meta property="og.description" content="에버스케일 기반의 탈중앙화 거래소 및 파밍 허브. 가상자산을 환전하고 다양한 파밍 및 베스팅의 기회를 확보하세요." />
-                <meta property="og.image" content={ogImg} />
+                <meta property='title' content='탈중앙화 거래소, 유동성 풀, 파밍, 베스팅 I DEXADA'/>
+                <meta property='description' content='에버스케일 기반의 탈중앙화 거래소 및 파밍 허브. 가상자산을 환전하고 다양한 파밍 및 베스팅의 기회를 확보하세요.' />
+                <meta property='image' content={ogImg}/>
+                <meta property="twitter:title" content="탈중앙화 거래소, 유동성 풀, 파밍, 베스팅 I DEXADA" />
+                <meta property="twitter:description" content="에버스케일 기반의 탈중앙화 거래소 및 파밍 허브. 가상자산을 환전하고 다양한 파밍 및 베스팅의 기회를 확보하세요." />
+                <meta property="twitter:image" content={ogImg} />
+                <meta property='twitter:url' content='https://app.dexada.io'/>
+                <meta property="og:title" content="탈중앙화 거래소, 유동성 풀, 파밍, 베스팅 I DEXADA" />
+                <meta property="og:description" content="에버스케일 기반의 탈중앙화 거래소 및 파밍 허브. 가상자산을 환전하고 다양한 파밍 및 베스팅의 기회를 확보하세요." />
+                <meta property="og:image" content={ogImg} />
+                <meta property='og:url' content='https://app.dexada.io'/>
+                <meta property='og:type' content='website'/>
             </Helmet>
             <Router>
                 <div className="wrapper">

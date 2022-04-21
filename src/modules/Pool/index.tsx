@@ -25,6 +25,7 @@ import { useTokensCache } from '@/stores/TokensCacheService'
 import { useWallet } from '@/stores/WalletService'
 
 import './index.scss'
+import ModalWrapper from "@/components/common/ModalWrapper/ModalWrapper";
 
 
 export function Pool(): JSX.Element {
@@ -178,12 +179,14 @@ export function Pool(): JSX.Element {
             </Observer>
 
             {(form.isTokenListShown && form.tokenSide) && (
+                <ModalWrapper isOpen={form.isTokenListShown}>
                 <TokensList
                     key="tokensList"
                     currentToken={pool[form.tokenSide]}
                     onDismiss={form.hideTokensList}
                     onSelectToken={form.onSelectToken}
                 />
+                </ModalWrapper>
             )}
 
             <Observer>

@@ -23,6 +23,7 @@ import { TokenImportPopup } from '@/modules/TokensList/components'
 import { useTokensCache } from '@/stores/TokensCacheService'
 
 import './index.scss'
+import ModalWrapper from "@/components/common/ModalWrapper/ModalWrapper";
 
 
 export function Swap(): JSX.Element {
@@ -151,12 +152,14 @@ export function Swap(): JSX.Element {
             </Observer>
 
             {(form.isTokenListShown && form.tokenSide != null) && (
+                <ModalWrapper isOpen={form.isTokenListShown}>
                 <TokensList
                     key="tokensList"
                     currentToken={swap[form.tokenSide]}
                     onDismiss={form.hideTokensList}
                     onSelectToken={form.onSelectToken}
                 />
+                </ModalWrapper>
             )}
 
             <Observer>

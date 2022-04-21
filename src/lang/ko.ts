@@ -25,6 +25,11 @@ export default {
     WALLET_BALANCE_HINT: '{balance} EVER',
     WALLET_BTN_TEXT_CONNECT: '지갑(월릿)에 연결',
 
+    TOKENS_UPGRADE_POPUP_TITLE: 'Upgrade tokens',
+    TOKENS_UPGRADE_POPUP_NOTE: 'We found some outdated tokens in your wallet. Please, upgrade these tokens to continue.',
+    TOKENS_UPGRADE_UPGRADE_BTN_TEXT: 'Upgrade',
+    TOKENS_UPGRADE_UPGRADING_BTN_TEXT: 'Upgrading',
+
     FOOTER_NAV_HEADER_PRODUCT: '제품',
     FOOTER_NAV_HEADER_DEFI_PRODUCTS: 'DeFi 제품',
     FOOTER_NAV_TON_BRIDGE_LINK_TEXT: '옥터스브릿지',

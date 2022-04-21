@@ -9,6 +9,7 @@ import { TokensList } from '@/modules/TokensList'
 import { useTokensCache } from '@/stores/TokensCacheService'
 
 import './index.scss'
+import ModalWrapper from "@/components/common/ModalWrapper/ModalWrapper";
 
 type Props = {
     root?: string;
@@ -91,10 +92,12 @@ export function TokenSelector({
             </Button>
 
             {listVisible && (
-                <TokensList
-                    onDismiss={close}
-                    onSelectToken={select}
-                />
+                <ModalWrapper isOpen={listVisible}>
+                    <TokensList
+                        onDismiss={close}
+                        onSelectToken={select}
+                    />
+                </ModalWrapper>
             )}
         </>
     )

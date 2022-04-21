@@ -9,6 +9,7 @@ import { TransactionExplorerLink } from '@/components/common/TransactionExplorer
 import { UserAvatar } from '@/components/common/UserAvatar'
 import { useSwapStore } from '@/modules/Swap/stores/SwapStore'
 import { formattedTokenAmount } from '@/utils'
+import {Button} from "@/components/common/Button";
 
 
 function Transaction(): JSX.Element | null {
