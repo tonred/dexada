@@ -24,7 +24,7 @@ function Languages(): JSX.Element {
     return (
         <div className="languages">
             <div onClick={toggleList} className="picked-language">
-                {language.language}
+                {language.language === 'ja' ? '日本語' : language.language }
                 <Icon
                     className={cn(
                         "language-select__arrow",

@@ -5,5 +5,5 @@ type TLocales = {
 export const LOCALES: TLocales = {
     en: 'en',
     ko: '한국어',
-    ja: 'ja'
+    ja: 'ja',
 }

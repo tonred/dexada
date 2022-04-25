@@ -11,6 +11,7 @@ type TDropdownItem = {
 export function DropdownItem({ onClick, item }: TDropdownItem) {
     const language = useLanguageStore();
 
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     const setLanguage = (item: string) => {
         language.setLanguage(item);
         onClick();
@@ -22,7 +23,7 @@ export function DropdownItem({ onClick, item }: TDropdownItem) {
             key={`${item}-item`}
             className="language_dropdown-item"
         >
-            {item}
+            {item === 'ja' ? '日本語' : item}
         </li>
     );
 }

@@ -1,9 +1,10 @@
 import { makeAutoObservable } from 'mobx';
 
 export class LanguageStore {
+
     language = '';
 
-    constructor () {
+    constructor() {
         makeAutoObservable(this);
     }
 
