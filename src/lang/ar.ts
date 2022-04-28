@@ -1,8 +1,9 @@
+import Ar from "@/lang/ar.json"
+
 // @ts-ignore
 import ogImg from '../../public/OG - Dexada-En.jpg'
-import Ja from './ja.json'
 
 export default {
-    ...(Ja),
+    ...(Ar),
     OG_META_IMG: ogImg,
 }

@@ -18,4 +18,11 @@ export const CROSS_PAIR_EXCHANGE_WHITE_LIST = [
 
 export const SECONDS_IN_DAY = 86400
 
-export const LANGUAGES = [ '한국어', 'en', 'ja'];
+export enum LangEnum {
+    en = 'en',
+    ja = 'ja',
+    ko = 'ko',
+    ar = 'ar',
+}
+
+export const LANGUAGES = [{ key: LangEnum.ko , value: '한국어'},{ key: LangEnum.en, value:LangEnum.en }, {key: LangEnum.ja, value: '日本語'}, {key: LangEnum.ar, value: 'العربية'}];

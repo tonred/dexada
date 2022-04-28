@@ -2,9 +2,12 @@ import * as React from "react";
 import { DropdownItem } from "./components/DropdownItem";
 
 import "./index.scss";
-
+export type Lang = {
+    key:string,
+    value: string,
+}
 type TDropdown = {
-    items: string[];
+    items: Lang[];
     onCLick: () => void;
     isOpen: boolean;
 };
