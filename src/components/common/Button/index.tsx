@@ -1,36 +1,58 @@
 import * as React from 'react'
 import classNames from 'classnames'
 import { Link } from 'react-router-dom'
+import * as H from 'history'
 
 import './index.scss'
 
 
-interface Props extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+export interface AnchorButtonProps extends Omit<React.AnchorHTMLAttributes<any>, 'onClick'> {
+    href: string;
+    target?: string;
+    onClick?: React.MouseEventHandler<HTMLElement>;
+}
+
+export interface NativeButtonProps extends Omit<React.ButtonHTMLAttributes<any>, 'type' | 'onClick'> {
+    htmlType?: 'button' | 'reset' | 'submit';
+    onClick?: React.MouseEventHandler<HTMLElement>;
+}
+
+export interface ButtonProps<S = H.LocationState> extends Partial<AnchorButtonProps>, Partial<NativeButtonProps> {
     block?: boolean;
-    size?: 'sm' | 'md' | 'lg';
-    type?: 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'danger' | 'dark' | 'link' | 'icon';
-    link?: string;
+    ghost?: boolean;
+    href?: string;
+    link?: H.LocationDescriptor<S> | ((location: H.Location<S>) => H.LocationDescriptor<S>);
+    size?: 'xs' | 'sm' | 'md' | 'lg';
+    submit?: boolean;
+    type?: 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'danger' | 'dark' | 'link' | 'icon' | 'accept' | 'empty';
 }
 
 
-export const Button = React.forwardRef<HTMLButtonElement, Props>(({
+export const Button = React.forwardRef<unknown, ButtonProps>(({
     block,
     children,
     className,
-    size,
-    type,
+    ghost,
+    href,
     link,
+    size,
+    submit,
+    type,
     ...props
-}, ref) => {
+}, ref): JSX.Element => {
+    const buttonRef = (ref as any) || React.useRef<HTMLElement | null>(null)
+
     const _className = classNames('btn', {
-        [`btn--${size}`]: size !== undefined,
-        [`btn--${type}`]: type !== undefined,
-        'btn--block': block,
+        [`btn-${size}`]: size !== undefined,
+        [`btn-${type}`]: type !== undefined,
+        'btn-block': block,
+        'btn-ghost': ghost,
     }, className)
 
     if (link) {
         return (
             <Link
+                ref={buttonRef}
                 to={link}
                 className={_className}
             >
@@ -39,12 +61,26 @@ export const Button = React.forwardRef<HTMLButtonElement, Props>(({
         )
     }
 
+    if (href) {
+        return (
+            <a
+                ref={buttonRef}
+                className={_className}
+                href={href}
+                target="_blank"
+                rel="nofollow noopener noreferrer"
+            >
+                {children}
+            </a>
+        )
+    }
+
     return (
         <button
-            ref={ref}
+            ref={buttonRef}
             className={_className}
             {...props}
-            type="button"
+            type={submit ? 'submit' : 'button'}
         >
             {children}
         </button>

@@ -39,6 +39,7 @@
     "include": [
         "src/**/*.ts",
         "src/**/*.tsx",
+        "src/**/*.d.ts",
         "node_modules/@types/node/globals.d.ts"
     ]
 }

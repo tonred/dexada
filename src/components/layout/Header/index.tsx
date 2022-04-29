@@ -1,35 +1,70 @@
 import * as React from 'react'
-import { useIntl } from 'react-intl'
-import { Helmet } from 'react-helmet'
+import { Observer } from 'mobx-react-lite'
+import Media from 'react-media'
+import { Link } from 'react-router-dom'
 
+import { Navbar } from '@/components/common/Navbar'
+import { DesktopNav } from '@/components/layout/DesktopNav'
+import { HeaderDrawer } from '@/components/layout/Header/HeaderDrawer'
+import { LangSwitcher } from '@/components/layout/LangSwitcher'
 import { Logo } from '@/components/layout/Logo'
-import { Nav } from '@/components/layout/Nav'
+import { EverWallet } from '@/modules/Accounts'
+import { useWallet } from '@/stores/WalletService'
 
 import './index.scss'
-import Languages from '../Languages'
 
 
 export function Header(): JSX.Element {
-    const intl = useIntl()
+    const wallet = useWallet()
+
     return (
         <header className="header">
-            <Logo />
-            <Nav />
-            <div className="mobile-languages">
-                <Languages />
-            </div>
-            <Helmet>
-                <meta property='title' content={intl.formatMessage({ id: 'OG_META_TITLE' })}/>
-                <meta property='description' content={intl.formatMessage({ id: 'OG_META_DESCRIPTION' })} />
-                <meta property='image' content={intl.formatMessage({ id: 'OG_META_IMG' })}/>
-                <meta property="twitter:title" content={intl.formatMessage({ id: 'OG_META_TITLE' })}/>
-                <meta property="twitter:description" content={intl.formatMessage({ id: 'OG_META_DESCRIPTION' })} />
-                <meta property="twitter:image" content={intl.formatMessage({ id: 'OG_META_IMG' })} />
-                <meta property="og:title" content={intl.formatMessage({ id: 'OG_META_TITLE' })} />
-                <meta property="og:description" content={intl.formatMessage({ id: 'OG_META_DESCRIPTION' })} />
-                <meta property="og:image" content={intl.formatMessage({ id: 'OG_META_IMG' })} />
+            <Navbar className="width-expand">
+                <Media query={{ minWidth: 768 }}>
+                    {match => match && (
+                        <>
+                            <Navbar.Item>
+                                <Link to="/" className="logo">
+                                    <Logo />
+                                </Link>
+                            </Navbar.Item>
+                            <DesktopNav />
+                            <Navbar.Right className="header-switchers" component={Navbar.Item}>
+                                <LangSwitcher />
+                                <EverWallet showDisconnectButton />
+                            </Navbar.Right>
+                        </>
+                    )}
+                </Media>
 
-            </Helmet>
+                <Media query={{ maxWidth: 767 }}>
+                    {match => match && (
+                        <Observer>
+                            {() => (
+                                <>
+                                    <Navbar.Item>
+                                        <Link to="/" className="logo">
+                                            <Logo ratio={0.9} />
+                                        </Link>
+                                    </Navbar.Item>
+                                    <Navbar.Item
+                                        style={{
+                                            justifyContent: 'space-between',
+                                            paddingRight: 0,
+                                            width: '100%',
+                                        }}
+                                    >
+                                        <EverWallet showDisconnectButton={false} />
+                                        <Navbar.Toggle icon>
+                                            <HeaderDrawer />
+                                        </Navbar.Toggle>
+                                    </Navbar.Item>
+                                </>
+                            )}
+                        </Observer>
+                    )}
+                </Media>
+            </Navbar>
         </header>
     )
 }

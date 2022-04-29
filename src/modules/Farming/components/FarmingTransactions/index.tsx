@@ -3,6 +3,7 @@ import * as React from 'react'
 import { useIntl } from 'react-intl'
 import { observer } from 'mobx-react-lite'
 
+import { NativeScrollArea } from '@/components/common/NativeScrollArea'
 import { Tabs } from '@/components/common/Tabs'
 import { Checkbox } from '@/components/common/Checkbox'
 import { ContentLoader } from '@/components/common/ContentLoader'
@@ -85,39 +86,43 @@ export function FarmingTransactionsInner({
     return (
         <div className="farming-transactions">
             <div className="farming-transactions__head">
-                <Tabs
-                    items={[{
-                        label: intl.formatMessage({
-                            id: 'FARMING_TRANSACTIONS_TAB_ALL',
-                        }),
-                        active: eventType === null,
-                        onClick: clickTabFn(null),
-                    }, {
-                        label: intl.formatMessage({
-                            id: 'FARMING_TRANSACTIONS_TAB_CLAIMS',
-                        }),
-                        active: eventType === 'claim',
-                        onClick: clickTabFn('claim'),
-                    }, {
-                        label: intl.formatMessage({
-                            id: 'FARMING_TRANSACTIONS_TAB_DEPOSITS',
-                        }),
-                        active: eventType === 'deposit',
-                        onClick: clickTabFn('deposit'),
-                    }, {
-                        label: intl.formatMessage({
-                            id: 'FARMING_TRANSACTIONS_TAB_WITHDRAW',
-                        }),
-                        active: eventType === 'withdraw',
-                        onClick: clickTabFn('withdraw'),
-                    }, {
-                        label: intl.formatMessage({
-                            id: 'FARMING_TRANSACTIONS_TAB_REWARD',
-                        }),
-                        active: eventType === 'rewarddeposit',
-                        onClick: clickTabFn('rewarddeposit'),
-                    }]}
-                />
+                <div style={{ maxWidth: '100%' }}>
+                    <NativeScrollArea>
+                        <Tabs
+                            items={[{
+                                label: intl.formatMessage({
+                                    id: 'FARMING_TRANSACTIONS_TAB_ALL',
+                                }),
+                                active: eventType === null,
+                                onClick: clickTabFn(null),
+                            }, {
+                                label: intl.formatMessage({
+                                    id: 'FARMING_TRANSACTIONS_TAB_CLAIMS',
+                                }),
+                                active: eventType === 'claim',
+                                onClick: clickTabFn('claim'),
+                            }, {
+                                label: intl.formatMessage({
+                                    id: 'FARMING_TRANSACTIONS_TAB_DEPOSITS',
+                                }),
+                                active: eventType === 'deposit',
+                                onClick: clickTabFn('deposit'),
+                            }, {
+                                label: intl.formatMessage({
+                                    id: 'FARMING_TRANSACTIONS_TAB_WITHDRAW',
+                                }),
+                                active: eventType === 'withdraw',
+                                onClick: clickTabFn('withdraw'),
+                            }, {
+                                label: intl.formatMessage({
+                                    id: 'FARMING_TRANSACTIONS_TAB_REWARD',
+                                }),
+                                active: eventType === 'rewarddeposit',
+                                onClick: clickTabFn('rewarddeposit'),
+                            }]}
+                        />
+                    </NativeScrollArea>
+                </div>
 
                 {userAddress && (
                     <Checkbox

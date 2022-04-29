@@ -1,14 +1,13 @@
-import {
-    IReactionDisposer,
-    makeAutoObservable,
-    reaction,
-    runInAction,
-} from 'mobx'
 import { Address, TransactionId } from 'everscale-inpage-provider'
+import {
+    computed, IReactionDisposer, makeObservable, reaction,
+} from 'mobx'
 
 import { Dex, getDexAccount } from '@/misc'
+import { BaseStore } from '@/stores/BaseStore'
 import { useWallet, WalletService } from '@/stores/WalletService'
 import { debounce, timeoutPromise } from '@/utils'
+
 
 export type Balances = Map<string, string>
 
@@ -26,20 +25,22 @@ const DEFAULT_DEX_ACCOUNT_DATA: DexAccountData = {
 }
 
 
-export class DexAccountService {
-
-    /**
-     * Current data of the DEX account
-     * @type {DexAccountData}
-     * @protected
-     */
-    protected data: DexAccountData = DEFAULT_DEX_ACCOUNT_DATA
+export class DexAccountService extends BaseStore<DexAccountData, never> {
 
     constructor(protected readonly wallet: WalletService) {
-        makeAutoObservable(this)
+        super()
+
+        this.setData(() => DEFAULT_DEX_ACCOUNT_DATA)
+
+        makeObservable(this, {
+            address: computed,
+            balances: computed,
+            wallets: computed,
+            isConnected: computed,
+        })
 
         this.#walletAccountDisposer = reaction(() => this.wallet.address, () => {
-            this.data = DEFAULT_DEX_ACCOUNT_DATA
+            this.setData(() => DEFAULT_DEX_ACCOUNT_DATA)
         })
     }
 
@@ -54,9 +55,7 @@ export class DexAccountService {
 
         const address = await getDexAccount(this.wallet.address)
 
-        runInAction(() => {
-            this.data.address = address
-        })
+        this.setData('address', address)
     }
 
     /**
@@ -130,6 +129,9 @@ export class DexAccountService {
         await this.sync()
     }
 
+    /**
+     *
+     */
     public async sync(): Promise<void> {
         await this.syncBalances()
         await this.syncWallets()
@@ -147,9 +149,7 @@ export class DexAccountService {
 
         const balances = await Dex.accountBalances(new Address(this.address))
 
-        runInAction(() => {
-            this.data.balances = balances
-        })
+        this.setData('balances', balances)
     }
 
     /**
@@ -163,9 +163,7 @@ export class DexAccountService {
 
         const wallets = await Dex.accountWallets(new Address(this.address))
 
-        runInAction(() => {
-            this.data.wallets = wallets
-        })
+        this.setData('wallets', wallets)
     }
 
     /**
@@ -200,6 +198,10 @@ export class DexAccountService {
         return this.wallets?.get(root)
     }
 
+    /**
+     *
+     * @param address
+     */
     public getBalance(address: Address): string | undefined {
         return this.balances?.get(address.toString())
     }

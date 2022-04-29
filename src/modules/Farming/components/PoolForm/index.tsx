@@ -7,7 +7,8 @@ import { FarmingPoolStoreData, FarmPool } from '@/modules/Farming/types'
 import { useFarmingPool } from '@/modules/Farming/stores/FarmingPoolStore'
 import { formattedAmount } from '@/utils'
 import {
-    isClaimValid, isClosePoolValid,
+    isClaimValid,
+    isClosePoolValid,
     isCreatePeriodValid,
     isDepositValid,
     isWithdrawAllValid,
@@ -15,11 +16,9 @@ import {
 
 import './index.scss'
 
-
 type Props = {
     pool: FarmPool;
 }
-
 
 export function PoolForm({ pool }: Props): JSX.Element {
     const intl = useIntl()
@@ -92,13 +91,13 @@ export function PoolForm({ pool }: Props): JSX.Element {
                                 </Button>
                             </div>
                             <Button
-                                size="sm"
-                                type="primary"
                                 disabled={!isDepositValid(
                                     farmingPool.userDeposit,
                                     farmingPool.userWalletBalance,
                                     pool.tokenDecimals,
                                 ) || farmingPool.isUserDepositing}
+                                size="sm"
+                                type="primary"
                                 onClick={farmingPool.depositToken}
                             >
                                 {intl.formatMessage({
@@ -108,11 +107,11 @@ export function PoolForm({ pool }: Props): JSX.Element {
                                 })}
                             </Button>
                             <Button
-                                size="sm"
-                                type="primary"
                                 disabled={!isClaimValid(
                                     pool.userReward,
                                 ) || farmingPool.isUserDepositing}
+                                size="sm"
+                                type="primary"
                                 onClick={farmingPool.withdrawUnclaimed}
                             >
                                 {intl.formatMessage({
@@ -120,11 +119,11 @@ export function PoolForm({ pool }: Props): JSX.Element {
                                 })}
                             </Button>
                             <Button
-                                size="sm"
-                                type="primary"
                                 disabled={!isWithdrawAllValid(
                                     pool.userBalance,
                                 ) || farmingPool.isUserDepositing}
+                                size="sm"
+                                type="primary"
                                 onClick={farmingPool.withdrawAll}
                             >
                                 {intl.formatMessage({
@@ -229,7 +228,8 @@ export function PoolForm({ pool }: Props): JSX.Element {
                                         </React.Fragment>
                                     ))}
                                     <Button
-                                        disabled={farmingPool.isAdminDepositing || !isCreatePeriodValid(
+                                        disabled={farmingPool.isAdminDepositing
+                                        || !isCreatePeriodValid(
                                             farmingPool.adminCreatePeriodStartTime,
                                             farmingPool.adminCreatePeriodRPS,
                                         )}
@@ -256,12 +256,12 @@ export function PoolForm({ pool }: Props): JSX.Element {
                                         />
                                     </div>
                                     <Button
-                                        size="sm"
-                                        type="primary"
                                         disabled={farmingPool.isAdminDepositing
                                         || !isClosePoolValid(
                                             farmingPool.adminSetEndTime,
                                         )}
+                                        size="sm"
+                                        type="primary"
                                         onClick={farmingPool.onAdminSetEndTime}
                                     >
                                         {intl.formatMessage({

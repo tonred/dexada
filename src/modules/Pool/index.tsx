@@ -25,7 +25,6 @@ import { useTokensCache } from '@/stores/TokensCacheService'
 import { useWallet } from '@/stores/WalletService'
 
 import './index.scss'
-import ModalWrapper from "@/components/common/ModalWrapper/ModalWrapper";
 
 
 export function Pool(): JSX.Element {
@@ -61,15 +60,20 @@ export function Pool(): JSX.Element {
                             {() => (
                                 <PoolField
                                     key="leftField"
-                                    dexAccountBalance={pool.dexLeftBalance}
+                                    balance={pool.formattedLeftBalance}
                                     label={intl.formatMessage({
                                         id: 'POOL_FIELD_LABEL_LEFT',
                                     })}
+                                    id="leftField"
                                     isCaution={pool.isAutoExchangeEnabled}
-                                    isValid={useBalanceValidation(
-                                        pool.leftToken,
-                                        pool.leftAmount,
-                                        pool.dexLeftBalance,
+                                    isValid={(
+                                        pool.isDepositingLeft
+                                        || pool.isDepositingLiquidity
+                                        || useBalanceValidation(
+                                            pool.leftToken,
+                                            pool.leftAmount,
+                                            pool.dexLeftBalance,
+                                        )
                                     )}
                                     token={pool.leftToken}
                                     value={pool.leftAmount}
@@ -85,27 +89,28 @@ export function Pool(): JSX.Element {
                             )}
                         </Observer>
 
-                        <Observer>
-                            {() => (
-                                <div className="pool-linkage">
-                                    <Icon icon="link" ratio={1.8} />
-                                </div>
-                            )}
-                        </Observer>
+                        <div className="pool-linkage">
+                            <Icon icon="link" ratio={1.8} />
+                        </div>
 
                         <Observer>
                             {() => (
                                 <PoolField
                                     key="rightField"
-                                    dexAccountBalance={pool.dexRightBalance}
+                                    balance={pool.formattedRightBalance}
                                     label={intl.formatMessage({
                                         id: 'POOL_FIELD_LABEL_RIGHT',
                                     })}
+                                    id="rightField"
                                     isCaution={pool.isAutoExchangeEnabled}
-                                    isValid={useBalanceValidation(
-                                        pool.rightToken,
-                                        pool.rightAmount,
-                                        pool.dexRightBalance,
+                                    isValid={(
+                                        pool.isDepositingRight
+                                        || pool.isDepositingLiquidity
+                                        || useBalanceValidation(
+                                            pool.rightToken,
+                                            pool.rightAmount,
+                                            pool.dexRightBalance,
+                                        )
                                     )}
                                     token={pool.rightToken}
                                     value={pool.rightAmount}
@@ -178,15 +183,22 @@ export function Pool(): JSX.Element {
                 )}
             </Observer>
 
-            {(form.isTokenListShown && form.tokenSide) && (
-                <ModalWrapper isOpen={form.isTokenListShown}>
+            {(form.isTokenListShown && form.tokenSide === 'leftToken') && (
                 <TokensList
-                    key="tokensList"
-                    currentToken={pool[form.tokenSide]}
+                    key="leftTokensList"
+                    currentToken={pool.leftToken}
                     onDismiss={form.hideTokensList}
-                    onSelectToken={form.onSelectToken}
+                    onSelectToken={form.onSelectLeftToken}
                 />
-                </ModalWrapper>
+            )}
+
+            {(form.isTokenListShown && form.tokenSide === 'rightToken') && (
+                <TokensList
+                    key="rightTokensList"
+                    currentToken={pool.rightToken}
+                    onDismiss={form.hideTokensList}
+                    onSelectToken={form.onSelectRightToken}
+                />
             )}
 
             <Observer>

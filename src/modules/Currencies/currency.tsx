@@ -79,28 +79,30 @@ function CurrencyInner(): JSX.Element {
                         <div className="currency-page__header-actions">
                             <AccountExplorerLink
                                 address={store.currency?.address}
-                                className="btn btn--md btn--icon"
+                                className="btn btn-md btn-icon"
                             >
                                 <Icon icon="externalLink" />
                             </AccountExplorerLink>
-                            <Button
-                                link={`/pool/${store.currency?.address}`}
-                                size="md"
-                                type="secondary"
-                            >
-                                {intl.formatMessage({
-                                    id: 'CURRENCY_ADD_LIQUIDITY_BTN_TEXT',
-                                })}
-                            </Button>
-                            <Button
-                                link={`/swap/${store.currency?.address}`}
-                                size="md"
-                                type="primary"
-                            >
-                                {intl.formatMessage({
-                                    id: 'CURRENCY_TRADE_BTN_TEXT',
-                                })}
-                            </Button>
+                            <div className="currency-page__header-actions-inner">
+                                <Button
+                                    size="md"
+                                    type="secondary"
+                                    link={`/pool/${store.currency?.address}`}
+                                >
+                                    {intl.formatMessage({
+                                        id: 'CURRENCY_ADD_LIQUIDITY_BTN_TEXT',
+                                    })}
+                                </Button>
+                                <Button
+                                    size="md"
+                                    type="primary"
+                                    link={`/swap/${store.currency?.address}`}
+                                >
+                                    {intl.formatMessage({
+                                        id: 'CURRENCY_TRADE_BTN_TEXT',
+                                    })}
+                                </Button>
+                            </div>
                         </div>
                     )}
                 </header>

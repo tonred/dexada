@@ -4,10 +4,10 @@ import { observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
 
-import { Button } from '@/components/common/Button'
-import { Icon } from '@/components/common/Icon'
-import { ContentLoader } from '@/components/common/ContentLoader'
 import { Breadcrumb } from '@/components/common/Breadcrumb'
+import { Button } from '@/components/common/Button'
+import { ContentLoader } from '@/components/common/ContentLoader'
+import { Icon } from '@/components/common/Icon'
 import { SectionTitle } from '@/components/common/SectionTitle'
 import { FarmingHead } from '@/modules/Farming/components/FarmingHead'
 import {
@@ -230,6 +230,7 @@ export function FarmingInner(): JSX.Element {
                                             </SectionTitle>
 
                                             <Button
+                                                className="btn-square"
                                                 size="md"
                                                 type="icon"
                                                 onClick={showConfig}
@@ -349,6 +350,7 @@ export function FarmingInner(): JSX.Element {
 
                                                 {farmingData.isAdmin && (
                                                     <Button
+                                                        className="btn-square"
                                                         size="md"
                                                         type="icon"
                                                         onClick={showConfig}

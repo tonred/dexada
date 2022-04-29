@@ -34,7 +34,7 @@ export function FarmingToggleButtonInner({
 
     return (
         <Button
-            className={classNames('btn-fav', {
+            className={classNames('btn-square btn-fav', {
                 active: favoriteFarmings.addresses.includes(poolAddress),
             })}
             size="md"

@@ -23,6 +23,9 @@ export const apiRoutes = {
     crossPairs: new Route(
         '/pairs/cross_pairs',
     ),
+    newCrossPairs: new Route(
+        '/pairs/new_cross_pairs',
+    ),
     pair: new Route<{ address: string }>(
         '/pairs/address/:address([0][:][0-9a-f]{64})?',
     ),
@@ -75,7 +78,7 @@ export const farmingApiRoutes = {
 
 export const appRoutes = {
     swap: new Route<{ leftTokenRoot?: string, rightTokenRoot?: string }>(
-        '/swap/:leftTokenRoot([0][:][0-9a-f]{64})?/:rightTokenRoot([0][:][0-9a-f]{64})?',
+        '/swap/:leftTokenRoot?/:rightTokenRoot?',
     ),
     poolList: new Route(
         '/pools',

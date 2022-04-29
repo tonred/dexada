@@ -5,13 +5,15 @@ import path from 'path'
 import webpack from 'webpack'
 import { Configuration as DevServerConfiguration } from 'webpack-dev-server'
 
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 type WebpackConfig = webpack.Configuration & { devServer?: DevServerConfiguration }
 
 
 export default (_: any, options: any): WebpackConfig => {
-    const HOST = process.env.HOST ?? 'localhost'
-    const PORT = parseInt(process.env.PORT ?? '3000', 10)
+    const host = process.env.HOST ?? '0.0.0.0'
+    const port = parseInt(process.env.PORT ?? '3000', 10)
+    const showErrors = process.env.ERRORS
 
     const isProduction = options.mode === 'production'
     const isDevelopment = options.mode === 'development'
@@ -88,13 +90,13 @@ export default (_: any, options: any): WebpackConfig => {
 
     config.plugins = []
 
-    if (isDevelopment) {
-        config.plugins.push(new webpack.HotModuleReplacementPlugin())
+    if (isDevelopment && showErrors) {
+        config.plugins.push(new ForkTsCheckerWebpackPlugin())
     }
 
     config.plugins.push(
         new HtmlWebpackPlugin({
-            title: 'DexADA',
+            title: '탈중앙화 거래소, 유동성 풀, 파밍, 베스팅 I DEXADA',
             favicon: 'public/favicon.svg',
             filename: path.resolve(__dirname, 'dist/index.html'),
             template: 'public/index.html',
@@ -117,6 +119,11 @@ export default (_: any, options: any): WebpackConfig => {
                     {
                         context: 'public',
                         from: 'favicon.svg',
+                    },
+                    {
+                        context: 'public',
+                        from: 'meta-image.png',
+                        to: 'assets/meta-image.png'
                     },
                 ],
             }),
@@ -170,7 +177,7 @@ export default (_: any, options: any): WebpackConfig => {
             '@': path.resolve(__dirname, 'src')
         },
 
-        extensions: ['.js', '.jsx', '.ts', '.tsx', '.scss', '.css'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.d.ts', '.scss', '.css'],
 
         modules: [
             path.resolve(__dirname, 'src'),
@@ -196,10 +203,11 @@ export default (_: any, options: any): WebpackConfig => {
 
     if (isDevelopment) {
         config.devServer = {
-            host: HOST,
-            port: PORT,
-            hot: true,
-            historyApiFallback: true
+            host,
+            port,
+            historyApiFallback: true,
+            liveReload: false,
+            hot: false,
         }
     }
 

@@ -14,6 +14,23 @@ function SubmitButton(): JSX.Element {
     const wallet = useWallet()
     const pool = usePoolStore()
 
+    if (pool.isPreparing) {
+        return (
+            <Button
+                aria-disabled="true"
+                block
+                className="form-submit"
+                disabled
+                size="lg"
+                type="primary"
+            >
+                {intl.formatMessage({
+                    id: 'POOL_BTN_TEXT_PREPARING',
+                })}
+            </Button>
+        )
+    }
+
     const buttonProps: Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> = {
         disabled: false,
     }
@@ -171,7 +188,7 @@ function SubmitButton(): JSX.Element {
             await wallet.connect()
         }
         buttonText = intl.formatMessage({
-            id: 'WALLET_BTN_TEXT_CONNECT',
+            id: 'EVER_WALLET_CONNECT_BTN_TEXT',
         })
     }
 

@@ -54,8 +54,8 @@ export function FarmingAction({
                 />
 
                 <Button
-                    className="btn-with-icon"
                     disabled={submitDisabled || loading}
+                    className="btn-with-icon"
                     type="primary"
                     onClick={onClickSubmit}
                 >

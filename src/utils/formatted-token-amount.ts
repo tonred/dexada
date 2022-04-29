@@ -14,7 +14,7 @@ export function formattedTokenAmount(
     const integerNumber = new BigNumber(parts[0] || 0)
 
     let fractionalPartNumber = new BigNumber(`0.${parts[1] || 0}`)
-    const roundOn = options?.roundOn === true ? 1e3 : options?.roundOn
+    const roundOn = typeof options?.roundOn === 'boolean' ? (options.roundOn && 1e3) : (options?.roundOn ?? 1e3)
 
     if (options?.preserve) {
         if (roundOn && integerNumber.gte(roundOn)) {
@@ -25,6 +25,9 @@ export function formattedTokenAmount(
     }
 
     if (options?.truncate !== undefined && options.truncate >= 0) {
+        if (roundOn && integerNumber.gte(roundOn)) {
+            return formatDigits(integerNumber.toFixed()) ?? ''
+        }
         fractionalPartNumber = fractionalPartNumber.dp(options?.truncate, BigNumber.ROUND_DOWN)
         digits.push(fractionalPartNumber.toFixed().split('.')[1])
         return digits.filter(Boolean).join('.')
@@ -34,25 +37,22 @@ export function formattedTokenAmount(
         return formatDigits(integerNumber.toFixed()) ?? ''
     }
 
-    let dp = 0
-
     switch (true) {
         case fractionalPartNumber.lte(1e-8):
-            dp = fractionalPartNumber.decimalPlaces()
+            fractionalPartNumber = fractionalPartNumber.precision(4, BigNumber.ROUND_DOWN)
             break
 
         case integerNumber.lt(1):
-            dp = 8
+            fractionalPartNumber = fractionalPartNumber.dp(8, BigNumber.ROUND_DOWN)
             break
 
         case integerNumber.lt(1e3):
-            dp = 4
+            fractionalPartNumber = fractionalPartNumber.dp(4, BigNumber.ROUND_DOWN)
             break
 
         default:
+            fractionalPartNumber = fractionalPartNumber.dp(0, BigNumber.ROUND_DOWN)
     }
-
-    fractionalPartNumber = fractionalPartNumber.dp(dp, BigNumber.ROUND_DOWN)
 
     digits.push(fractionalPartNumber.toFixed().split('.')[1])
 

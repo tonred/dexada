@@ -9,7 +9,6 @@ import { TokensList } from '@/modules/TokensList'
 import { useTokensCache } from '@/stores/TokensCacheService'
 
 import './index.scss'
-import ModalWrapper from "@/components/common/ModalWrapper/ModalWrapper";
 
 type Props = {
     root?: string;
@@ -60,18 +59,20 @@ export function TokenSelector({
 
     React.useEffect(() => {
         if (root) {
-            tokensCache.syncCustomToken(root)
+            (async () => {
+                await tokensCache.syncCustomToken(root)
+            })()
         }
     }, [root])
 
     return (
         <>
             <Button
+                onClick={open}
                 className={classNames('token-selector', {
                     'token-selector_dirty': Boolean(token),
                     [`token-selector_size_${size}`]: Boolean(size),
                 })}
-                onClick={open}
             >
                 <span
                     className="token-selector__value"
@@ -92,12 +93,10 @@ export function TokenSelector({
             </Button>
 
             {listVisible && (
-                <ModalWrapper isOpen={listVisible}>
-                    <TokensList
-                        onDismiss={close}
-                        onSelectToken={select}
-                    />
-                </ModalWrapper>
+                <TokensList
+                    onDismiss={close}
+                    onSelectToken={select}
+                />
             )}
         </>
     )

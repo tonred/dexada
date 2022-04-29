@@ -58,12 +58,13 @@ export function AmountInput({
 
             {maxIsVisible && (
                 <Button
-                    type="secondary"
                     className={classNames({
-                        'btn--sm': size === 'small',
+                        'btn-sm': size === 'small',
                     })}
-                    onClick={onClickMax}
                     disabled={disabled}
+                    ghost
+                    type="secondary"
+                    onClick={onClickMax}
                 >
                     {intl.formatMessage({
                         id: 'AMOUNT_INPUT_MAX',

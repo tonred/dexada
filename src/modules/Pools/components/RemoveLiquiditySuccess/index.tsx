@@ -5,11 +5,11 @@ import { observer } from 'mobx-react-lite'
 
 import { Button } from '@/components/common/Button'
 import { Icon } from '@/components/common/Icon'
+import { TransactionExplorerLink } from '@/components/common/TransactionExplorerLink'
 import { useTokensCache } from '@/stores/TokensCacheService'
 import { formattedTokenAmount } from '@/utils'
 
 import './index.scss'
-
 
 type Props = {
     lpAmount?: string;
@@ -124,16 +124,14 @@ function RemoveLiquiditySuccessInner({
 
                 {transactionHash && (
                     <div className="remove-liquidity-success__action">
-                        <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href={`https://everscan.io/transactions/${transactionHash}`}
-                            className="btn btn--empty"
+                        <TransactionExplorerLink
+                            className="btn btn-ghost btn-md btn-block btn-secondary"
+                            id={transactionHash}
                         >
                             {intl.formatMessage({
                                 id: 'REMOVE_LIQUIDITY_SUCCESS_SUBMIT',
                             })}
-                        </a>
+                        </TransactionExplorerLink>
                     </div>
                 )}
             </div>

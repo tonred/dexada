@@ -71,7 +71,7 @@ function FarmingAdminWithdrawInner({
                 <div>
                     <Button
                         disabled={disabled}
-                        type="tertiary"
+                        type="secondary"
                         onClick={onSubmit}
                     >
                         {intl.formatMessage({

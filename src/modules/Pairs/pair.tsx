@@ -1,6 +1,6 @@
-import { reaction } from 'mobx'
 import * as React from 'react'
 import BigNumber from 'bignumber.js'
+import { reaction } from 'mobx'
 import { Observer, observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
 
@@ -176,7 +176,7 @@ function PairInner(): JSX.Element {
                         </div>
                         <div className="pair-page__header-actions">
                             {store.pair?.meta.poolAddress !== undefined && (
-                                <div>
+                                <div className="pair-page__header-actions-secondary">
                                     <TogglePoolButton
                                         poolAddress={store.pair.meta.poolAddress}
                                         leftSymbol={baseToken?.symbol}
@@ -191,24 +191,26 @@ function PairInner(): JSX.Element {
                                     </AccountExplorerLink>
                                 </div>
                             )}
-                            <Button
-                                link={`/pool/${baseToken?.root || store.pair?.meta.baseAddress}/${counterToken?.root || store.pair?.meta.counterAddress}`}
-                                size="md"
-                                type="secondary"
-                            >
-                                {intl.formatMessage({
-                                    id: 'PAIR_ADD_LIQUIDITY_BTN_TEXT',
-                                })}
-                            </Button>
-                            <Button
-                                link={`/swap/${baseToken?.root || store.pair?.meta.baseAddress}/${counterToken?.root || store.pair?.meta.counterAddress}`}
-                                size="md"
-                                type="primary"
-                            >
-                                {intl.formatMessage({
-                                    id: 'PAIR_TRADE_BTN_TEXT',
-                                })}
-                            </Button>
+                            <div className="pair-page__header-actions-inner">
+                                <Button
+                                    link={`/pool/${baseToken?.root || store.pair?.meta.baseAddress}/${counterToken?.root || store.pair?.meta.counterAddress}`}
+                                    size="md"
+                                    type="secondary"
+                                >
+                                    {intl.formatMessage({
+                                        id: 'PAIR_ADD_LIQUIDITY_BTN_TEXT',
+                                    })}
+                                </Button>
+                                <Button
+                                    link={`/swap/${baseToken?.root || store.pair?.meta.baseAddress}/${counterToken?.root || store.pair?.meta.counterAddress}`}
+                                    size="md"
+                                    type="primary"
+                                >
+                                    {intl.formatMessage({
+                                        id: 'PAIR_TRADE_BTN_TEXT',
+                                    })}
+                                </Button>
+                            </div>
                         </div>
                     </header>
 

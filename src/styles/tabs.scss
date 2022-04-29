@@ -2,13 +2,13 @@
     align-items: center;
     column-gap: 20px;
     display: flex;
-    justify-content: flex-end;
+    height: 40px;
 
     > li {
         position: relative;
 
         a {
-            color: #ffffff;
+            color: #fff;
             cursor: pointer;
             font-size: 16px;
             font-weight: 500;
@@ -16,9 +16,10 @@
             line-height: 20px;
             opacity: 0.48;
             text-decoration: none;
+            white-space: nowrap;
 
             &:hover {
-                color: #ffffff;
+                color: #fff;
                 opacity: 1;
             }
         }
@@ -27,7 +28,7 @@
             a { opacity: 1; }
 
             &::after {
-                background-color: #ffffff;
+                background-color: #fff;
                 bottom: -10px;
                 content: '';
                 display: block;

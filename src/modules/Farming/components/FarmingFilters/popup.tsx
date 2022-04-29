@@ -255,8 +255,7 @@ export function FarmingFiltersPopup({
             <div className="farming-filters-popup__footer">
                 <Button
                     disabled={!resetEnabled}
-                    size="sm"
-                    type="tertiary"
+                    type="secondary"
                     onClick={reset}
                 >
                     {intl.formatMessage({
@@ -265,9 +264,8 @@ export function FarmingFiltersPopup({
                 </Button>
                 <Button
                     disabled={!applyEnabled}
-                    size="sm"
+                    submit
                     type="primary"
-                    onClick={submit}
                 >
                     {intl.formatMessage({
                         id: 'FARMING_FILTER_APPLY',

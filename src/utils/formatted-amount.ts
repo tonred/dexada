@@ -31,7 +31,7 @@ export function formattedAmount(
     const integerNumber = new BigNumber(parts[0] || 0)
 
     let fractionalPartNumber = new BigNumber(`0.${parts[1] || 0}`)
-    const roundOn = options?.roundOn === true ? 1e3 : options?.roundOn
+    const roundOn = typeof options?.roundOn === 'boolean' ? (options.roundOn && 1e3) : (options?.roundOn ?? 1e3)
 
     if (options?.preserve) {
         if (roundOn && integerNumber.gte(roundOn)) {
@@ -42,6 +42,9 @@ export function formattedAmount(
     }
 
     if (options?.truncate !== undefined) {
+        if (roundOn && integerNumber.gte(roundOn)) {
+            return formatDigits(integerNumber.toFixed()) ?? ''
+        }
         fractionalPartNumber = fractionalPartNumber.dp(options?.truncate, BigNumber.ROUND_DOWN)
         digits.push(fractionalPartNumber.toFixed().split('.')[1])
         return digits.filter(Boolean).join('.')
@@ -51,29 +54,26 @@ export function formattedAmount(
         return formatDigits(integerNumber.toFixed()) ?? ''
     }
 
-    let dp = 2
-
     switch (true) {
         case roundOn && integerNumber.gte(roundOn):
-            dp = 0
-            break
-
-        case integerNumber.isZero() && fractionalPartNumber.lte(1e-4):
-            dp = fractionalPartNumber.decimalPlaces()
+            fractionalPartNumber = fractionalPartNumber.dp(0, BigNumber.ROUND_DOWN)
             break
 
         case integerNumber.isZero() && fractionalPartNumber.lte(1e-3):
-            dp = 4
+            fractionalPartNumber = fractionalPartNumber.precision(4, BigNumber.ROUND_DOWN)
+            break
+
+        case integerNumber.gt(0) && roundOn && integerNumber.lt(roundOn):
+            fractionalPartNumber = fractionalPartNumber.dp(2, BigNumber.ROUND_DOWN)
             break
 
         case integerNumber.isZero() && fractionalPartNumber.lte(1e-2):
-            dp = 3
+            fractionalPartNumber = fractionalPartNumber.dp(3, BigNumber.ROUND_DOWN)
             break
 
         default:
+            fractionalPartNumber = fractionalPartNumber.dp(4, BigNumber.ROUND_DOWN)
     }
-
-    fractionalPartNumber = fractionalPartNumber.dp(dp, BigNumber.ROUND_DOWN)
 
     digits.push(fractionalPartNumber.toFixed().split('.')[1] ?? '')
 

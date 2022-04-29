@@ -3,8 +3,8 @@ import { useIntl } from 'react-intl'
 import { observer } from 'mobx-react-lite'
 
 import { Button } from '@/components/common/Button'
-import { SectionTitle } from '@/components/common/SectionTitle'
 import { ContentLoader } from '@/components/common/ContentLoader'
+import { SectionTitle } from '@/components/common/SectionTitle'
 import { FarmingList } from '@/modules/Farming/components/FarmingList'
 import {
     useFarmingListStore,

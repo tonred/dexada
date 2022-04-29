@@ -24,9 +24,9 @@ export function TokenImportPopup(): JSX.Element | null {
             <div className="popup-overlay" onClick={tokensCache.onImportDismiss} />
             <div className="popup__wrap">
                 <Button
+                    className="popup-close"
                     type="icon"
                     onClick={tokensCache.onImportDismiss}
-                    className="popup-close"
                 >
                     <Icon icon="close" />
                 </Button>

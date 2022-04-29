@@ -1,21 +1,30 @@
-import {
-    Address,
-    Contract,
+import { Address, Contract } from 'everscale-inpage-provider'
+import type {
     DecodedAbiFunctionInputs,
     FullContractState,
     Transaction,
 } from 'everscale-inpage-provider'
 
 import { DexAbi } from '@/misc'
-import { TokenCache } from '@/stores/TokensCacheService'
+import type { TokenSide } from '@/modules/TokensList'
+import type { TokenCache } from '@/stores/TokensCacheService'
+import { WalletNativeCoin } from '@/stores/WalletService'
+
+
+export type SwapOptions = {
+    multipleSwapFee?: string;
+    multipleSwapTokenRoot?: string;
+    useNativeCoinByDefault?: boolean;
+    wrapGas?: string;
+}
 
 export type SwapBill = {
-    /** As left amount */
+    /** As the left amount */
     amount?: string;
-    /** As right amount */
+    /** As the right amount */
     expectedAmount?: string;
     fee?: string;
-    /** As minimum received */
+    /** As the minimum received */
     minExpectedAmount?: string;
     priceImpact?: string;
 }
@@ -63,7 +72,7 @@ export type SwapRoute = {
     priceLeftToRight?: string;
     priceRightToLeft?: string;
     rightAmount: string;
-    slippage?: string;
+    slippage: string;
     steps: SwapRouteStep[];
     tokens: TokenCache[];
 }
@@ -76,6 +85,9 @@ export type SwapRouteResult = {
     transaction?: Transaction;
 }
 
+/**
+ * @deprecated
+ */
 export type SwapStoreData = {
     bestCrossExchangeRoute?: SwapRoute;
     bill: SwapBill;
@@ -93,7 +105,10 @@ export type SwapStoreData = {
 
 export enum SwapExchangeMode {
     CROSS_PAIR_EXCHANGE = 'crossPair',
+    CROSS_PAIR_EXCHANGE_ONLY = 'crossPairOnly',
     DIRECT_EXCHANGE = 'direct',
+    WRAP_EVER = 'wrapEver',
+    UNWRAP_WEVER = 'unwrapWever',
 }
 
 export enum SwapDirection {
@@ -101,6 +116,9 @@ export enum SwapDirection {
     RTL = 'rtl',
 }
 
+/**
+ * @deprecated
+ */
 export type SwapStoreState = {
     direction: SwapDirection;
     exchangeMode: SwapExchangeMode;
@@ -109,9 +127,25 @@ export type SwapStoreState = {
     isCrossExchangeCalculating: boolean;
     isCrossExchangePreparing: boolean;
     isEnoughLiquidity: boolean;
+    isLowTvl: boolean;
     isPairChecking: boolean;
     isSwapping: boolean;
+    nativeCoinSide?: TokenSide;
     priceDirection?: SwapDirection;
+}
+
+export interface TransactionCallbacks<T, U> {
+    onTransactionSuccess?: (response: T) => Promise<void> | void;
+    onTransactionFailure?: (reason: U) => Promise<void> | void;
+}
+
+export interface TransactionSuccessResult<T> {
+    input: T;
+    transaction: Transaction;
+}
+
+export interface TransactionFailureResult<T> {
+    input?: T;
 }
 
 export type SwapTransactionReceipt = {
@@ -132,14 +166,121 @@ export type SwapTransactionReceipt = {
     success: boolean;
 }
 
-export type SwapSuccessResult = {
-    input: DecodedAbiFunctionInputs<typeof DexAbi.Callbacks, 'dexPairExchangeSuccess'>;
-    transaction: Transaction;
+export interface SwapFormStoreData extends BaseSwapStoreData {
+    pair?: SwapPair;
 }
 
-export type SwapFailureResult = {
+export interface BaseSwapStoreInitialData {
+    leftAmount: string;
+    leftToken?: string;
+    rightAmount: string;
+    rightToken?: string;
+    slippage: string;
+}
+
+export interface BaseSwapStoreData extends BaseSwapStoreInitialData {
+    bill: SwapBill;
+    pair?: SwapPair;
+    priceLeftToRight?: string;
+    priceRightToLeft?: string;
+    transaction?: SwapTransactionReceipt | undefined;
+}
+
+export interface BaseSwapStoreState {
+    isCalculating: boolean;
+    isLowTvl: boolean;
+    isPairChecking: boolean;
+    isSwapping: boolean;
+}
+
+export interface DirectSwapStoreInitialData extends BaseSwapStoreInitialData {
+    coin: WalletNativeCoin;
+}
+
+export interface DirectSwapStoreData extends BaseSwapStoreData {
+    coin: WalletNativeCoin;
+}
+
+export type DirectTransactionSuccessResult = TransactionSuccessResult<DecodedAbiFunctionInputs<typeof DexAbi.Callbacks, 'dexPairExchangeSuccess'>>
+
+export type DirectTransactionFailureResult = TransactionFailureResult<DecodedAbiFunctionInputs<typeof DexAbi.Callbacks, 'dexPairOperationCancelled'>>
+
+export type DirectTransactionCallbacks = TransactionCallbacks<
+    DirectTransactionSuccessResult,
+    DirectTransactionFailureResult
+>
+
+export interface CoinSwapStoreInitialData extends DirectSwapStoreInitialData {
+    swapFee?: string;
+}
+
+export type CoinSwapSuccessResult =
+    TransactionSuccessResult<DecodedAbiFunctionInputs<typeof DexAbi.Callbacks, 'onSwapEverToTip3Success'>>
+    | TransactionSuccessResult<DecodedAbiFunctionInputs<typeof DexAbi.Callbacks, 'onSwapTip3ToEverSuccess'>>
+
+export type CoinSwapFailureResult =
+    TransactionFailureResult<DecodedAbiFunctionInputs<typeof DexAbi.Callbacks, 'onSwapEverToTip3Cancel'>>
+    | TransactionFailureResult<DecodedAbiFunctionInputs<typeof DexAbi.Callbacks, 'onSwapTip3ToEverCancel'>>
+
+export type CoinSwapTransactionCallbacks = TransactionCallbacks<CoinSwapSuccessResult, CoinSwapFailureResult>
+
+export interface CrossPairSwapStoreData extends BaseSwapStoreData {
+    bill: SwapBill;
+    crossPairs: SwapPair[];
+    pair?: SwapPair;
+    route?: SwapRoute;
+    routes: SwapRoute[];
+}
+
+export interface CrossPairSwapStoreState extends BaseSwapStoreState {
+    isPreparing: boolean;
+}
+
+export interface CrossPairSwapFailureResult extends DirectTransactionFailureResult {
     cancelStep?: SwapRouteResult;
     index?: number;
-    input?: DecodedAbiFunctionInputs<typeof DexAbi.Callbacks, 'dexPairOperationCancelled'>;
     step?: SwapRouteResult;
+}
+
+export type CrossPairSwapTransactionCallbacks = TransactionCallbacks<
+    DirectTransactionSuccessResult,
+    CrossPairSwapFailureResult
+>
+
+export type ConversionStoreInitialData = {
+    coin?: WalletNativeCoin;
+    safeAmount?: string;
+    token?: string;
+    wrapGas?: string;
+}
+
+export interface ConversionStoreData extends Exclude<ConversionStoreInitialData, 'wrapFee'> {
+    amount: string;
+    wrappedAmount?: string;
+    txHash?: string;
+    unwrappedAmount?: string;
+}
+
+export type ConversionStoreState = {
+    isProcessing: boolean;
+}
+
+export type ConversionTransactionResponse = {
+    amount: string;
+    txHash: string;
+}
+
+export type ConversionTransactionCallbacks = {
+    onTransactionSuccess?: (response: ConversionTransactionResponse) => void;
+    onTransactionFailure?: (reason: unknown) => void;
+}
+
+export interface SwapFormStoreState extends BaseSwapStoreState {
+    direction: SwapDirection;
+    exchangeMode: SwapExchangeMode;
+    isConfirmationAwait: boolean;
+    isMultiple: boolean;
+    isPreparing: boolean;
+    nativeCoinSide?: TokenSide;
+    priceDirection: SwapDirection;
 }

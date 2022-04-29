@@ -82,7 +82,7 @@ export function FarmingFilters({
                 className={classNames('btn-with-icon', {
                     active: dropdown.visible,
                 })}
-                type="tertiary"
+                type="secondary"
                 onClick={dropdown.open}
             >
                 {intl.formatMessage({

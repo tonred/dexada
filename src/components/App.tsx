@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Settings } from 'luxon'
 import { IntlProvider } from 'react-intl'
 import {
     Redirect,
@@ -6,16 +7,15 @@ import {
     BrowserRouter as Router,
     Switch,
 } from 'react-router-dom'
-import { Observer, observer } from 'mobx-react-lite'
-import { Helmet } from "react-helmet";
+import { Observer } from 'mobx-react-lite'
 
+import { OpenGraph } from '@/components/OpenGraph'
 import { Footer } from '@/components/layout/Footer'
 import { TokensUpgradeModal } from '@/components/common/TokensUpgradeModal'
 import { WalletConnectingModal } from '@/components/common/WalletConnectingModal'
 import { WalletUpdateModal } from '@/components/common/WalletUpdateModal'
 import { Header } from '@/components/layout/Header'
-import { messages } from '@/i18n/messages'
-import { Account } from '@/modules/Account'
+import { LocalizationContext } from '@/context/Localization'
 import Farming from '@/pages/farming'
 import FarmingItem from '@/pages/farming/item'
 import CreateFarmPool from '@/pages/farming/create'
@@ -33,46 +33,29 @@ import { useUpgradeTokens } from '@/stores/UpgradeTokens'
 import { useWallet } from '@/stores/WalletService'
 import { noop } from '@/utils'
 import './App.scss'
-import { LOCALES } from '@/i18n/locales'
-import { useLanguage } from '@/hooks/useLanguage'
 
-import Languages from './layout/Languages'
-
-
-// @ts-ignore
-import ogImg from '../../public/OG - Dexada-Kor.jpg'
-
-function App(): JSX.Element {
+export function App(): JSX.Element {
     const wallet = useWallet()
     const upgradeTokens = useUpgradeTokens()
+    const localization = React.useContext(LocalizationContext)
 
-    const { langStore } = useLanguage()
+    React.useEffect(() => {
+        Settings.defaultLocale = localization.locale
+    }, [localization.locale])
 
     return (
         <IntlProvider
             key="intl"
-            locale={LOCALES[langStore.language]}
-            defaultLocale={LOCALES.ko}
-            messages={messages[LOCALES[langStore.language]]}
+            locale={localization.locale}
+            defaultLocale="en"
+            messages={localization.messages}
             onError={noop}
         >
-            <Helmet>
-                <meta property='title' content='탈중앙화 거래소, 유동성 풀, 파밍, 베스팅 I DEXADA'/>
-                <meta property='description' content='에버스케일 기반의 탈중앙화 거래소 및 파밍 허브. 가상자산을 환전하고 다양한 파밍 및 베스팅의 기회를 확보하세요.' />
-                <meta property='image' content={ogImg}/>
-                <meta property="twitter:title" content="탈중앙화 거래소, 유동성 풀, 파밍, 베스팅 I DEXADA" />
-                <meta property="twitter:description" content="에버스케일 기반의 탈중앙화 거래소 및 파밍 허브. 가상자산을 환전하고 다양한 파밍 및 베스팅의 기회를 확보하세요." />
-                <meta property="twitter:image" content={ogImg} />
-                <meta property='twitter:url' content='https://app.dexada.io'/>
-                <meta property="og:title" content="탈중앙화 거래소, 유동성 풀, 파밍, 베스팅 I DEXADA" />
-                <meta property="og:description" content="에버스케일 기반의 탈중앙화 거래소 및 파밍 허브. 가상자산을 환전하고 다양한 파밍 및 베스팅의 기회를 확보하세요." />
-                <meta property="og:image" content={ogImg} />
-                <meta property='og:url' content='https://app.dexada.io'/>
-                <meta property='og:type' content='website'/>
-            </Helmet>
+            <OpenGraph />
             <Router>
                 <div className="wrapper">
                     <Header key="header" />
+
                     <main className="main">
                         <Switch>
                             <Route exact path="/">
@@ -86,10 +69,7 @@ function App(): JSX.Element {
                             <Route exact path={appRoutes.poolList.path}>
                                 <Pools />
                             </Route>
-                            <Route
-                                exact
-                                path={appRoutes.poolRemoveLiquidity.path}
-                            >
+                            <Route exact path={appRoutes.poolRemoveLiquidity.path}>
                                 <BurnLiquidity />
                             </Route>
                             <Route exact path={appRoutes.poolItem.path}>
@@ -126,12 +106,6 @@ function App(): JSX.Element {
                     </main>
                     <Footer key="footer" />
                 </div>
-                <div className="wallets">
-                    <div className="desktop-languages">
-                        <Languages />
-                    </div>
-                    <Account key="account" />
-                </div>
                 <WalletConnectingModal />
                 <Observer>
                     {() => (
@@ -150,5 +124,3 @@ function App(): JSX.Element {
         </IntlProvider>
     )
 }
-
-export default observer(App)

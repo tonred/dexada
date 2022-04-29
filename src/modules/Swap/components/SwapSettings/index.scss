@@ -1,4 +1,4 @@
-@import "~@/styles/_mix";
+@import '~@/styles/_mix';
 
 .swap-settings {
     position: relative;
@@ -15,9 +15,7 @@
         opacity: 0.5;
         width: 36px;
 
-        svg {
-            fill: #ffffff;
-        }
+        svg { fill: #fff; }
 
         &:hover,
         &.active {
@@ -29,7 +27,7 @@
     &__drop {
         -webkit-backdrop-filter: blur(64px);
         backdrop-filter: blur(64px);
-        background-color: rgb(255 255 255 / 8%);
+        background: linear-gradient(0deg, rgb(5 11 46 / 12%), rgb(5 11 46 / 12%)), rgb(255 255 255 / 12%);
         border-radius: 8px;
         box-shadow: 0 8px 16px rgb(43 51 56 / 8%);
         padding: 20px;
@@ -90,10 +88,8 @@
     &__input {
         @include input-reset;
 
-        border: 1px solid rgb(255 255 255 / 24%);
-        border-radius: 4px;
-        color: #ffffff;
-        cursor: text;
+        border: 1px solid rgb(255 255 255 / 16%);
+        color: #fff;
         font-size: 14px;
         height: 36px;
         letter-spacing: 0.75px;
@@ -127,7 +123,7 @@
             transition: color 0.25s, background-color 0.25s;
 
             &:hover {
-                background-color: #ffffff;
+                background-color: #fff;
                 color: #293166;
             }
         }
@@ -136,7 +132,7 @@
             display: none;
 
             &:checked + .swap-settings__radio-txt {
-                background-color: #ffffff;
+                background-color: #fff;
                 color: #293166;
             }
         }

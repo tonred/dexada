@@ -2,7 +2,7 @@
 
 .form-row {
     align-items: center;
-    color: rgba(255, 255, 255, 0.64);
+    color: rgb(255 255 255 / 64%);
     display: flex;
     font-size: 14px;
     justify-content: space-between;
@@ -65,13 +65,13 @@
     }
 
     &--dark {
-        background-color: rgba(0, 0, 0, 0.08);
+        background-color: rgb(0 0 0 / 8%);
     }
 
     &.checking {
         animation: 1.5s linear 0s infinite alternate checking;
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        box-shadow: 0 0 2px 0 rgba(255, 255, 255, 0.16);
+        border: 1px solid rgb(255 255 255 / 16%);
+        box-shadow: 0 0 2px 0 rgb(255 255 255 / 16%);
     }
 
     &.caution {
@@ -84,16 +84,31 @@
         box-shadow: 0 0 2px 0 #eb4361;
     }
 
-    &__header {
+    &__header,
+    &__footer {
         align-items: center;
-        color: #ffffff;
+        color: #fff;
         display: flex;
         font-size: 14px;
         justify-content: space-between;
         letter-spacing: 0.75px;
         line-height: 20px;
         margin-bottom: 4px;
-        opacity: 0.64;
+
+        &-inner {
+            align-items: center;
+            display: flex;
+            flex-direction: row;
+        }
+    }
+
+    &__footer-label {
+        padding: 0 !important;
+    }
+
+    &__footer {
+        margin-bottom: 0;
+        margin-top: 4px;
     }
 
     &__main {
@@ -109,6 +124,7 @@
 
     @media only screen and (max-width: 767px) {
         padding-left: 10px;
+
         .frame {
             margin: 4px 0 0;
             width: 100%;
@@ -120,7 +136,7 @@
     @include input-reset;
 
     border-radius: 4px;
-    color: #ffffff;
+    color: #fff;
     cursor: text;
     font-size: 24px;
     font-weight: bold;
@@ -129,33 +145,33 @@
     white-space: nowrap;
 
     &::-webkit-input-placeholder {
-        color: #ffffff;
+        color: #fff;
         opacity: 0.32;
     }
 
     &::-moz-placeholder {
-        color: #ffffff;
+        color: #fff;
         opacity: 0.32;
     }
 
     &:-moz-placeholder {
-        color: #ffffff;
+        color: #fff;
         opacity: 0.32;
     }
 
     &:-ms-input-placeholder {
-        color: #ffffff;
+        color: #fff;
         opacity: 0.32;
     }
 
     &::placeholder {
-        color: #ffffff;
+        color: #fff;
         opacity: 0.32;
     }
 
     &:-webkit-autofill {
-        color: #ffffff !important;
-        -webkit-text-fill-color: #ffffff !important;
+        color: #fff !important;
+        -webkit-text-fill-color: #fff !important;
     }
 }
 
@@ -170,6 +186,8 @@
         display: flex;
         justify-content: center;
         margin-right: -10px;
+        min-height: 0;
+        min-width: fit-content;
         padding: 4px 6px 4px 14px;
     }
 
@@ -208,6 +226,7 @@
     &__arrow {
         flex-shrink: 0;
         height: 24px;
+        line-height: normal;
         margin-left: 4px;
         width: 24px;
 
@@ -253,6 +272,7 @@ button.form-submit {
         align-items: center;
         display: flex;
         justify-content: space-between;
+        min-height: 0;
         padding: 4px 0;
     }
 
@@ -276,35 +296,57 @@ button.form-submit {
         flex-shrink: 0;
         height: 24px;
         margin-right: 8px;
-        width: 24px;
+        min-width: 24px;
 
         img {
             width: 100%;
+            @media only screen and (max-width: 767px) {
+                height: 20px;
+                width: 20px;
+            }
+        }
+
+        @media only screen and (max-width: 767px) {
+            height: 20px;
+            min-width: 20px;
         }
     }
 
     &__name {
-        color: #ffffff;
+        color: #fff;
         flex-grow: 1;
         font-size: 18px;
         font-weight: 500;
         letter-spacing: 0.5px;
-        line-height: 24px;
+        line-height: 20px;
         max-width: 100px;
         overflow: hidden;
         text-align: left;
         text-overflow: ellipsis;
         white-space: nowrap;
-        width: fit-content;
+        width: 100%;
+        @media only screen and (max-width: 767px) {
+            font-size: 16px;
+        }
+    }
+
+    &-extra {
+        flex-flow: row nowrap;
+        min-width: fit-content;
+    }
+
+    &-extra &__name {
+        max-width: 150px;
     }
 
     &__arrow {
         flex-shrink: 0;
         height: 24px;
+        line-height: normal;
         margin-right: -4px;
         width: 24px;
 
-        svg { fill: #ffffff; }
+        svg { fill: #fff; }
     }
 
     &.disabled,
@@ -312,4 +354,12 @@ button.form-submit {
         background: none !important;
         cursor: not-allowed !important;
     }
+}
+
+.btn.form-btn-max {
+    font-size: 12px;
+    line-height: 18px;
+    margin: 0 12px;
+    min-height: 20px;
+    padding: 0 10px;
 }

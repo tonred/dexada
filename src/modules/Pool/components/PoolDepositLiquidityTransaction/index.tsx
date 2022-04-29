@@ -4,9 +4,9 @@ import { Observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
 
 import { Button } from '@/components/common/Button'
+import { usePoolStore } from '@/modules/Pool/stores/PoolStore'
 import { Icon } from '@/components/common/Icon'
 import { UserAvatar } from '@/components/common/UserAvatar'
-import { usePoolStore } from '@/modules/Pool/stores/PoolStore'
 import { formattedTokenAmount } from '@/utils'
 
 
@@ -31,8 +31,8 @@ export function PoolDepositLiquidityTransaction({ onDismiss }: Props): JSX.Eleme
                         <div className="popup-overlay" />
                         <div className="popup__wrap">
                             <Button
-                                className="popup-close"
                                 type="icon"
+                                className="popup-close"
                                 onClick={onDismiss}
                             >
                                 <Icon icon="close" />
@@ -192,6 +192,7 @@ export function PoolDepositLiquidityTransaction({ onDismiss }: Props): JSX.Eleme
                             )}
                             <Button
                                 block
+                                size="md"
                                 type="primary"
                                 onClick={onDismiss}
                             >

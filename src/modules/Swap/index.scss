@@ -14,5 +14,30 @@
         opacity: 0.2;
     }
 
-    svg { stroke: #ffffff; }
+    svg { stroke: #fff; }
+}
+
+.swap-field-balance {
+    max-width: 205px;
+    padding: 0 !important;
+    white-space: nowrap;
+    @media only screen and (min-width: 768px) {
+        max-width: unset;
+    }
+}
+
+.swap-container {
+    align-items: flex-start;
+    display: flex;
+    flex-flow: column;
+    flex-shrink: 0;
+    gap: 40px;
+    @media only screen and (min-width: 1200px) {
+        align-items: stretch;
+        flex-flow: row nowrap;
+    }
+}
+
+.card.swap-card {
+    min-width: 100%;
 }

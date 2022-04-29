@@ -2,10 +2,11 @@ import * as React from 'react'
 import { observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
 
+import { NativeScrollArea } from '@/components/common/NativeScrollArea'
+import { Tabs } from '@/components/common/Tabs'
 import { usePairStore } from '@/modules/Pairs/providers/PairStoreProvider'
 import { TransactionsList } from '@/modules/Transactions/components'
 import { EventType, TransactionsOrdering } from '@/modules/Transactions/types'
-import { Tabs } from '@/components/common/Tabs'
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 function Transactions(): JSX.Element {
@@ -51,29 +52,31 @@ function Transactions(): JSX.Element {
                         id: 'CURRENCY_TRANSACTIONS_LIST_HEADER_TITLE',
                     })}
                 </h2>
-                <div className="section__header-actions">
-                    <Tabs
-                        items={[{
-                            label: intl.formatMessage({ id: 'TRANSACTIONS_LIST_EVENT_ALL' }),
-                            active: store.transactionsEvents.length === 0,
-                            onClick: () => onSwitchEvent([]),
-                        }, {
-                            label: intl.formatMessage({ id: 'TRANSACTIONS_LIST_EVENT_SWAPS' }),
-                            active: store.transactionsEvents.length === 2
-                                && store.transactionsEvents.includes('swaplefttoright')
-                                && store.transactionsEvents.includes('swaprighttoleft'),
-                            onClick: () => onSwitchEvent(['swaplefttoright', 'swaprighttoleft']),
-                        }, {
-                            label: intl.formatMessage({ id: 'TRANSACTIONS_LIST_EVENT_DEPOSIT' }),
-                            active: store.transactionsEvents.length === 1 && store.transactionsEvents.includes('deposit'),
-                            onClick: () => onSwitchEvent(['deposit']),
-                        }, {
-                            label: intl.formatMessage({ id: 'TRANSACTIONS_LIST_EVENT_WITHDRAW' }),
-                            active: store.transactionsEvents.length === 1 && store.transactionsEvents.includes('withdraw'),
-                            onClick: () => onSwitchEvent(['withdraw']),
-                        }]}
-                    />
-                </div>
+                <NativeScrollArea>
+                    <div className="section__header-actions">
+                        <Tabs
+                            items={[{
+                                label: intl.formatMessage({ id: 'TRANSACTIONS_LIST_EVENT_ALL' }),
+                                active: store.transactionsEvents.length === 0,
+                                onClick: () => onSwitchEvent([]),
+                            }, {
+                                label: intl.formatMessage({ id: 'TRANSACTIONS_LIST_EVENT_SWAPS' }),
+                                active: store.transactionsEvents.length === 2
+                                    && store.transactionsEvents.includes('swaplefttoright')
+                                    && store.transactionsEvents.includes('swaprighttoleft'),
+                                onClick: () => onSwitchEvent(['swaplefttoright', 'swaprighttoleft']),
+                            }, {
+                                label: intl.formatMessage({ id: 'TRANSACTIONS_LIST_EVENT_DEPOSIT' }),
+                                active: store.transactionsEvents.length === 1 && store.transactionsEvents.includes('deposit'),
+                                onClick: () => onSwitchEvent(['deposit']),
+                            }, {
+                                label: intl.formatMessage({ id: 'TRANSACTIONS_LIST_EVENT_WITHDRAW' }),
+                                active: store.transactionsEvents.length === 1 && store.transactionsEvents.includes('withdraw'),
+                                onClick: () => onSwitchEvent(['withdraw']),
+                            }]}
+                        />
+                    </div>
+                </NativeScrollArea>
             </header>
 
             <TransactionsList

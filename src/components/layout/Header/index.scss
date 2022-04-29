@@ -1,30 +1,65 @@
 .header {
     align-items: center;
     display: flex;
-    justify-content: flex-start;
-    padding: 18px 16px;
-    position: relative;
+    gap: 40px;
+    justify-content: space-between;
 
-    .mobile-languages {
-        display: none;
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .navbar-item,
+        .navbar-toggle {
+            min-height: 44px;
+            @media (min-width: 768px) {
+                min-height: 64px;
+            }
+        }
     }
 
-    @media only screen and (max-width: 767px) {
+    .btn-open-drawer {
+        padding: 8px;
+    }
+
+    .header-switchers {
+        align-items: center;
+        display: flex;
+        gap: 24px;
         justify-content: space-between;
-
-        .mobile-languages {
-            display: block;
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
     }
+}
 
-    @media (max-width: 1023px) {
-        align-items: flex-start;
-        flex-direction: column;
-        .main-nav {
-            margin-top: 24px;
-        }
+.device-drawer-content-inner {
+    flex-flow: column wrap;
+    overflow: hidden auto;
+    width: 100%;
+}
+
+.device-drawer-header {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    height: 36px;
+    justify-content: space-between;
+
+    .btn-close-drawer {
+        margin-right: -14px;
+        padding: 8px;
     }
+}
+
+.device-drawer-header-inner {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    height: 36px;
+}
+
+.device-drawer-footer {
+    background: #1b213f;
+    bottom: 16px;
+    left: 16px;
+    position: absolute;
+    right: 16px;
+    z-index: 20;
 }

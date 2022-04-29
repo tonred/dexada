@@ -4,162 +4,237 @@ import { Observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
 
 import { Icon } from '@/components/common/Icon'
-import { useBalanceValidation } from '@/hooks/useBalanceValidation'
 import {
+    ConversionSubmitButton,
+    ConversionTransactionReceipt,
     CrossExchangeSubmitButton,
+    MultiSwapConfirmationPopup,
     SwapBill,
     SwapConfirmationPopup,
     SwapField,
+    // SwapNotation,
     SwapPrice,
     SwapSettings,
     SwapSubmitButton,
-    SwapTransaction,
+    SwapTransactionReceipt,
 } from '@/modules/Swap/components'
 import { useSwapForm } from '@/modules/Swap/hooks/useSwapForm'
-import { useSwapStore } from '@/modules/Swap/stores/SwapStore'
+import { useSwapFormStore } from '@/modules/Swap/stores/SwapFormStore'
 import { SwapDirection } from '@/modules/Swap/types'
 import { TokensList } from '@/modules/TokensList'
 import { TokenImportPopup } from '@/modules/TokensList/components'
-import { useTokensCache } from '@/stores/TokensCacheService'
 
 import './index.scss'
-import ModalWrapper from "@/components/common/ModalWrapper/ModalWrapper";
 
 
 export function Swap(): JSX.Element {
     const intl = useIntl()
-    const swap = useSwapStore()
+    const formStore = useSwapFormStore()
+    const tokensCache = formStore.useTokensCache
+    const wallet = formStore.useWallet
     const form = useSwapForm()
-    const tokensCache = useTokensCache()
 
     return (
         <div className="container container--small">
-            <div className="card">
-                <div className="card__wrap">
-                    <header className="card__header">
-                        <h2 className="card-title">
-                            {intl.formatMessage({
-                                id: 'SWAP_HEADER_TITLE',
-                            })}
-                        </h2>
+            <div className="swap-container">
+                {/* <SwapNotation /> */}
+                <div className="card swap-card">
+                    <div className="card__wrap">
+                        <header className="card__header">
+                            <Observer>
+                                {() => (
+                                    <h2 className="card-title">
+                                        {intl.formatMessage({
+                                            id: 'SWAP_HEADER_TITLE',
+                                        })}
+                                    </h2>
+                                )}
+                            </Observer>
 
-                        <SwapSettings />
-                    </header>
+                            <SwapSettings />
+                        </header>
 
-                    <div className="form">
-                        <Observer>
-                            {() => (
-                                <SwapField
-                                    key="leftField"
-                                    disabled={swap.isLoading || swap.isSwapping}
-                                    label={intl.formatMessage({
-                                        id: 'SWAP_FIELD_LABEL_LEFT',
-                                    })}
-                                    isValid={useBalanceValidation(
-                                        swap.leftToken,
-                                        swap.isCrossExchangeMode
-                                            ? swap.crossExchangeLeftAmount || '0'
-                                            : swap.leftAmount,
-                                    )}
-                                    readOnly={swap.isSwapping}
-                                    token={swap.leftToken}
-                                    value={(swap.isCrossExchangeMode && swap.direction === SwapDirection.RTL)
-                                        ? swap.crossExchangeLeftAmount
-                                        : swap.leftAmount}
-                                    onChange={form.onChangeLeftAmount}
-                                    onToggleTokensList={form.showTokensList('leftToken')}
-                                />
-                            )}
-                        </Observer>
+                        <div className="form">
+                            <Observer>
+                                {() => (
+                                    <SwapField
+                                        key="leftField"
+                                        balance={formStore.formattedLeftBalance}
+                                        disabled={formStore.isLoading || formStore.isSwapping}
+                                        id="leftField"
+                                        isMultiple={formStore.isMultipleSwapMode}
+                                        isValid={(
+                                            formStore.isLoading
+                                            || formStore.isSwapping
+                                            || formStore.isLeftAmountValid
+                                        )}
+                                        nativeCoin={(formStore.isMultipleSwapMode || formStore.nativeCoinSide === 'leftToken')
+                                            ? formStore.coin
+                                            : undefined}
+                                        readOnly={formStore.isPreparing || formStore.isSwapping}
+                                        showMaximizeButton={formStore.leftBalanceNumber.gt(0)}
+                                        token={formStore.leftToken}
+                                        value={(
+                                            formStore.isCrossExchangeMode
+                                            && formStore.direction === SwapDirection.RTL
+                                        ) ? formStore.crossPairSwap.leftAmount : formStore.leftAmount}
+                                        onChange={form.onChangeLeftAmount}
+                                        onMaximize={formStore.maximizeLeftAmount}
+                                        onToggleTokensList={form.showTokensList('leftToken')}
+                                    />
+                                )}
+                            </Observer>
 
-                        <Observer>
-                            {() => (
-                                <div
-                                    className={classNames('swap-icon', {
-                                        disabled: swap.isLoading || swap.isSwapping,
-                                    })}
-                                    onClick={form.toggleTokensDirection}
-                                >
-                                    <Icon icon="reverse" />
-                                </div>
-                            )}
-                        </Observer>
+                            <Observer>
+                                {() => (
+                                    <div
+                                        className={classNames('swap-icon', {
+                                            disabled: (
+                                                formStore.isPreparing
+                                                || formStore.isLoading
+                                                || formStore.isSwapping
+                                            ),
+                                        })}
+                                        onClick={formStore.isConversionMode
+                                            ? form.toggleConversionDirection
+                                            : form.toggleSwapDirection}
+                                    >
+                                        <Icon icon="reverse" />
+                                    </div>
+                                )}
+                            </Observer>
 
-                        <Observer>
-                            {() => (
-                                <SwapField
-                                    key="rightField"
-                                    disabled={swap.isLoading || swap.isSwapping}
-                                    label={intl.formatMessage({
-                                        id: 'SWAP_FIELD_LABEL_RIGHT',
-                                    })}
-                                    isValid={(swap.rightAmount.length > 0 && !swap.isCrossExchangeMode)
-                                        ? swap.isEnoughLiquidity
-                                        : true}
-                                    readOnly={swap.isSwapping}
-                                    token={swap.rightToken}
-                                    value={(swap.isCrossExchangeMode && swap.direction === SwapDirection.LTR)
-                                        ? swap.crossExchangeRightAmount
-                                        : swap.rightAmount}
-                                    onChange={form.onChangeRightAmount}
-                                    onToggleTokensList={form.showTokensList('rightToken')}
-                                />
-                            )}
-                        </Observer>
+                            <Observer>
+                                {() => (
+                                    <SwapField
+                                        key="rightField"
+                                        balance={formStore.formattedRightBalance}
+                                        disabled={formStore.isLoading || formStore.isSwapping}
+                                        id="rightField"
+                                        isValid={(
+                                            formStore.isCalculating
+                                            || formStore.isLoading
+                                            || formStore.isSwapping
+                                            || formStore.isRightAmountValid
+                                        )}
+                                        nativeCoin={formStore.nativeCoinSide === 'rightToken' ? formStore.coin : undefined}
+                                        readOnly={formStore.isPreparing || formStore.isSwapping}
+                                        token={formStore.rightToken}
+                                        value={(
+                                            formStore.isCrossExchangeMode
+                                            && formStore.direction === SwapDirection.LTR
+                                        ) ? formStore.crossPairSwap.rightAmount : formStore.rightAmount}
+                                        onChange={form.onChangeRightAmount}
+                                        onToggleTokensList={form.showTokensList('rightToken')}
+                                    />
+                                )}
+                            </Observer>
 
-                        <SwapPrice key="price" />
+                            <Observer>
+                                {() => (
+                                    <>
+                                        {(
+                                            wallet.isConnected
+                                            && !formStore.isPreparing
+                                            && !formStore.isConversionMode
+                                        ) && (
+                                            <SwapPrice key="price" />
+                                        )}
+                                    </>
+                                )}
+                            </Observer>
 
-                        <Observer>
-                            {() => (swap.isCrossExchangeMode ? (
-                                <CrossExchangeSubmitButton key="crossExchangeSubmitButton" />
-                            ) : (
-                                <SwapSubmitButton key="submitButton" />
-                            ))}
-                        </Observer>
+                            <Observer>
+                                {() => {
+                                    switch (true) {
+                                        case formStore.isConversionMode:
+                                            return <ConversionSubmitButton key="conversionSubmitButton" />
+
+                                        case formStore.isCrossExchangeMode:
+                                            return <CrossExchangeSubmitButton key="crossExchangeSubmitButton" />
+
+                                        default:
+                                            return <SwapSubmitButton key="submitButton" />
+                                    }
+                                }}
+                            </Observer>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <Observer>
                 {() => (
-                    <SwapBill
-                        key="bill"
-                        fee={swap.fee}
-                        isCrossExchangeAvailable={swap.isCrossExchangeAvailable}
-                        isCrossExchangeMode={swap.isCrossExchangeMode}
-                        leftToken={swap.leftToken}
-                        minExpectedAmount={swap.minExpectedAmount}
-                        priceImpact={swap.priceImpact}
-                        rightToken={swap.rightToken}
-                        slippage={swap.isCrossExchangeMode
-                            ? swap.crossExchangeSlippage
-                            : swap.slippage}
-                        tokens={swap.bestCrossExchangeRoute?.tokens}
-                    />
-                )}
-            </Observer>
-
-            <SwapTransaction key="transaction" />
-
-            <Observer>
-                {() => (
                     <>
-                        {swap.isConfirmationAwait && (
-                            <SwapConfirmationPopup key="confirmationPopup" />
+                        {!formStore.isConversionMode && (
+                            <SwapBill
+                                key="bill"
+                                fee={formStore.swap.fee}
+                                isCrossExchangeAvailable={formStore.isCrossExchangeAvailable}
+                                isCrossExchangeMode={formStore.isCrossExchangeMode}
+                                leftToken={formStore.nativeCoinSide === 'leftToken' ? formStore.coin : formStore.leftToken}
+                                minExpectedAmount={formStore.swap.minExpectedAmount}
+                                priceImpact={formStore.swap.priceImpact}
+                                rightToken={formStore.nativeCoinSide === 'rightToken' ? formStore.coin : formStore.rightToken}
+                                slippage={formStore.swap.slippage}
+                                tokens={formStore.route?.tokens}
+                            />
                         )}
                     </>
                 )}
             </Observer>
 
-            {(form.isTokenListShown && form.tokenSide != null) && (
-                <ModalWrapper isOpen={form.isTokenListShown}>
+            <SwapTransactionReceipt key="swap-transaction-receipt" />
+
+            <ConversionTransactionReceipt key="conversion-transaction-receipt" />
+
+            <Observer>
+                {() => (
+                    <>
+                        {formStore.isConfirmationAwait && (
+                            <>
+                                {formStore.isMultipleSwapMode ? (
+                                    <MultiSwapConfirmationPopup key="multiSwapConfirmationPopup" />
+                                ) : (
+                                    <SwapConfirmationPopup key="confirmationPopup" />
+                                )}
+                            </>
+                        )}
+                    </>
+                )}
+            </Observer>
+
+            {(form.isTokenListShown && form.tokenSide === 'leftToken') && (
                 <TokensList
-                    key="tokensList"
-                    currentToken={swap[form.tokenSide]}
+                    key="leftTokensList"
+                    allowMultiple
+                    currentToken={formStore.leftToken}
+                    currentTokenSide="leftToken"
+                    isMultiple={formStore.isMultipleSwapMode}
+                    combinedTokenRoot={formStore.multipleSwapTokenRoot}
+                    nativeCoin={formStore.coin}
+                    nativeCoinSide={formStore.nativeCoinSide}
                     onDismiss={form.hideTokensList}
-                    onSelectToken={form.onSelectToken}
+                    onSelectMultipleSwap={form.onSelectMultipleSwap}
+                    onSelectNativeCoin={form.onSelectLeftNativeCoin}
+                    onSelectToken={form.onSelectLeftToken}
                 />
-                </ModalWrapper>
+            )}
+
+            {(form.isTokenListShown && form.tokenSide === 'rightToken') && (
+                <TokensList
+                    key="rightTokensList"
+                    allowMultiple={false}
+                    currentToken={formStore.rightToken}
+                    currentTokenSide="rightToken"
+                    isMultiple={formStore.isMultipleSwapMode}
+                    combinedTokenRoot={formStore.multipleSwapTokenRoot}
+                    nativeCoin={formStore.coin}
+                    nativeCoinSide={formStore.nativeCoinSide}
+                    onDismiss={form.hideTokensList}
+                    onSelectNativeCoin={form.onSelectRightNativeCoin}
+                    onSelectToken={form.onSelectRightToken}
+                />
             )}
 
             <Observer>

@@ -60,9 +60,9 @@ ol li {
 }
 
 a {
-    color: #ffffff;
+    color: #fff;
     outline: none;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
     text-decoration: none;
     transition: 0.25s ease;
 
@@ -79,7 +79,7 @@ a {
     }
 
     &:hover {
-        color: #ffffff;
+        color: #fff;
         text-decoration: underline;
     }
 
@@ -100,4 +100,9 @@ img {
     -webkit-appearance: none;
     height: auto;
     margin: 0;
+}
+
+::selection {
+    background-color: #c5e4f3;
+    color: #293166;
 }

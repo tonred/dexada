@@ -21,10 +21,11 @@ export function ConnectWallet({
                     <p>{message}</p>
                 )}
                 <Button
+                    size="md"
                     type="secondary"
                     onClick={onClickConnect}
                 >
-                    {intl.formatMessage({ id: 'WALLET_BTN_TEXT_CONNECT' })}
+                    {intl.formatMessage({ id: 'EVER_WALLET_CONNECT_BTN_TEXT' })}
                 </Button>
             </div>
         </div>

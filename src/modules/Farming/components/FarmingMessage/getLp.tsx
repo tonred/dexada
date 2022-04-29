@@ -74,23 +74,26 @@ export function FarmingMessageGetLp({
                 </p>
             </div>
             <div className="farming-message__actions">
-                <a
-                    target="_blank"
-                    rel="nofollow noopener noreferrer"
+                <Button
+                    ghost
                     href="https://docs.tonbridge.io/ton-swap/yield-farming-guide/farming-guide"
-                    className="btn btn--empty btn-dark"
+                    rel="nofollow noopener noreferrer"
+                    size="md"
+                    target="_blank"
+                    type="primary"
                 >
                     {intl.formatMessage({
                         id: 'FARMING_MESSAGE_GET_LP_GUIDE',
                     })}
-                </a>
+                </Button>
 
                 <Button
-                    type="dark"
                     link={appRoutes.poolCreate.makeUrl({
                         leftTokenRoot,
                         rightTokenRoot,
                     })}
+                    size="md"
+                    type="dark"
                 >
                     {intl.formatMessage({
                         id: 'FARMING_MESSAGE_GET_LP_GET',

@@ -107,15 +107,17 @@ export function TotalBalance({
                         {walletLpAmount && new BigNumber(walletLpAmount).isGreaterThan(0) && (
                             <Button
                                 className="btn-with-icon"
-                                type="tertiary"
                                 link={appRoutes.poolRemoveLiquidity.makeUrl({ leftTokenRoot, rightTokenRoot })}
+                                size="md"
+                                type="empty"
                             >
                                 {intl.formatMessage({ id: 'POOLS_LIST_BURN_BUTTON' })}
                             </Button>
                         )}
                         <Button
-                            type="primary"
                             link={appRoutes.poolCreate.makeUrl({ leftTokenRoot, rightTokenRoot })}
+                            size="md"
+                            type="primary"
                         >
                             {intl.formatMessage({ id: 'POOLS_LIST_ADD_BUTTON' })}
                         </Button>

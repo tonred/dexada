@@ -1,6 +1,6 @@
 .filter-field {
     input {
-        border: 1px solid rgba(255, 255, 255, 0.24);
+        border: 1px solid rgb(255 255 255 / 24%);
         font-size: 16px;
         height: 44px;
         padding: 8px 12px;
@@ -9,9 +9,9 @@
 
     &_size_s {
         input {
-            height: 36px;
             font-size: 14px;
             font-weight: 400;
+            height: 36px;
         }
     }
 }

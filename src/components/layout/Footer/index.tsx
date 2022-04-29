@@ -3,6 +3,7 @@ import { Observer } from 'mobx-react-lite'
 import { useIntl } from 'react-intl'
 import { Link, NavLink } from 'react-router-dom'
 
+import { Button } from '@/components/common/Button'
 import { Icon } from '@/components/common/Icon'
 import { Logo } from '@/components/layout/Logo'
 import { useWallet } from '@/stores/WalletService'
@@ -23,30 +24,35 @@ export function Footer(): JSX.Element {
                 {() => (
                     <>
                         {(!wallet.isInitialized && !wallet.isInitializing) && (
-                            <a
-                                href="https://chrome.google.com/webstore/detail/ton-crystal-wallet/cgeeodpfagjceefieflmdfphplkenlfk"
-                                className="btn btn--md btn--primary footer-tool"
-                                target="_blank"
+                            <Button
+                                href="https://l1.broxus.com/everscale/wallet"
+                                className="footer-tool"
                                 rel="noopener noreferrer"
+                                size="md"
+                                target="_blank"
+                                type="primary"
                             >
                                 {intl.formatMessage({
                                     id: 'WALLET_INSTALLATION_LINK_TEXT',
                                 })}
-                            </a>
+                            </Button>
                         )}
                     </>
                 )}
             </Observer>
-            <a
+            <Button
+                className="footer-tool"
+                ghost
                 href="https://github.com/broxus/ton-dex"
-                className="btn btn--md btn--tertiary footer-tool"
-                target="_blank"
                 rel="noopener noreferrer"
+                size="md"
+                target="_blank"
+                type="tertiary"
             >
                 {intl.formatMessage({
                     id: 'FOOTER_GITHUB_LINK_TEXT',
                 })}
-            </a>
+            </Button>
         </div>
     )
 
@@ -108,39 +114,76 @@ export function Footer(): JSX.Element {
                         <div className="footer-nav__col">
                             <div className="footer-nav__col-title">
                                 {intl.formatMessage({
-                                    id: 'FOOTER_NAV_HEADER_DEFI_PRODUCTS',
+                                    id: 'FOOTER_NAV_HEADER_OUR_PRODUCTS',
                                 })}
                             </div>
                             <ul className="footer-nav__list">
                                 <li>
+                                    <a href="https://flatqube.io" target="_blank" rel="noopener noreferrer">
+                                        {intl.formatMessage({
+                                            id: 'FOOTER_NAV_FLATQUBE_LINK_TEXT',
+                                        })}
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="https://octusbridge.io" target="_blank" rel="noopener noreferrer">
                                         {intl.formatMessage({
-                                            id: 'FOOTER_NAV_TON_BRIDGE_LINK_TEXT',
+                                            id: 'FOOTER_NAV_OCTUS_BRIDGE_LINK_TEXT',
                                         })}
                                     </a>
                                 </li>
                                 <li>
                                     <a href="https://everscan.io" target="_blank" rel="noopener noreferrer">
                                         {intl.formatMessage({
-                                            id: 'FOOTER_NAV_TON_SCAN_LINK_TEXT',
+                                            id: 'FOOTER_NAV_EVER_SCAN_LINK_TEXT',
                                         })}
                                     </a>
                                 </li>
                                 <li>
                                     <a href="https://wrappedever.io" target="_blank" rel="noopener noreferrer">
                                         {intl.formatMessage({
-                                            id: 'FOOTER_NAV_WTON_LINK_TEXT',
+                                            id: 'FOOTER_NAV_WEVER_LINK_TEXT',
                                         })}
                                     </a>
                                 </li>
                                 <li>
                                     <a
-                                        href="https://chrome.google.com/webstore/detail/ton-crystal-wallet/cgeeodpfagjceefieflmdfphplkenlfk"
+                                        href="https://l1.broxus.com/everscale/wallet"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
                                         {intl.formatMessage({
-                                            id: 'FOOTER_NAV_CRYSTAL_WALLET_LINK_TEXT',
+                                            id: 'FOOTER_NAV_EVER_WALLET_LINK_TEXT',
+                                        })}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://everpools.io" target="_blank" rel="noopener noreferrer">
+                                        {intl.formatMessage({
+                                            id: 'FOOTER_NAV_EVER_POOLS_LINK_TEXT',
+                                        })}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="footer-nav__col">
+                            <div className="footer-nav__col-title">
+                                {intl.formatMessage({
+                                    id: 'FOOTER_NAV_HEADER_FAQ',
+                                })}
+                            </div>
+                            <ul className="footer-nav__list">
+                                <li>
+                                    <a href="https://docs.everwallet.net/" target="_blank" rel="noopener noreferrer">
+                                        {intl.formatMessage({
+                                            id: 'FOOTER_NAV_EVER_WALLET_MANUAL_LINK_TEXT',
+                                        })}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://docs.everwallet.net/concepts/ever-and-wever" target="_blank" rel="noopener noreferrer">
+                                        {intl.formatMessage({
+                                            id: 'FOOTER_NAV_WHAT_IS_WEVER_LINK_TEXT',
                                         })}
                                     </a>
                                 </li>
@@ -201,15 +244,6 @@ export function Footer(): JSX.Element {
                                 title="Medium"
                             >
                                 <Icon icon="medium" />
-                            </a>
-                        </li>
-                        <li>
-                            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                            <a
-                                rel="noopener noreferrer"
-                                title="Discord"
-                            >
-                                <Icon icon="discord" />
                             </a>
                         </li>
                     </ul>

@@ -240,7 +240,7 @@ const typescriptConfig = {
     ],
     overrides: [
         {
-            files: ['*.d.ts'],
+            files: ['*.d.ts', '**/*/types.ts'],
             rules: {
                 camelcase: 'off',
                 'max-len': 'off',
@@ -303,6 +303,7 @@ const typescriptConfig = {
                 'no-unused-vars': 'off',
                 'no-use-before-define': 'off',
                 'no-useless-constructor': 'off',
+                'react/prop-types': 'off',
                 'unused-imports/no-unused-vars': 'off',
                 'unused-imports/no-unused-imports': 'off',
                 'unused-imports/no-unused-vars-ts': ['warn', {

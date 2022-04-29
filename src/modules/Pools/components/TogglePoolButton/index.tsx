@@ -36,8 +36,9 @@ function TogglePoolButtonInner({
 
     return (
         <Button
+            size="md"
             type="icon"
-            className={classNames('btn-fav', {
+            className={classNames('btn-square btn-fav', {
                 active: favoritePairs.addresses.includes(poolAddress),
             })}
             onClick={onClick}

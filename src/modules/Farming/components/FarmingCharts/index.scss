@@ -18,7 +18,7 @@
 
         li {
             border-bottom: 1px solid transparent;
-            color: rgb(255 255 255 / 56%);
+            color: rgba(255, 255, 255, 0.56);
             cursor: pointer;
             font-size: 14px;
             letter-spacing: 0.6px;
@@ -31,7 +31,7 @@
         }
 
         &_bordered {
-            box-shadow: inset 0 0 0 1px rgb(255 255 255 / 16%);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
 
             li {
                 border: none;

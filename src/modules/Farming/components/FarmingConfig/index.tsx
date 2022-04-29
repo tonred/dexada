@@ -104,9 +104,8 @@ function FarmingConfigInner({
                         <div className="farming-config__action">
                             <Button
                                 disabled={endDateFrom.loading}
-                                size="sm"
-                                type="tertiary"
                                 onClick={hideConfirmation}
+                                type="tertiary"
                             >
                                 {intl.formatMessage({
                                     id: 'FARMING_CONFIG_CONFIRMATION_NO',
@@ -114,9 +113,8 @@ function FarmingConfigInner({
                             </Button>
                             <Button
                                 disabled={endDateFrom.disabled || endDateFrom.loading}
-                                size="sm"
-                                type="danger"
                                 onClick={submitEndDate}
+                                type="danger"
                             >
                                 {intl.formatMessage({
                                     id: 'FARMING_CONFIG_CONFIRMATION_YES',

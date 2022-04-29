@@ -29,7 +29,7 @@ function ConnectingModal(): JSX.Element | null {
 
     const onClose = () => {
         setOpen(false)
-        wallet.cancelConnecting()
+        wallet.setState('isConnecting', false)
     }
 
     return isOpen ? ReactDOM.createPortal(
@@ -37,8 +37,8 @@ function ConnectingModal(): JSX.Element | null {
             <div className="popup-overlay" />
             <div className="popup__wrap">
                 <Button
-                    className="popup-close"
                     type="icon"
+                    className="popup-close"
                     onClick={onClose}
                 >
                     <Icon icon="close" />
@@ -76,16 +76,20 @@ function ConnectingModal(): JSX.Element | null {
                     }}
                 />
                 {!wallet.hasProvider && (
-                    <a
-                        className="btn btn--tertiary btn-block popup-btn"
-                        href="https://chrome.google.com/webstore/detail/ton-crystal-wallet/cgeeodpfagjceefieflmdfphplkenlfk"
-                        target="_blank"
+                    <Button
+                        block
+                        className="popup-btn"
+                        ghost
+                        href="https://chrome.google.com/webstore/detail/ever-wallet/cgeeodpfagjceefieflmdfphplkenlfk"
                         rel="nofollow noopener noreferrer"
+                        size="md"
+                        target="_blank"
+                        type="tertiary"
                     >
                         {intl.formatMessage({
                             id: 'WALLET_INSTALLATION_LINK_TEXT',
                         })}
-                    </a>
+                    </Button>
                 )}
             </div>
         </div>,

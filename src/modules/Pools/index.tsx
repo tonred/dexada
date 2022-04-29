@@ -21,11 +21,11 @@ export function Pools(): JSX.Element {
                     </SectionTitle>
 
                     <div className="section__header-actions">
-                        <Button link="/pools/burn-liquidity" size="md" type="secondary">
+                        <Button size="md" link="/pools/burn-liquidity" type="secondary">
                             {intl.formatMessage({ id: 'POOLS_LIST_HEADER_REMOVE' })}
                         </Button>
 
-                        <Button link="/pool" size="md" type="primary">
+                        <Button size="md" link="/pool" type="primary">
                             {intl.formatMessage({ id: 'POOLS_LIST_HEADER_NEW' })}
                         </Button>
                     </div>

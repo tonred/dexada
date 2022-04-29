@@ -1,4 +1,4 @@
-@import "_mix";
+@import '_mix';
 
 .popup {
     height: 100%;
@@ -24,12 +24,7 @@
         @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
             -webkit-backdrop-filter: blur(12px);
             backdrop-filter: blur(12px);
-            background: linear-gradient(
-                    0deg,
-                    rgb(5 11 46 / 12%),
-                    rgb(5 11 46 / 12%)
-                ),
-                rgb(255 255 255 / 12%);
+            background: linear-gradient(0deg, rgb(5 11 46 / 12%), rgb(5 11 46 / 12%)), rgb(255 255 255 / 12%);
         }
     }
 
@@ -46,6 +41,31 @@
             transform: none;
         }
     }
+
+    &_scrollable {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 0;
+        position: static;
+
+        @media only screen and (min-width: 768px) {
+            align-items: flex-start;
+            padding: 128px 0 60px;
+        }
+
+        .popup-overlay {
+            position: fixed;
+        }
+
+        .popup__wrap {
+            left: auto;
+            position: static;
+            transform: none;
+            width: 100%;
+        }
+    }
 }
 
 .popup-overlay {
@@ -60,7 +80,7 @@
 button.popup-close {
     @include btn-reset;
 
-    color: #ffffff;
+    color: #fff;
     height: 40px;
     opacity: 0.5;
     position: absolute;
@@ -70,7 +90,7 @@ button.popup-close {
     z-index: 2;
 
     &:hover {
-        color: #ffffff;
+        color: #fff;
         opacity: 1;
     }
 }
@@ -97,13 +117,9 @@ button.popup-close {
         border-color: #e6ac00;
     }
 
-    &.nb {
-        border: 0 none;
-    }
+    &.nb { border: 0 none; }
 
-    &.np {
-        padding: 0;
-    }
+    &.np { padding: 0; }
 
     &__ava {
         background-color: rgb(255 255 255 / 50%);
@@ -144,7 +160,7 @@ button.popup-close {
 
         svg {
             animation: rotate 1s linear infinite;
-            fill: #ffffff;
+            fill: #fff;
         }
     }
 }
@@ -157,7 +173,7 @@ button.popup-close {
     margin: 20px 0;
 
     &.lg {
-        color: #ffffff;
+        color: #fff;
         font-size: 18px;
         letter-spacing: 0.75px;
         line-height: 24px;
@@ -185,7 +201,7 @@ button.popup-close {
     }
 
     strong {
-        color: #ffffff;
+        color: #fff;
         display: block;
         font-size: 14px;
         font-weight: 500;

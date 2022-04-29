@@ -354,9 +354,9 @@ function RemoveLiquidityFormInner({
             {walletConnected ? (
                 <Button
                     size="lg"
+                    submit
                     type="primary"
                     disabled={!amountIsValid || loading}
-                    onClick={onSubmit}
                 >
                     {loading ? (
                         <ContentLoader slim />

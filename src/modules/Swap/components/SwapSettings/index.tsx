@@ -4,33 +4,23 @@ import { useIntl } from 'react-intl'
 
 import { Button } from '@/components/common/Button'
 import { Icon } from '@/components/common/Icon'
-import { useSwapStore } from '@/modules/Swap/stores/SwapStore'
+import { useSwapFormStore } from '@/modules/Swap/stores/SwapFormStore'
 import { useSwapSettings } from '@/modules/Swap/hooks/useSwapSettings'
 
 import './index.scss'
-import {useState} from "react";
 
 
 function Settings(): JSX.Element {
     const intl = useIntl()
-    const swap = useSwapStore()
+    const formStore = useSwapFormStore()
     const settings = useSwapSettings()
-
-    const [settingsToggle,setSettingToggle] = useState(false)
-    const onSettingsClick = ()=> {
-        if(!settingsToggle) {
-            settings.show()
-        }
-        else {settings.hide()}
-        setSettingToggle(!settingsToggle)
-    }
 
     return (
         <div className="swap-settings">
             <Button
                 ref={settings.triggerRef}
                 className="swap-settings__btn"
-                onClick={onSettingsClick}
+                onClick={settings.isOpen ? settings.hide : settings.show}
             >
                 <Icon icon="config" />
             </Button>
@@ -54,7 +44,7 @@ function Settings(): JSX.Element {
                             className="swap-settings__input"
                             inputMode="decimal"
                             type="text"
-                            value={swap.slippage}
+                            value={formStore.slippage}
                             onBlur={settings.onBlur}
                             onChange={settings.onChange}
                         />
@@ -65,7 +55,7 @@ function Settings(): JSX.Element {
                                 type="radio"
                                 name="percent"
                                 value="0.1"
-                                checked={swap.slippage === '0.1'}
+                                checked={formStore.slippage === '0.1'}
                                 onChange={settings.onChange}
                             />
                             <span className="swap-settings__radio-txt">0.1%</span>
@@ -75,7 +65,7 @@ function Settings(): JSX.Element {
                                 type="radio"
                                 name="percent"
                                 value="0.5"
-                                checked={swap.slippage === '0.5'}
+                                checked={formStore.slippage === '0.5'}
                                 onChange={settings.onChange}
                             />
                             <span className="swap-settings__radio-txt">0.5%</span>
@@ -85,7 +75,7 @@ function Settings(): JSX.Element {
                                 type="radio"
                                 name="percent"
                                 value="1.0"
-                                checked={swap.slippage === '1.0'}
+                                checked={formStore.slippage === '1.0'}
                                 onChange={settings.onChange}
                             />
                             <span className="swap-settings__radio-txt">1.0%</span>

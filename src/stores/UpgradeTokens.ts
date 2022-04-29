@@ -9,7 +9,7 @@ import {
 } from 'mobx'
 
 import { useRpcClient } from '@/hooks/useRpcClient'
-import { MigrationTokenAbi, TokenWalletV4 } from '@/misc'
+import { MigrationTokenAbi, TokenWallet, TokenWalletV4 } from '@/misc'
 import { useWallet, WalletService } from '@/stores/WalletService'
 import { error } from '@/utils'
 
@@ -54,7 +54,7 @@ export class UpgradeTokens {
     protected state: UpgradeTokensState
 
     constructor(
-        protected readonly tonWallet: WalletService,
+        protected readonly wallet: WalletService,
     ) {
         this.data = {
             tokens: [],
@@ -70,8 +70,10 @@ export class UpgradeTokens {
             state: observable,
         })
 
-        reaction(() => this.tonWallet.address, async () => {
-            await this.checkForUpdates()
+        reaction(() => this.wallet.address, async address => {
+            if (address !== undefined) {
+                await this.checkForUpdates()
+            }
         }, { fireImmediately: true })
     }
 
@@ -84,7 +86,7 @@ export class UpgradeTokens {
     }
 
     public async checkForUpdates(): Promise<void> {
-        if (this.tonWallet.account?.address === undefined) {
+        if (this.wallet.account?.address === undefined) {
             return
         }
 
@@ -92,7 +94,7 @@ export class UpgradeTokens {
         const tokensToUpgrade: OutdatedTokenRaw[] = []
 
         try {
-            await fetch('https://raw.githubusercontent.com/tonred/dex-assets/main/upgrade.json', {
+            await fetch('https://raw.githubusercontent.com/broxus/everscale-assets-upgrade/master/main.json', {
                 method: 'GET',
             }).then(value => value.json()).then((value: OutdatedTokenManifest) => {
                 tokensToUpgrade.push(...value.tokens)
@@ -105,45 +107,57 @@ export class UpgradeTokens {
         try {
             // eslint-disable-next-line no-restricted-syntax
             for (const token of tokensToUpgrade) {
-                const rootV4Address = new Address(token.rootV4)
-                const { state } = await rpc.getFullContractState({ address: rootV4Address })
+                try {
+                    const rootV5Address = new Address(token.rootV5)
+                    const owner = (await TokenWallet.rootOwnerAddress(rootV5Address)).toString()
 
-                if (state === undefined || !state.isDeployed) {
-                    continue
+                    if (owner !== token.proxy) {
+                        continue
+                    }
+
+                    const rootV4Address = new Address(token.rootV4)
+                    const { state } = await rpc.getFullContractState({ address: rootV4Address })
+
+                    if (state === undefined || !state.isDeployed) {
+                        continue
+                    }
+
+                    const wallet = await TokenWalletV4.walletAddress({
+                        owner: this.wallet.account.address,
+                        root: rootV4Address,
+                    })
+
+                    const { state: walletState } = await rpc.getFullContractState({
+                        address: wallet,
+                    })
+
+                    if (walletState === undefined || !walletState.isDeployed) {
+                        continue
+                    }
+
+                    const [balance, decimals, symbol, name] = await Promise.all([
+                        TokenWalletV4.balance({ wallet }, walletState),
+                        TokenWalletV4.getDecimals(rootV4Address, state),
+                        TokenWalletV4.getSymbol(rootV4Address, state),
+                        TokenWalletV4.getName(rootV4Address, state),
+                    ])
+
+                    if (new BigNumber(balance ?? 0).isZero() || decimals == null) {
+                        continue
+                    }
+
+                    tokens.push({
+                        ...token,
+                        balance,
+                        decimals,
+                        name,
+                        symbol,
+                        wallet: wallet.toString(),
+                    })
                 }
-
-                const wallet = await TokenWalletV4.walletAddress({
-                    owner: this.tonWallet.account.address,
-                    root: rootV4Address,
-                })
-
-                const { state: walletState } = await rpc.getFullContractState({
-                    address: wallet,
-                })
-
-                if (walletState === undefined || !walletState.isDeployed) {
-                    continue
+                catch (e) {
+                    error('Token check error', token, e)
                 }
-
-                const [balance, decimals, symbol, name] = await Promise.all([
-                    TokenWalletV4.balance({ wallet }, walletState),
-                    TokenWalletV4.getDecimals(rootV4Address, state),
-                    TokenWalletV4.getSymbol(rootV4Address, state),
-                    TokenWalletV4.getName(rootV4Address, state),
-                ])
-
-                if (new BigNumber(balance ?? 0).isZero() || decimals == null) {
-                    continue
-                }
-
-                tokens.push({
-                    ...token,
-                    balance,
-                    decimals,
-                    name,
-                    symbol,
-                    wallet: wallet.toString(),
-                })
             }
 
             runInAction(() => {
@@ -158,7 +172,7 @@ export class UpgradeTokens {
     public async upgrade(token: OutdatedToken): Promise<void> {
         if (
             this.isTokenUpgrading(token.rootV4)
-            || this.tonWallet.account?.address === undefined
+            || this.wallet.account?.address === undefined
             || token.wallet === undefined
             || token.proxy === undefined
             || token.balance === undefined
@@ -169,19 +183,19 @@ export class UpgradeTokens {
         this.state.upgradingTokens.set(token.rootV4, true)
 
         const walletAddress = new Address(token.wallet)
-        const walletContract = rpc.createContract(MigrationTokenAbi.WalletV4, walletAddress)
+        const walletContract = new rpc.Contract(MigrationTokenAbi.WalletV4, walletAddress)
 
         try {
             await walletContract.methods.burnByOwner({
                 callback_address: new Address(token.proxy),
                 callback_payload: '',
                 grams: 0,
-                send_gas_to: this.tonWallet.account.address,
+                send_gas_to: this.wallet.account.address,
                 tokens: token.balance,
             }).send({
-                amount: '6000000000',
+                amount: '1000000000',
                 bounce: true,
-                from: this.tonWallet.account.address,
+                from: this.wallet.account.address,
             })
             this.state.upgradedTokens.set(token.rootV4, true)
             runInAction(() => {
