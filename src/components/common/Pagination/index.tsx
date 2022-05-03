@@ -2,6 +2,7 @@ import * as React from 'react'
 import { useIntl } from 'react-intl'
 
 import { Button } from '@/components/common/Button'
+import { Icon } from '@/components/common/Icon'
 
 import './index.scss'
 
@@ -78,12 +79,7 @@ export const Pagination = React.memo(({
                 type="icon"
                 onClick={onPrev}
             >
-                <svg
-                    width="6" height="12" viewBox="0 0 6 12"
-                    fill="none" xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path d="M-2.62268e-07 6L6 0L6 12L-2.62268e-07 6Z" />
-                </svg>
+                <Icon icon="arrowLeft" />
             </Button>
             <Button
                 className="pagination__btn"
@@ -91,12 +87,7 @@ export const Pagination = React.memo(({
                 type="icon"
                 onClick={onNext}
             >
-                <svg
-                    width="6" height="12" viewBox="0 0 6 12"
-                    fill="none" xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path d="M6 6L0 12L-5.24537e-07 0L6 6Z" />
-                </svg>
+                <Icon icon="arrowRight" />
             </Button>
         </div>
     )
