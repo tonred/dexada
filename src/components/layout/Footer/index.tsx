@@ -119,9 +119,9 @@ export function Footer(): JSX.Element {
                             </div>
                             <ul className="footer-nav__list">
                                 <li>
-                                    <a href="https://flatqube.io" target="_blank" rel="noopener noreferrer">
+                                    <a href="https://adaever.io" target="_blank" rel="noopener noreferrer">
                                         {intl.formatMessage({
-                                            id: 'FOOTER_NAV_FLATQUBE_LINK_TEXT',
+                                            id: 'FOOTER_NAV_ADAEVER_BRIDGE_LINK_TEXT',
                                         })}
                                     </a>
                                 </li>

@@ -1,13 +1,13 @@
 export default {
     OPEN_IN_EXPLORER: 'Open in explorer',
 
-    GREETING_BANNER_TITLE: 'New to DexADA?',
-    GREETING_BANNER_WALLET_NOT_INSTALLED_NOTE: 'It only takes 2 steps to get the best out of DexADA:',
-    GREETING_BANNER_WALLET_INSTALLED_NOTE_P1: 'You successfully installed and connected EVER Wallet.',
-    GREETING_BANNER_WALLET_INSTALLED_NOTE_P2: 'It only takes 1 last step to get the best out of DexADA:',
-    GREETING_BANNER_GET_EVER_LINK_TEXT: 'Get EVERs',
-    GREETING_BANNER_FAQ_NOTE: 'Any questions?',
-    GREETING_BANNER_JOIN_TELEGRAM_LINK_TEXT: 'Join our Telegram group',
+    GREETING_BANNER_TITLE: 'DexADAは初めてですか？',
+    GREETING_BANNER_WALLET_NOT_INSTALLED_NOTE: '2つのステップを踏むだけでFlatQubeを最大限に活用できます。',
+    GREETING_BANNER_WALLET_INSTALLED_NOTE_P1: 'EVERWalletが正常にインストールおよび接続されました。',
+    GREETING_BANNER_WALLET_INSTALLED_NOTE_P2: '最後のステップだけを踏むと、FlatQubeを最大限に活用できます。',
+    GREETING_BANNER_GET_EVER_LINK_TEXT: 'Get EVER',
+    GREETING_BANNER_FAQ_NOTE: '質問がありますか？',
+    GREETING_BANNER_JOIN_TELEGRAM_LINK_TEXT: 'テレグラムグループ参加',
 
     NAV_LINK_SOON_HINT: ' すぐ',
     NAV_LINK_TEXT_SWAP: 'スワップ',
@@ -26,12 +26,12 @@ export default {
     WALLET_INSTALLATION_NOTE: '<p>現在、TONSWAPはクリスタルウォレットのみをサポートしています</p><p>拡張機能をまだインストールしていない場合はここからインストールできます <a href="https://chrome.google.com/webstore/category/extensions" target="_blank" rel="nofollow noopener noreferrer">chrome.google.com</a></p>',
 
     WALLET_BALANCE_HINT: '{value} {currency}',
-    WALLET_CONNECT_BTN_TEXT: 'Connect',
-    WALLET_NOT_CONNECTED_HINT: 'Not connected',
-    WALLET_DISCONNECT_BTN_TEXT: 'Logout',
+    WALLET_CONNECT_BTN_TEXT: '接続',
+    WALLET_NOT_CONNECTED_HINT: '接続されていません',
+    WALLET_DISCONNECT_BTN_TEXT: 'ログアウト',
 
-    EVER_WALLET_CONNECTOR_BLOCKCHAIN_NAME: 'Everscale',
-    EVER_WALLET_CONNECT_BTN_TEXT: 'Connect EVER Wallet',
+    EVER_WALLET_CONNECTOR_BLOCKCHAIN_NAME: 'エバースケール',
+    EVER_WALLET_CONNECT_BTN_TEXT: 'EVER Walletを接続する',
 
     TOKENS_UPGRADE_POPUP_TITLE: 'Upgrade tokens',
     TOKENS_UPGRADE_POPUP_NOTE: 'We found some outdated tokens in your wallet. Please, upgrade these tokens to continue.',
@@ -40,7 +40,7 @@ export default {
     FOOTER_NAV_HEADER_PRODUCT: '製品',
     FOOTER_NAV_HEADER_OUR_PRODUCTS: 'Our Products',
     FOOTER_NAV_HEADER_FAQ: 'よくある質問',
-    FOOTER_NAV_FLATQUBE_LINK_TEXT: 'FlatQube',
+    FOOTER_NAV_ADAEVER_BRIDGE_LINK_TEXT: 'ADAEVER bridge',
     FOOTER_NAV_OCTUS_BRIDGE_LINK_TEXT: 'Octus Bridge',
     FOOTER_NAV_EVER_SCAN_LINK_TEXT: 'EVER Scan',
     FOOTER_NAV_WEVER_LINK_TEXT: 'Wrapped Ever',
@@ -57,7 +57,7 @@ export default {
     PAGINATION_PAGE_OF: 'of {totalPages}',
     COPY_CLIPBOARD_SUCCESS: 'コピー済み',
     CHART_NO_DATA: '現在利用可能なデータはありません',
-    
+
     SWAP_HEADER_TITLE: 'スワップ·トークン',
     SWAP_HEADER_WRAP_TITLE: 'Wrap {symbol}',
     SWAP_HEADER_UNWRAP_TITLE: 'Unwrap {symbol}',
@@ -99,10 +99,10 @@ export default {
     SWAP_TRANSACTION_RECEIPT_CANCELLED_NOTE: '<p>スワップがキャンセルされました。 あなたの残高は変わりません。</p>',
     SWAP_TRANSACTION_RECEIPT_CROSS_EXCHANGE_CANCELLED_NOTE: 'Slippage が {leftSymbol}/{rightSymbol} ペアの {slippage}% 以上であるため、{leftSymbol} 状態のままになりました。',
 
-    SWAP_COMBINED_NOTATION_TITLE: 'From now on EVER can be used on FlatQube',
-    SWAP_COMBINED_NOTATION_P1: 'Your default balance on the DEX will now be the cumulative balance of your EVER and wEVER, which you can swap for any other TIP-3.1 tokens.',
-    SWAP_COMBINED_NOTATION_P2: 'You can also swap by using only your EVER or wEVER balance, if preferable.',
-    SWAP_COMBINED_NOTATION_HOW_TO_LINK_TEXT: 'How to swap',
+    SWAP_COMBINED_NOTATION_TITLE: 'これからFlatQubeでEVERを使用することができます。',
+    SWAP_COMBINED_NOTATION_P1: 'DEXのデフォルト残高はEVERおよびwEVERの累積残高になり、他のTIP-3.1トークンと交換できるようになりました。',
+    SWAP_COMBINED_NOTATION_P2: 'EVERとWEVERの両方を使用して両替可能です。',
+    SWAP_COMBINED_NOTATION_HOW_TO_LINK_TEXT: '両替方法のご案内',
 
     CONVERSION_FIELD_LABEL_WRAP: 'ラップする量',
     CONVERSION_FIELD_LABEL_UNWRAP: 'アンラップする量',
