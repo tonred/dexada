@@ -37,10 +37,11 @@ export default {
     TOKENS_UPGRADE_POPUP_NOTE: 'وجدنا بعض البطاقات القديمة في محفظتك. من فضلك، قم بتحديث هذه البطاقات للمتابعة.',
     TOKENS_UPGRADE_UPGRADE_BTN_TEXT: 'تحديث',
     TOKENS_UPGRADE_UPGRADING_BTN_TEXT: 'جاري التحديث',
+
     FOOTER_NAV_HEADER_PRODUCT: 'فلات كيوبي',
     FOOTER_NAV_HEADER_OUR_PRODUCTS: 'منتجاتنا',
     FOOTER_NAV_HEADER_FAQ: 'الأسئلة الشائعة',
-    FOOTER_NAV_FLATQUBE_LINK_TEXT: 'FlatQube',
+    FOOTER_NAV_ADAEVER_BRIDGE_LINK_TEXT: 'ADAEVER bridge',
     FOOTER_NAV_OCTUS_BRIDGE_LINK_TEXT: 'أوكتاس بريدج',
     FOOTER_NAV_EVER_SCAN_LINK_TEXT: 'ماسح ضوئي من إيفر',
     FOOTER_NAV_WEVER_LINK_TEXT: 'مناديل ملفوفة من إيفر',
@@ -53,8 +54,10 @@ export default {
     FOOTER_PRIVACY_POLICY_LINK_TEXT: 'سياسة الخصوصية',
     FOOTER_COOKIES_TERMS_LINK_TEXT: 'كوكيز',
     FOOTER_COPYRIGHTS: '& ينسخ؛ <a href="https://broxus.com" target="_blank" rel="noopener noreferrer"> بروكسس </a>، {عام}',
+
     PAGINATION_BEFORE_TEXT: 'الصفخة',
     PAGINATION_PAGE_OF: 'من {إجمالي الصفحات}',
+
     COPY_CLIPBOARD_SUCCESS: 'تم النسخ',
     CHART_NO_DATA: 'لا توجد بيانات المتاحة في الوقت الحالي',
 
@@ -430,7 +433,7 @@ export default {
     FARMING_ADMIN_WITHDRAW_TEXT: 'ستتمكن من سحب جزء غير مستخدم من بطاقات المكافأة بعد انتهاء فترات الاستحقاق والغلق',
     FARMING_ADMIN_WITHDRAW_BTN: 'السحب',
     FARMING_ADMIN_WITHDRAW_TOKENS_TITLE: 'الرصيد المتوفر',
- 
+
     FARMING_CONFIG_TITLE: 'تهيئة المزرعة',
     FARMING_CONFIG_TAB_SPEED: 'السرعة',
     FARMING_CONFIG_TAB_END_TIME: 'منطقة الخطر',

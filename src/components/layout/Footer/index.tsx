@@ -126,7 +126,7 @@ export function Footer(): JSX.Element {
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="https://octusbridge.io" target="_blank" rel="noopener noreferrer">
+                                    <a href="https://app.octusbridge.io" target="_blank" rel="noopener noreferrer">
                                         {intl.formatMessage({
                                             id: 'FOOTER_NAV_OCTUS_BRIDGE_LINK_TEXT',
                                         })}
