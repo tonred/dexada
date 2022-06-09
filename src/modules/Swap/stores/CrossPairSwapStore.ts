@@ -1073,12 +1073,12 @@ export class CrossPairSwapStore extends BaseSwapStore<CrossPairSwapStoreData, Cr
 
                         const {
                             denominator,
-                            numerator,
-                        } = await pair.contract.methods.getFeeParams({
+                            pool_numerator: numerator,
+                        } = (await pair.contract.methods.getFeeParams({
                             answerId: 0,
                         }).call({
                             cachedState: toJS(pair.state),
-                        })
+                        })).value0
 
                         pair.denominator = denominator
                         pair.numerator = numerator
@@ -1111,22 +1111,14 @@ export class CrossPairSwapStore extends BaseSwapStore<CrossPairSwapStoreData, Cr
                             pair.contract = new rpc.Contract(DexAbi.Pair, pair.address)
                         }
 
-                        const [
-                            { left_balance: leftBalance },
-                            { right_balance: rightBalance },
-                        ] = await Promise.all([
-                            pair.contract.methods.left_balance({}).call({
-                                cachedState: toJS(pair.state),
-                            }),
-                            pair.contract.methods.right_balance({}).call({
-                                cachedState: toJS(pair.state),
-                            }),
-                        ])
+                        const {
+                            left_balance: left,
+                            right_balance: right,
+                        } = (await pair.contract.methods.getBalances({ answerId: 0 }).call({
+                            cachedState: toJS(pair.state),
+                        })).value0
 
-                        pair.balances = {
-                            left: leftBalance,
-                            right: rightBalance,
-                        }
+                        pair.balances = { left, right }
                     }
                 }
             )()
