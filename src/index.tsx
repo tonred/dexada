@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom'
 
 import { App } from '@/components/App'
 import { LocalizationProvider } from '@/context/Localization'
+import '@/polyfills'
 
 ReactDOM.render(
     <React.StrictMode>
